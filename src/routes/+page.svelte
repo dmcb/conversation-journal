@@ -58,34 +58,18 @@
 			...entry,
 			days: calculateDays(entry.dates)
 		}))
-		.sort((a, b) => (a.days ?? 0) - (b.days ?? 0))
-		.slice(0, 10);
+		.sort((a, b) => (a.days ?? 0) - (b.days ?? 0));
 </script>
 
 <div class="container">
 	<h1>Stay Looped</h1>
 	<p>
-		A simple, habit-forming, daily journal to track conversations and stay connected with the people
+		A simple, habit-forming daily journal to track conversations and stay connected with the people
 		who matter most.
 	</p>
 
 	<AddEntry onAdd={handleAddEntry} />
-	<EntriesList
-		entries={sortedEntries}
-		on:changeName={({ detail }) => {
-			const { oldName, newName } = detail;
-			entries = entries.map((entry) =>
-				entry.name.toLowerCase() === oldName.toLowerCase() ? { ...entry, name: newName } : entry
-			);
-			localStorage.setItem('nameEntries', JSON.stringify(entries));
-		}}
-		on:deleteEntry={({ detail }) => {
-			entries = entries.filter(
-				(entry) => entry.name.toLowerCase() !== detail.name.toLowerCase()
-			);
-			localStorage.setItem('nameEntries', JSON.stringify(entries));
-		}}
-	/>
+	<EntriesList entries={sortedEntries} />
 </div>
 
 <style>

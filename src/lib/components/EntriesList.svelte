@@ -1,7 +1,4 @@
 <script lang="ts">
-	import Entry from '$lib/components/Entry.svelte';
-	import { createEventDispatcher } from 'svelte';
-
 	interface Entry {
 		name: string;
 		dates: string[];
@@ -9,15 +6,6 @@
 	}
 
 	export let entries: Entry[] = [];
-
-	const dispatch = createEventDispatcher<{
-		changeName: { oldName: string; newName: string };
-		deleteEntry: { name: string };
-	}>();
-
-	function handleNameChange(oldName: string, event: CustomEvent<{ newName: string }>) {
-		dispatch('changeName', { oldName, newName: event.detail.newName });
-	}
 </script>
 
 <section class="entries">
@@ -29,11 +17,7 @@
 			{#each entries as entry}
 				<li>
 					<div class="entry-header">
-						<Entry
-							name={entry.name}
-							on:change={(e) => handleNameChange(entry.name, e)}
-							on:delete={(e) => dispatch('deleteEntry', { name: e.detail.name })}
-						/>
+						<span class="name">{entry.name}</span>
 						{#if (entry.days ?? 0) > 1}
 							<span class="days">{entry.days} days</span>
 						{:else if (entry.days ?? 0) === 1}
@@ -68,6 +52,10 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 4px;
+	}
+
+	.name {
+		font-weight: bold;
 	}
 
 	.days {

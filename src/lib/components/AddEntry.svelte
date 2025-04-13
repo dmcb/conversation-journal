@@ -13,7 +13,7 @@
 	<h2>Who have you talked to today?</h2>
 	<form on:submit|preventDefault={handleSubmit} class="input-form">
 		<input type="text" bind:value={name} placeholder="Enter a name" required />
-		<button type="submit">Add Entry</button>
+		<button type="submit">Add Name</button>
 	</form>
 </section>
 

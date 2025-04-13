@@ -81,7 +81,11 @@
 					<li>
 						<div class="entry-header">
 							<span class="name">{entry.name}</span>
-							<span class="days">{entry.days} days</span>
+							{#if entry.days > 0}
+								<span class="days">{entry.days} days</span>
+							{:else}
+								<span class="days">Today</span>
+							{/if}
 						</div>
 						<div class="dates">
 							{#each entry.dates.sort().reverse() as date}

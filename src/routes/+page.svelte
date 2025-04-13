@@ -64,14 +64,21 @@
 </script>
 
 <div class="container">
-	<h1>Who have you talked to today?</h1>
+	<h1>Stay Looped</h1>
+	<p>
+		A simple, habit-forming daily journal to track conversations and stay connected with the people
+		who matter most.
+	</p>
 
-	<form on:submit|preventDefault={addEntry} class="input-form">
-		<input type="text" bind:value={name} placeholder="Enter a name" required />
-		<button type="submit">Add Name</button>
-	</form>
+	<section class="add-entry">
+		<h2>Who have you talked to today?</h2>
+		<form on:submit|preventDefault={addEntry} class="input-form">
+			<input type="text" bind:value={name} placeholder="Enter a name" required />
+			<button type="submit">Add Name</button>
+		</form>
+	</section>
 
-	<div class="entries-list">
+	<section class="entries">
 		<h2>Talked recently with</h2>
 		{#if sortedEntries.length === 0}
 			<p>No names added yet</p>
@@ -93,7 +100,7 @@
 				{/each}
 			</ul>
 		{/if}
-	</div>
+	</section>
 </div>
 
 <style>

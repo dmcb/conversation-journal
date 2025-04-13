@@ -14,7 +14,7 @@
 		if (!name.trim()) return;
 
 		const trimmedName = name.trim();
-		const currentDate = new Date().toLocaleDateString('en-CA');
+		const currentDate = new Date().toISOString().slice(0, 10);
 		const existingEntryIndex = entries.findIndex(
 			(entry) => entry.name.toLowerCase() === trimmedName.toLowerCase()
 		);
@@ -42,9 +42,9 @@
 
 	function calculateDays(dates: string[]): number {
 		const mostRecentDate = dates.sort().reverse()[0];
-		const entryDate = new Date(mostRecentDate + 'T00:00:00');
-		const currentDate = new Date('2025-04-12T00:00:00');
-		const diffTime = Math.abs(currentDate.getTime() - entryDate.getTime());
+		const entryDate = new Date(mostRecentDate);
+		const currentDate = new Date().toISOString().slice(0, 10);
+		const diffTime = Math.abs(new Date(currentDate).getTime() - entryDate.getTime());
 		return Math.floor(diffTime / (1000 * 60 * 60 * 24));
 	}
 
@@ -81,16 +81,13 @@
 					<li>
 						<div class="entry-header">
 							<span class="name">{entry.name}</span>
-							{#if entry.days > 0}
+							{#if entry.days > 1}
 								<span class="days">{entry.days} days</span>
+							{:else if entry.days === 1}
+								<span class="days">Yesterday</span>
 							{:else}
 								<span class="days">Today</span>
 							{/if}
-						</div>
-						<div class="dates">
-							{#each entry.dates.sort().reverse() as date}
-								<span class="date">{date}</span>
-							{/each}
 						</div>
 					</li>
 				{/each}
@@ -160,15 +157,5 @@
 
 	.days {
 		color: #666;
-	}
-
-	.dates {
-		font-size: 0.8em;
-		color: #888;
-		margin-top: 4px;
-	}
-
-	.date {
-		margin-right: 8px;
 	}
 </style>

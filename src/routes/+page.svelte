@@ -51,9 +51,8 @@
 		const formattedCurrentDate = new Date(currentDate.getTime() - offset * 60 * 1000)
 			.toISOString()
 			.split('T')[0];
-		const entryDate = new Date(new Date(mostRecentDate).getTime() - offset * 60 * 1000)
-			.toISOString()
-			.split('T')[0];
+		const entryDate = new Date(mostRecentDate);
+		console.log(entryDate, formattedCurrentDate);
 		const diffTime = Math.abs(
 			new Date(formattedCurrentDate).getTime() - new Date(entryDate).getTime()
 		);

@@ -13,11 +13,14 @@
 	<h2>Who have you talked to today?</h2>
 	<form on:submit|preventDefault={handleSubmit} class="input-form">
 		<input type="text" bind:value={name} placeholder="Enter a name" required />
-		<button type="submit">Add Name</button>
+		<button type="submit">Add Entry</button>
 	</form>
 </section>
 
 <style>
+	.add-entry {
+		margin: 0 0 3rem 0;
+	}
 	.input-form {
 		display: flex;
 		gap: 10px;
@@ -34,7 +37,7 @@
 
 	button {
 		padding: 8px 16px;
-		background-color: #4caf50;
+		background-color: #943d90;
 		color: white;
 		border: none;
 		border-radius: 4px;
@@ -42,6 +45,6 @@
 	}
 
 	button:hover {
-		background-color: #45a049;
+		background-color: #773273;
 	}
 </style>

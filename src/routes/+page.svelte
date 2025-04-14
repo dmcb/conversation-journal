@@ -71,24 +71,70 @@
 			...entry,
 			days: calculateDays(entry.dates)
 		}))
+		.sort((a, b) => a.name.localeCompare(b.name))
 		.sort((a, b) => (a.days ?? 0) - (b.days ?? 0));
 </script>
 
-<div class="container">
-	<h1>Stay Looped</h1>
-	<p>
-		A simple, habit-forming daily journal to track conversations and stay connected with the people
-		who matter most.
-	</p>
+<svelte:head>
+	<title>Stay Looped — Daily Conversation Journal</title>
+	<meta
+		name="description"
+		content="A simple, habit-forming, daily journal to track your conversations and stay connected with the people who matter most."
+	/>
+	<meta property="og:type" content="website" />
+</svelte:head>
 
-	<AddEntry onAdd={handleAddEntry} />
-	<EntriesList entries={sortedEntries} />
-</div>
+<main>
+	<div class="container">
+		<section class="intro">
+			<h1>Stay <span>Looped.</span></h1>
+			<p>
+				A simple, habit-forming, daily journal to track your conversations and stay connected with
+				the people who matter most.
+			</p>
+		</section>
+
+		<AddEntry onAdd={handleAddEntry} />
+		<EntriesList entries={sortedEntries} />
+	</div>
+</main>
 
 <style>
+	:global(body) {
+		background-color: #f5f5f5;
+		margin: 0;
+		padding: 0;
+	}
+
 	.container {
 		max-width: 600px;
 		margin: 0 auto;
-		padding: 20px;
+		padding: 0 20px;
+		font-family: 'DM Sans', sans-serif;
+	}
+
+	.intro {
+		max-width: 400px;
+		margin: 0 auto;
+	}
+
+	h1 {
+		text-transform: lowercase;
+		margin: 0 0 0.25em 0;
+		font-weight: normal;
+	}
+
+	h1 span {
+		font-family: 'Rammetto One', sans-serif;
+		display: block;
+		font-size: clamp(1rem, calc(20.5vw - 5px), 5.3rem);
+		line-height: 1;
+		color: #943d90;
+	}
+
+	p {
+		line-height: 1.5;
+		margin: 0 0 3rem 0;
+		color: #444;
 	}
 </style>

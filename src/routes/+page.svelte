@@ -85,18 +85,16 @@
 </svelte:head>
 
 <main>
-	<div class="container">
-		<section class="intro">
-			<h1>Stay <span>Looped.</span></h1>
-			<p>
-				A simple, habit-forming, daily journal to track your conversations and stay connected with
-				the people who matter most.
-			</p>
-		</section>
+	<section class="intro">
+		<h1>Stay <span>Looped.</span></h1>
+		<p>
+			A simple, habit-forming, daily journal to track your conversations and stay connected with the
+			people who matter most.
+		</p>
+	</section>
 
-		<AddEntry onAdd={handleAddEntry} />
-		<EntriesList entries={sortedEntries} />
-	</div>
+	<AddEntry onAdd={handleAddEntry} />
+	<EntriesList entries={sortedEntries} />
 </main>
 
 <style>
@@ -106,9 +104,9 @@
 		padding: 0;
 	}
 
-	.container {
+	main {
 		max-width: 600px;
-		margin: 0 auto;
+		margin: 1rem auto;
 		padding: 0 20px;
 		font-family: 'DM Sans', sans-serif;
 	}

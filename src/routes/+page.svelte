@@ -13,7 +13,11 @@
 
 	function handleAddEntry(name: string) {
 		const trimmedName = name.trim();
-		const currentDate = new Date().toISOString().slice(0, 10);
+		const currentDate = new Date();
+		const offset = currentDate.getTimezoneOffset();
+		const formattedCurrentDate = new Date(currentDate.getTime() - offset * 60 * 1000)
+			.toISOString()
+			.split('T')[0];
 		const existingEntryIndex = entries.findIndex(
 			(entry) => entry.name.toLowerCase() === trimmedName.toLowerCase()
 		);
@@ -21,16 +25,18 @@
 		if (existingEntryIndex >= 0) {
 			// Update existing entry with new date if it doesn't already exist
 			const existingEntry = entries[existingEntryIndex];
-			if (!existingEntry.dates.includes(currentDate)) {
+			if (!existingEntry.dates.includes(formattedCurrentDate)) {
 				entries = entries.map((entry, index) =>
-					index === existingEntryIndex ? { ...entry, dates: [...entry.dates, currentDate] } : entry
+					index === existingEntryIndex
+						? { ...entry, dates: [...entry.dates, formattedCurrentDate] }
+						: entry
 				);
 			}
 		} else {
 			// Create new entry
 			const newEntry = {
 				name: trimmedName,
-				dates: [currentDate]
+				dates: [formattedCurrentDate]
 			};
 			entries = [...entries, newEntry];
 		}
@@ -40,9 +46,17 @@
 
 	function calculateDays(dates: string[]): number {
 		const mostRecentDate = dates.sort().reverse()[0];
-		const entryDate = new Date(mostRecentDate);
-		const currentDate = new Date().toISOString().slice(0, 10);
-		const diffTime = Math.abs(new Date(currentDate).getTime() - entryDate.getTime());
+		const currentDate = new Date();
+		const offset = currentDate.getTimezoneOffset();
+		const formattedCurrentDate = new Date(currentDate.getTime() - offset * 60 * 1000)
+			.toISOString()
+			.split('T')[0];
+		const entryDate = new Date(new Date(mostRecentDate).getTime() - offset * 60 * 1000)
+			.toISOString()
+			.split('T')[0];
+		const diffTime = Math.abs(
+			new Date(formattedCurrentDate).getTime() - new Date(entryDate).getTime()
+		);
 		return Math.floor(diffTime / (1000 * 60 * 60 * 24));
 	}
 

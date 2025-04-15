@@ -22,7 +22,7 @@
 </script>
 
 <section class="entries">
-	<h2>Talked recently with:</h2>
+	<h2>Recently connected with:</h2>
 	{#if entries.length === 0}
 		<p>No names added yet.</p>
 	{:else}

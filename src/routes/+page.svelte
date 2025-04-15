@@ -3,6 +3,8 @@
 	import AddEntry from '$lib/components/AddEntry.svelte';
 	import EntriesList from '$lib/components/EntriesList.svelte';
 
+	const colors = ['#e68d5d', '#6bb55d', '#399bc5', '#a25b9f'];
+
 	interface Entry {
 		name: string;
 		dates: string[];
@@ -10,6 +12,17 @@
 	}
 
 	let entries: Entry[] = [];
+
+	function shiftColors() {
+		const lastColor = colors.pop();
+		if (lastColor) {
+			colors.unshift(lastColor);
+			document.documentElement.style.setProperty('--color1', colors[0]);
+			document.documentElement.style.setProperty('--color2', colors[1]);
+			document.documentElement.style.setProperty('--color3', colors[2]);
+			document.documentElement.style.setProperty('--color4', colors[3]);
+		}
+	}
 
 	function handleAddEntry(name: string) {
 		const trimmedName = name.trim();
@@ -42,6 +55,7 @@
 		}
 
 		localStorage.setItem('nameEntries', JSON.stringify(entries));
+		shiftColors();
 	}
 
 	function calculateDays(dates: string[]): number {
@@ -133,19 +147,23 @@
 	}
 
 	h1 .title span:nth-child(1) {
-		color: #e68d5d;
+		color: var(--color1, #e68d5d);
+		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(2) {
-		color: #6bb55d;
+		color: var(--color2, #6bb55d);
+		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(3) {
-		color: #399bc5;
+		color: var(--color3, #399bc5);
+		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(4) {
-		color: #a25b9f;
+		color: var(--color4, #a25b9f);
+		transition: color 0.3s ease;
 	}
 
 	p {

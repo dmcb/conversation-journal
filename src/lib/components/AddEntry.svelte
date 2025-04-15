@@ -37,14 +37,15 @@
 
 	button {
 		padding: 8px 16px;
-		background-color: #943d90;
+		background-color: var(--color4, #a25b9f);
 		color: white;
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
+		transition: background-color 0.3s ease;
 	}
 
 	button:hover {
-		background-color: #773273;
+		background-color: color-mix(in srgb, var(--color4, #a25b9f) 80%, black);
 	}
 </style>

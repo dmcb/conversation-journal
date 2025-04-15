@@ -86,7 +86,9 @@
 
 <main>
 	<section class="intro">
-		<h1>Stay <span>Looped.</span></h1>
+		<h1>
+			Stay <div class="title"><span>Lo</span><span>op</span><span>ed</span><span>.</span></div>
+		</h1>
 		<p>
 			A simple, habit-forming, daily journal to track your conversations and stay connected with the
 			people who matter most.
@@ -122,12 +124,28 @@
 		font-weight: normal;
 	}
 
-	h1 span {
+	h1 .title {
 		font-family: 'Rammetto One', sans-serif;
 		display: block;
 		font-size: clamp(1rem, calc(20.5vw - 5px), 5.3rem);
 		line-height: 1;
-		color: #943d90;
+		color: #a25b9f;
+	}
+
+	h1 .title span:nth-child(1) {
+		color: #e68d5d;
+	}
+
+	h1 .title span:nth-child(2) {
+		color: #6bb55d;
+	}
+
+	h1 .title span:nth-child(3) {
+		color: #399bc5;
+	}
+
+	h1 .title span:nth-child(4) {
+		color: #a25b9f;
 	}
 
 	p {

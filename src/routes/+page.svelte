@@ -4,6 +4,29 @@
 	import EntriesList from '$lib/components/EntriesList.svelte';
 
 	const colors = ['#e68d5d', '#6bb55d', '#399bc5', '#a25b9f'];
+	let isInitialLoad = true;
+	let cycleInterval: number;
+
+	function initialColorCycle() {
+		let cycles = 0;
+		const maxCycles = 8;
+		let interval = 150; // Start fast
+
+		function cycle() {
+			shiftColors();
+
+			cycles++;
+			if (cycles < maxCycles) {
+				// Gradually increase the interval to slow down
+				interval *= 1.15;
+				cycleInterval = window.setTimeout(cycle, interval);
+			} else {
+				isInitialLoad = false;
+			}
+		}
+
+		cycle();
+	}
 
 	interface Entry {
 		name: string;
@@ -73,11 +96,22 @@
 		return Math.floor(diffTime / (1000 * 60 * 60 * 24));
 	}
 
+	$: if (typeof document !== 'undefined') {
+		document.body.classList.toggle('initial-load', isInitialLoad);
+	}
+
 	onMount(() => {
 		const storedEntries = localStorage.getItem('nameEntries');
 		if (storedEntries) {
 			entries = JSON.parse(storedEntries);
 		}
+		initialColorCycle();
+
+		return () => {
+			if (cycleInterval) {
+				window.clearTimeout(cycleInterval);
+			}
+		};
 	});
 
 	$: sortedEntries = entries
@@ -149,6 +183,10 @@
 	h1 .title span:nth-child(1) {
 		color: var(--color1, #e68d5d);
 		transition: color 0.3s ease;
+	}
+
+	:global(.initial-load) h1 .title span {
+		transition: color 0.1s linear;
 	}
 
 	h1 .title span:nth-child(2) {

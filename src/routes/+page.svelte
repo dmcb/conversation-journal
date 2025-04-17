@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import AddEntry from '$lib/components/AddEntry.svelte';
 	import EntriesList from '$lib/components/EntriesList.svelte';
+	import ReachOutList from '$lib/components/ReachOutList.svelte';
 
 	const colors = ['#e68d5d', '#6bb55d', '#399bc5', '#a25b9f'];
 	let isInitialLoad = true;
@@ -145,6 +146,7 @@
 
 	<AddEntry onAdd={handleAddEntry} />
 	<EntriesList entries={sortedEntries} />
+	<ReachOutList entries={sortedEntries} />
 </main>
 
 <style>
@@ -159,6 +161,10 @@
 		margin: 1rem auto;
 		padding: 0 20px;
 		font-family: 'DM Sans', sans-serif;
+	}
+
+	:global(section) {
+		margin-top: 3rem;
 	}
 
 	.intro {

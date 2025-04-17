@@ -18,9 +18,6 @@
 </section>
 
 <style>
-	.add-entry {
-		margin: 0 0 3rem 0;
-	}
 	.input-form {
 		display: flex;
 		gap: 10px;

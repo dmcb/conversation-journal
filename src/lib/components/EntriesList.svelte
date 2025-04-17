@@ -32,7 +32,7 @@
 					<div class="entry-header">
 						<span class="name">{entry.name}</span>
 						{#if (entry.days ?? 0) > 1}
-							<span class="days">{entry.days} days</span>
+							<span class="days">{entry.days} days ago</span>
 						{:else if (entry.days ?? 0) === 1}
 							<span class="days">Yesterday</span>
 						{:else}
@@ -54,18 +54,19 @@
 </section>
 
 <style>
-	.entries {
-		margin-top: 20px;
-	}
-
 	ul {
 		list-style: none;
 		padding: 0;
+		margin: 0;
 	}
 
 	li {
 		padding: 8px 0;
 		border-bottom: 1px solid #eee;
+	}
+
+	li:last-child {
+		border-bottom: none;
 	}
 
 	.entry-header {

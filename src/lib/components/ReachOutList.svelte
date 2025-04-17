@@ -51,7 +51,7 @@
 
 {#if reachOutEntries.length > 0}
 	<section class="entries">
-		<h2>Consider reaching out to:</h2>
+		<h2>Reconnect with</h2>
 		{#if reachOutEntries.length === 0}
 			<p>No one needs attention right now.</p>
 		{:else}

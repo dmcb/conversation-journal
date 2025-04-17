@@ -13,18 +13,38 @@
 	}
 
 	$: reachOutEntries = entries
-		.map((entry): ReachOutEntry => {
+		.map((entry) => {
+			// Calculate mean number of entries across all contacts
+			const entriesArray = entries.map((e) => e.dates.length);
+			const meanEntries = entriesArray.reduce((sum, val) => sum + val, 0) / entries.length;
+
+			// Calculate standard deviation
+			const variance =
+				entriesArray.reduce((sum, val) => sum + Math.pow(val - meanEntries, 2), 0) / entries.length;
+			const stdDev = Math.sqrt(variance);
+
+			// Calculate z-score (how many standard deviations from mean)
+			const zScore = (entry.dates.length - meanEntries) / (stdDev || 1); // avoid division by 0
+
+			// Normalize z-score to a 0.5-5 range with exponential weighting
+			const baseFrequency = Math.max(0.5, (zScore + 2) * 1.25);
+			const normalizedFrequency = Math.pow(baseFrequency, 1.5);
+
+			// Time factor increases with days but is dampened by log function and frequency
 			const daysSinceLastEntry = entry.days ?? 0;
-			const totalEntries = entry.dates.length;
-			// Time factor increases with days but is dampened by a log function
-			const timeFactor = daysSinceLastEntry / (1 + Math.log(daysSinceLastEntry + 1));
-			const score = totalEntries * timeFactor;
+			const timeFactor =
+				(daysSinceLastEntry / (1 + Math.log(daysSinceLastEntry + 1))) *
+				(baseFrequency >= 2.5 ? 1 : Math.sqrt(baseFrequency / 2.5));
+
+			// Final score uses normalized frequency instead of raw total
+			const score = normalizedFrequency * timeFactor;
+
 			return {
 				...entry,
 				score
 			};
 		})
-		.filter((entry) => entry.score >= 50)
+		.filter((entry) => entry.score >= 10)
 		.sort((a, b) => b.score - a.score)
 		.slice(0, 3);
 </script>

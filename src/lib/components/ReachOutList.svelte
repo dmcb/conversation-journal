@@ -58,15 +58,21 @@
 			<ul>
 				{#each reachOutEntries as entry}
 					<li>
-						<div class="entry-header">
-							<span class="name">{entry.name}</span>
-							{#if (entry.days ?? 0) > 1}
-								<span class="days">{entry.days} days ago</span>
-							{:else if (entry.days ?? 0) === 1}
-								<span class="days">Yesterday</span>
-							{:else}
-								<span class="days">Today</span>
-							{/if}
+						<div class="entry-content">
+							<div class="entry-header">
+								<span class="name">{entry.name}</span>
+								{#if (entry.days ?? 0) > 1}
+									<span class="days">{entry.days} days ago</span>
+								{:else if (entry.days ?? 0) === 1}
+									<span class="days">Yesterday</span>
+								{:else}
+									<span class="days">Today</span>
+								{/if}
+							</div>
+							<div class="entry-details">
+								{entry.dates.length}
+								{entry.dates.length === 1 ? 'entry' : 'entries'}
+							</div>
 						</div>
 					</li>
 				{/each}

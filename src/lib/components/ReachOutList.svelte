@@ -24,12 +24,12 @@
 				score
 			};
 		})
-		.filter(entry => entry.score >= 50)
+		.filter((entry) => entry.score >= 50)
 		.sort((a, b) => b.score - a.score)
 		.slice(0, 3);
 </script>
 
-{#if entries.length > 0}
+{#if reachOutEntries.length > 0}
 	<section class="reach-out">
 		<h2>Consider reaching out to:</h2>
 		<ul>

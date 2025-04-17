@@ -90,7 +90,6 @@
 			.toISOString()
 			.split('T')[0];
 		const entryDate = new Date(mostRecentDate);
-		console.log(entryDate, formattedCurrentDate);
 		const diffTime = Math.abs(
 			new Date(formattedCurrentDate).getTime() - new Date(entryDate).getTime()
 		);

@@ -44,37 +44,33 @@
 				score
 			};
 		})
-		.filter((entry) => entry.score >= 10)
-		.sort((a, b) => b.score - a.score)
-		.slice(0, 3);
+		.filter((entry) => entry.score >= 5)
+		.sort((a, b) => b.score - a.score);
 </script>
 
 {#if reachOutEntries.length > 0}
-	<section class="reach-out">
+	<section class="entries">
 		<h2>Consider reaching out to:</h2>
-		<ul>
-			{#each reachOutEntries as entry}
-				<li>
-					<div class="entry-header">
-						<span class="name">{entry.name}</span>
-						<span class="days">
+		{#if reachOutEntries.length === 0}
+			<p>No one needs attention right now.</p>
+		{:else}
+			<ul>
+				{#each reachOutEntries as entry}
+					<li>
+						<div class="entry-header">
+							<span class="name">{entry.name}</span>
 							{#if (entry.days ?? 0) > 1}
-								{entry.days} days ago
+								<span class="days">{entry.days} days ago</span>
 							{:else if (entry.days ?? 0) === 1}
-								Yesterday
+								<span class="days">Yesterday</span>
 							{:else}
-								Today
+								<span class="days">Today</span>
 							{/if}
-						</span>
-					</div>
-					<div class="entry-details">
-						{entry.score}
-						{entry.dates.length}
-						{entry.dates.length === 1 ? 'conversation' : 'conversations'} recorded
-					</div>
-				</li>
-			{/each}
-		</ul>
+						</div>
+					</li>
+				{/each}
+			</ul>
+		{/if}
 	</section>
 {/if}
 
@@ -86,18 +82,19 @@
 	}
 
 	li {
-		margin-bottom: 1rem;
-		padding: 0.75rem;
-		background-color: white;
-		border-radius: 6px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		padding: 8px 0;
+		border-bottom: 1px solid #eee;
+	}
+
+	li:last-child {
+		border-bottom: none;
 	}
 
 	.entry-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 0.25rem;
+		margin-bottom: 4px;
 	}
 
 	.name {
@@ -105,12 +102,6 @@
 	}
 
 	.days {
-		color: #666;
-		font-size: 0.9rem;
-	}
-
-	.entry-details {
-		font-size: 0.85rem;
 		color: #666;
 	}
 </style>

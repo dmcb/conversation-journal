@@ -44,8 +44,9 @@
 				score
 			};
 		})
-		.filter((entry) => entry.score >= 5)
-		.sort((a, b) => b.score - a.score);
+		.filter((entry) => entry.score >= 10)
+		.sort((a, b) => b.score - a.score)
+		.slice(0, 3);
 </script>
 
 {#if reachOutEntries.length > 0}

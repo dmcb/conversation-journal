@@ -82,7 +82,7 @@
 
 	<nav>
 		<a href="/" class:active={$page.url.pathname === '/'}>Entries</a>
-		<a href="/heatmap" class:active={$page.url.pathname === '/heatmap'}>Calendar</a>
+		<a href="/calendar" class:active={$page.url.pathname === '/calendar'}>Calendar</a>
 	</nav>
 
 	{@render children()}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import HeatMap from '$lib/components/HeatMap.svelte';
+	import Calendar from '$lib/components/Calendar.svelte';
 
 	interface Entry {
 		name: string;
@@ -18,4 +18,4 @@
 	});
 </script>
 
-<HeatMap {entries} />
+<Calendar {entries} />

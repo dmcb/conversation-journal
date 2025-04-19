@@ -17,7 +17,6 @@
 
 	let calendarData: DayData[] = [];
 	let monthlyData: Map<string, DayData[]>;
-	let heatMapContainer: HTMLElement;
 
 	function getDaysInMonth(year: number, month: number): number {
 		return new Date(year, month + 1, 0).getDate();
@@ -80,12 +79,6 @@
 		return new Date(date).toLocaleString('default', { month: 'long' });
 	}
 
-	// function getIntensityColor(intensity: number): string {
-	// 	const baseColor =
-	// 		getComputedStyle(document.documentElement).getPropertyValue('--color4').trim() || '#a25b9f';
-	// 	return `color-mix(in srgb, ${baseColor} ${Math.round(intensity * 100)}%, white)`;
-	// }
-
 	function groupByMonth(data: DayData[]): Map<string, DayData[]> {
 		const grouped = new Map<string, DayData[]>();
 
@@ -108,22 +101,14 @@
 	}
 
 	$: monthlyData = groupByMonth(calendarData);
-
-	onMount(() => {
-		setTimeout(() => {
-			if (heatMapContainer) {
-				heatMapContainer.scrollTop = heatMapContainer.scrollHeight;
-			}
-		}, 0);
-	});
 </script>
 
-<section class="heat-map" bind:this={heatMapContainer}>
+<section class="calendar">
 	<h2>Conversation History</h2>
-	{#each Array.from(monthlyData.entries()).sort( ([a], [b]) => a.localeCompare(b) ) as [monthYear, days]}
+	{#each Array.from(monthlyData.entries()).sort( ([a], [b]) => b.localeCompare(a) ) as [monthYear, days]}
 		<div class="month">
 			<h3>{getMonthName(monthYear)} {monthYear.split('-')[0]}</h3>
-			<div class="calendar">
+			<div class="monthview">
 				{#each Array.from({ length: 7 }) as _, i}
 					<div class="weekday">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</div>
 				{/each}
@@ -147,15 +132,6 @@
 </section>
 
 <style>
-	.heat-map {
-		background: white;
-		max-height: 80vh;
-		overflow-y: auto;
-		padding: 2rem;
-		border-radius: 8px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-	}
-
 	.month {
 		margin-bottom: 2rem;
 	}
@@ -169,7 +145,7 @@
 		color: #444;
 	}
 
-	.calendar {
+	.monthview {
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		gap: 4px;

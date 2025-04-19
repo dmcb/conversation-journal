@@ -133,7 +133,7 @@
 
 <style>
 	.month {
-		margin-bottom: 2rem;
+		margin-bottom: 3rem;
 	}
 
 	.month:last-child {
@@ -147,7 +147,8 @@
 
 	.monthview {
 		display: grid;
-		grid-template-columns: repeat(7, 1fr);
+		width: 100%;
+		grid-template-columns: repeat(7, minmax(10px, 1fr));
 		gap: 4px;
 	}
 
@@ -172,7 +173,8 @@
 	}
 
 	.day:hover {
-		transform: scale(1.1);
+		transform: scale(1.25);
+		z-index: 1;
 	}
 
 	.day.empty {

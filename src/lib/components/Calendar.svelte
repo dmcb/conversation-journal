@@ -169,12 +169,16 @@
 		border-radius: 4px;
 		font-size: 0.8em;
 		color: #444;
-		transition: transform 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+		box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
 	}
 
-	.day:hover {
+	.day:not(.empty):hover {
 		transform: scale(1.25);
 		z-index: 1;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 	}
 
 	.day.empty {

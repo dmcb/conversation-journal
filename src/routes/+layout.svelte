@@ -24,8 +24,8 @@
 
 	function initialColorCycle() {
 		let cycles = 0;
-		const maxCycles = 8;
-		let interval = 150; // Start fast
+		const maxCycles = 4;
+		let interval = 200; // Start fast
 
 		function cycle() {
 			shiftColors();
@@ -33,7 +33,7 @@
 			cycles++;
 			if (cycles < maxCycles) {
 				// Gradually increase the interval to slow down
-				interval *= 1.15;
+				interval *= 1.2;
 				cycleInterval = window.setTimeout(cycle, interval);
 			}
 		}

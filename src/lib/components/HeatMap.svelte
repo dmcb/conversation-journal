@@ -80,11 +80,11 @@
 		return new Date(date).toLocaleString('default', { month: 'long' });
 	}
 
-	function getIntensityColor(intensity: number): string {
-		const baseColor =
-			getComputedStyle(document.documentElement).getPropertyValue('--color4').trim() || '#a25b9f';
-		return `color-mix(in srgb, ${baseColor} ${Math.round(intensity * 100)}%, white)`;
-	}
+	// function getIntensityColor(intensity: number): string {
+	// 	const baseColor =
+	// 		getComputedStyle(document.documentElement).getPropertyValue('--color4').trim() || '#a25b9f';
+	// 	return `color-mix(in srgb, ${baseColor} ${Math.round(intensity * 100)}%, white)`;
+	// }
 
 	function groupByMonth(data: DayData[]): Map<string, DayData[]> {
 		const grouped = new Map<string, DayData[]>();
@@ -133,7 +133,8 @@
 				{#each days as day}
 					<div
 						class="day"
-						style:background-color={getIntensityColor(day.intensity)}
+						style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
+							100}%, white)"
 						title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 					>
 						<span class="day-number">{new Date(day.date).getDate()}</span>

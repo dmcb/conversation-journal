@@ -5,6 +5,7 @@
 	function handleSubmit() {
 		if (!name.trim()) return;
 		onAdd(name);
+		window.dispatchEvent(new CustomEvent('shiftColors'));
 		name = '';
 	}
 </script>

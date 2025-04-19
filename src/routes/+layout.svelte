@@ -41,11 +41,19 @@
 		cycle();
 	}
 
+	const handler = () => shiftColors();
+
 	onMount(() => {
+		if (typeof window !== 'undefined') {
+			window.addEventListener('shiftColors', handler);
+		}
 		initialColorCycle();
 	});
 
 	onDestroy(() => {
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('shiftColors', handler);
+		}
 		if (cycleInterval) {
 			clearTimeout(cycleInterval);
 		}

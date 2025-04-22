@@ -13,7 +13,7 @@
 	let entries: Entry[] = [];
 	const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
 
-	function handleAddEntry(name: string) {
+	function handleAddEntry(name: string): boolean {
 		const trimmedName = name.trim();
 		const currentDate = new Date();
 		const formattedCurrentDate = new Date(currentDate.getTime() - timezoneOffset)
@@ -32,6 +32,9 @@
 						? { ...entry, dates: [...entry.dates, formattedCurrentDate] }
 						: entry
 				);
+			} else {
+				// No entry was added
+				return false;
 			}
 		} else {
 			// Create new entry
@@ -43,6 +46,7 @@
 		}
 
 		localStorage.setItem('nameEntries', JSON.stringify(entries));
+		return true;
 	}
 
 	function calculateDays(dates: string[]): number {

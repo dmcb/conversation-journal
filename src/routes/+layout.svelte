@@ -95,17 +95,21 @@
 		background-color: #f5f5f5;
 		margin: 0;
 		padding: 0;
+		font-family: 'DM Sans', sans-serif;
 	}
 
 	main {
 		max-width: 600px;
 		margin: 1rem auto;
 		padding: 0 20px;
-		font-family: 'DM Sans', sans-serif;
 	}
 
 	:global(section) {
 		margin-top: 3rem;
+	}
+
+	:global(input, button) {
+		font-family: 'DM Sans', sans-serif;
 	}
 
 	.intro {

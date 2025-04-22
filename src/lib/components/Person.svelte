@@ -91,7 +91,11 @@
 <section>
 	{#if editing}
 		<div class="edit-name">
-			<input bind:value={newName} on:keydown={(e) => e.key === 'Enter' && saveName()} />
+			<input
+				maxlength="50"
+				bind:value={newName}
+				on:keydown={(e) => e.key === 'Enter' && saveName()}
+			/>
 			<div class="buttons">
 				<button on:click={saveName}>Save</button>
 				<button

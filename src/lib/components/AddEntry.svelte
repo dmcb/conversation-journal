@@ -61,6 +61,7 @@
 				bind:value={name}
 				placeholder="Enter a name"
 				required
+				maxlength="50"
 				on:input={updateSuggestions}
 				on:focus={() => (showSuggestions = true)}
 			/>

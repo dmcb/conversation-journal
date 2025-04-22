@@ -14,7 +14,7 @@
 	const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
 
 	function handleAddEntry(name: string): boolean {
-		const trimmedName = name.trim();
+		const trimmedName = name.slice(0, 50).trim();
 		const currentDate = new Date();
 		const formattedCurrentDate = new Date(currentDate.getTime() - timezoneOffset)
 			.toISOString()

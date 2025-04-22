@@ -28,6 +28,11 @@
 	function startEdit() {
 		editing = true;
 		newName = name;
+		// Make keyboard focus go on input
+		setTimeout(() => {
+			const input = document.querySelector('input') as HTMLInputElement;
+			if (input) input.focus();
+		});
 	}
 
 	function saveName() {
@@ -64,16 +69,21 @@
 
 <section class="person-page">
 	{#if editing}
-		<input bind:value={newName} on:keydown={(e) => e.key === 'Enter' && saveName()} />
-		<button on:click={saveName}>Save</button>
-		<button
-			on:click={() => {
-				editing = false;
-				newName = name;
-			}}>Cancel</button
-		>
+		<div class="edit-name">
+			<input bind:value={newName} on:keydown={(e) => e.key === 'Enter' && saveName()} />
+			<button on:click={saveName}>Save</button>
+			<button
+				on:click={() => {
+					editing = false;
+					newName = name;
+				}}>Cancel</button
+			>
+		</div>
 	{:else}
-		<h2>{name} <button on:click={startEdit}>Edit</button></h2>
+		<h2>
+			{name}
+			<button on:click={startEdit}>Edit</button>
+		</h2>
 	{/if}
 
 	<h3>Chats</h3>
@@ -88,35 +98,52 @@
 </section>
 
 <style>
-	.person-page {
-		max-width: 500px;
-		margin: 2rem auto;
+	section {
 		padding: 2rem;
 		background: #fff;
 		border-radius: 1rem;
 		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 	}
-	.person-page h2 {
+	h2 {
 		display: flex;
 		align-items: center;
 		gap: 0.5em;
+		margin: 0;
 	}
-	.person-page input {
-		font-size: 1.1em;
-		padding: 0.3em;
-		margin-right: 0.5em;
+
+	.edit-name {
+		display: flex;
 	}
-	.person-page ul {
+
+	input {
+		border: 0;
+		font-size: 1.5rem;
+		font-weight: bold;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+	ul {
 		list-style: none;
 		padding: 0;
 	}
-	.person-page li {
+	li {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 0.4em 0;
 	}
-	.person-page button {
+	button {
 		margin-left: 0.5em;
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+		transition: all 0.2s ease;
+		background-color: var(--color4, #4b2245);
+		color: white;
+		border: 0;
+		cursor: pointer;
+	}
+	button:hover {
+		background-color: color-mix(in srgb, var(--color4, #4b2245) 80%, black);
 	}
 </style>

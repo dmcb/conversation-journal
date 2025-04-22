@@ -36,8 +36,17 @@
 				(daysSinceLastEntry / (1 + Math.log(daysSinceLastEntry + 1))) *
 				(baseFrequency >= 2.5 ? 1 : Math.sqrt(baseFrequency / 2.5));
 
-			// Final score uses normalized frequency instead of raw total
-			const score = normalizedFrequency * timeFactor;
+			// Generate a daily random factor that's consistent for each name on a given day
+			const today = new Date();
+			const daysSinceEpoch = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+			const nameHash = entry.name.split('').reduce((hash, char) => {
+				return (hash << 5) - hash + char.charCodeAt(0);
+			}, daysSinceEpoch);
+			// Random factor between 0.85 and 1.15 (±15%)
+			const dailyRandomFactor = 0.85 + Math.abs(Math.sin(nameHash)) * 0.3;
+
+			// Final score uses normalized frequency and includes daily variation
+			const score = normalizedFrequency * timeFactor * dailyRandomFactor;
 
 			return {
 				...entry,

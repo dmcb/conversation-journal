@@ -86,14 +86,14 @@
 		</h2>
 	{/if}
 
-	<h3>Chats</h3>
+	<h3>Conversations</h3>
 	<ul>
 		{#each chats as date (date)}
 			<li>{date} <button on:click={() => deleteChat(date)}>Delete</button></li>
 		{/each}
 	</ul>
 	{#if chats.length === 0}
-		<p>No chats found for this person.</p>
+		<p>No entries found for this person.</p>
 	{/if}
 </section>
 

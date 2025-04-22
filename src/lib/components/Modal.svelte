@@ -2,18 +2,29 @@
 	export let open = false;
 	export let onClose: () => void;
 
-	function handleBackdropClick() {
-		onClose();
+	let modalBackdrop: HTMLDivElement;
+
+	function handleBackdropClick(event: MouseEvent) {
+		if (event.target === event.currentTarget) {
+			onClose();
+		}
 	}
 
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape' || e.key === ' ') onClose();
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
+			onClose();
+		}
+	}
+
+	$: if (open && modalBackdrop) {
+		modalBackdrop.focus();
 	}
 </script>
 
 {#if open}
 	<div
 		class="modal-backdrop"
+		bind:this={modalBackdrop}
 		tabindex="0"
 		role="button"
 		aria-label="Close modal"
@@ -22,7 +33,7 @@
 	></div>
 	<div class="modal">
 		<button class="close-btn" on:click={onClose}>&times;</button>
-		<div class="modal-content">
+		<div class="modal-content" role="dialog" aria-modal="true">
 			<slot />
 		</div>
 	</div>

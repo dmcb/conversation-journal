@@ -24,7 +24,7 @@
 <section class="entries">
 	<h2>Recently connected with</h2>
 	{#if entries.length === 0}
-		<p>No names added yet.</p>
+		<p>No entries added yet.</p>
 	{:else}
 		<ul>
 			{#each displayedEntries as entry}

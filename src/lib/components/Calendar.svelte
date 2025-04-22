@@ -95,45 +95,49 @@
 
 <section class="calendar">
 	<h2>Conversation History</h2>
-	{#each Array.from(monthlyData.entries()) as [monthKey, days], index}
-		<div class="month">
-			<h3>{getMonthName(monthKey)} {monthKey.split('-')[0]}</h3>
-			<div class="monthview">
-				{#each Array.from({ length: 7 }) as _, i}
-					<div class="weekday">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</div>
-				{/each}
-				{#each Array.from({ length: new Date(monthKey + '-01').getUTCDay() }) as _}
-					<div class="day empty"></div>
-				{/each}
-				{#each days as day}
-					{#if index !== 0 || (index === 0 && parseInt(day.date.split('-')[2], 10) <= new Date().getDate())}
-						{#if day.count > 0}
-							<button
-								class="day"
-								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
-									50}%, white)"
-								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
-								onclick={() => openModal(day.date)}
-							>
-								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
-								<span class="count">{day.count || '0'}</span>
-							</button>
-						{:else}
-							<div
-								class="day"
-								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
-									50}%, white)"
-								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
-							>
-								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
-								<span class="count">{day.count || '0'}</span>
-							</div>
+	{#if entries.length === 0}
+		<p>No entries added yet.</p>
+	{:else}
+		{#each Array.from(monthlyData.entries()) as [monthKey, days], index}
+			<div class="month">
+				<h3>{getMonthName(monthKey)} {monthKey.split('-')[0]}</h3>
+				<div class="monthview">
+					{#each Array.from({ length: 7 }) as _, i}
+						<div class="weekday">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</div>
+					{/each}
+					{#each Array.from({ length: new Date(monthKey + '-01').getUTCDay() }) as _}
+						<div class="day empty"></div>
+					{/each}
+					{#each days as day}
+						{#if index !== 0 || (index === 0 && parseInt(day.date.split('-')[2], 10) <= new Date().getDate())}
+							{#if day.count > 0}
+								<button
+									class="day"
+									style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
+										50}%, white)"
+									title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
+									onclick={() => openModal(day.date)}
+								>
+									<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+									<span class="count">{day.count || '0'}</span>
+								</button>
+							{:else}
+								<div
+									class="day"
+									style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
+										50}%, white)"
+									title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
+								>
+									<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+									<span class="count">{day.count || '0'}</span>
+								</div>
+							{/if}
 						{/if}
-					{/if}
-				{/each}
+					{/each}
+				</div>
 			</div>
-		</div>
-	{/each}
+		{/each}
+	{/if}
 </section>
 
 {#if modalOpen}

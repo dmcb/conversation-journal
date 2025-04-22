@@ -115,6 +115,10 @@
 		margin: 0;
 	}
 
+	h3 {
+		margin-top: 3rem;
+	}
+
 	.edit-name {
 		display: flex;
 		align-items: center;
@@ -136,13 +140,19 @@
 	ul {
 		list-style: none;
 		padding: 0;
+		margin: 0;
 	}
 
 	li {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0.4em 0;
+		padding: 8px 0;
+		border-bottom: 1px solid #eee;
+	}
+
+	li:last-child {
+		border-bottom: none;
 	}
 
 	button {

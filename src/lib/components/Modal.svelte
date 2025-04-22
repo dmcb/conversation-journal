@@ -58,7 +58,6 @@
 		background: #fff;
 		border-radius: 8px;
 		box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
-		padding: 1.5rem;
 		z-index: 1001;
 		max-width: 350px;
 		width: 90vw;
@@ -94,6 +93,7 @@
 
 	.modal-content {
 		overflow: scroll;
+		padding: 1.5rem;
 	}
 
 	:global(.modal-content ul) {

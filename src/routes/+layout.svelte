@@ -10,6 +10,7 @@
 
 	const baseColors = ['#f9476c', '#756477', '#f95950', '#4b2245'];
 	const offset = Math.floor(Math.random() * 4);
+	// const offset = 0;
 	const colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
 	let cycleInterval: number;
 

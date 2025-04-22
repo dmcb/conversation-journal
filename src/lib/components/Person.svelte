@@ -56,16 +56,25 @@
 
 	function handleDeleteConfirm() {
 		if (!chatToDelete) return;
+		let userDeleted = false;
 
 		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
 			entries[idx].dates = entries[idx].dates.filter((d) => d !== chatToDelete);
+
+			// If no more chats, remove the person entirely
+			if (entries[idx].dates.length === 0) {
+				entries = entries.filter((_, i) => i !== idx);
+				userDeleted = true;
+			}
+
 			if (saveEntries(entries)) {
-				chats = [...entries[idx].dates].sort(
-					(a, b) => new Date(b).getTime() - new Date(a).getTime()
-				);
-				if (chats.length === 0) {
+				if (userDeleted) {
 					goto(`/`);
+				} else {
+					chats = [...entries[idx].dates].sort(
+						(a, b) => new Date(b).getTime() - new Date(a).getTime()
+					);
 				}
 			}
 		}

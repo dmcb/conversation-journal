@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
 	import Modal from './Modal.svelte';
+	import { saveEntries } from '$lib/utils/entries';
 
 	export let name: string;
 	export let entries: { name: string; dates: string[] }[] = [];
@@ -36,20 +36,15 @@
 		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
 			entries[idx].name = newName;
-			if (browser) {
-				try {
-					localStorage.setItem('nameEntries', JSON.stringify(entries));
-				} catch (error) {
-					alert('Failed to save your entries');
-				}
+			if (saveEntries(entries)) {
+				name = newName;
+				goto(`/person/${encodeURIComponent(newName)}`);
+				// After navigation, reload chats for the new name
+				const person = entries.find((e) => e.name === newName);
+				chats = person
+					? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+					: [];
 			}
-			name = newName;
-			goto(`/person/${encodeURIComponent(newName)}`);
-			// After navigation, reload chats for the new name
-			const person = entries.find((e) => e.name === newName);
-			chats = person
-				? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-				: [];
 		}
 		editing = false;
 	}
@@ -65,16 +60,13 @@
 		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
 			entries[idx].dates = entries[idx].dates.filter((d) => d !== chatToDelete);
-			if (browser) {
-				try {
-					localStorage.setItem('nameEntries', JSON.stringify(entries));
-				} catch (error) {
-					alert('Failed to save your entries');
+			if (saveEntries(entries)) {
+				chats = [...entries[idx].dates].sort(
+					(a, b) => new Date(b).getTime() - new Date(a).getTime()
+				);
+				if (chats.length === 0) {
+					goto(`/`);
 				}
-			}
-			chats = [...entries[idx].dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
-			if (chats.length === 0) {
-				goto(`/`);
 			}
 		}
 

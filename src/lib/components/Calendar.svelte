@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Modal from './Modal.svelte';
+	import EntryForm from './EntryForm.svelte';
 
 	interface Entry {
 		name: string;
 		dates: string[];
 		days?: number;
 	}
+
+	export let onAdd: (name: string, date?: string) => boolean;
 	export let entries: Entry[] = [];
 
 	interface DayData {
@@ -73,15 +76,25 @@
 		}
 	}
 	// Modal state and helpers
-	let modalOpen = false;
-	let modalDate = '';
+	let viewModalOpen = false;
+	let addModalOpen = false;
+	let selectedDate = '';
 
 	function openModal(date: string) {
-		modalDate = date;
-		modalOpen = true;
+		const people = getPeopleForDate(date);
+		selectedDate = date;
+		if (people.length > 0) {
+			viewModalOpen = true;
+		} else {
+			addModalOpen = true;
+		}
 	}
-	function closeModal() {
-		modalOpen = false;
+	function closeViewModal() {
+		viewModalOpen = false;
+	}
+
+	function closeAddModal() {
+		addModalOpen = false;
 	}
 
 	// Get people and their chat counts for a given date
@@ -113,28 +126,16 @@
 					{/each}
 					{#each days as day}
 						{#if index !== 0 || (index === 0 && parseInt(day.date.split('-')[2], 10) <= new Date().getDate())}
-							{#if day.count > 0}
-								<button
-									class="day"
-									style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
-										50}%, white)"
-									title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
-									onclick={() => openModal(day.date)}
-								>
-									<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
-									<span class="count">{day.count || '0'}</span>
-								</button>
-							{:else}
-								<div
-									class="day"
-									style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
-										50}%, white)"
-									title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
-								>
-									<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
-									<span class="count">{day.count || '0'}</span>
-								</div>
-							{/if}
+							<button
+								class="day {day.count > 0 ? 'has-entries' : ''}"
+								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
+									50}%, white)"
+								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
+								on:click={() => openModal(day.date)}
+							>
+								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+								<span class="count">{day.count || '0'}</span>
+							</button>
 						{/if}
 					{/each}
 				</div>
@@ -143,16 +144,33 @@
 	{/if}
 </section>
 
-<Modal open={modalOpen} onClose={closeModal}>
+<Modal open={viewModalOpen} onClose={closeViewModal}>
 	<p>Connected with</p>
 	<ul>
-		{#each getPeopleForDate(modalDate) as { name }}
+		{#each getPeopleForDate(selectedDate) as { name }}
 			<li class="name"><a href={`/person/${encodeURIComponent(name)}`}>{name}</a></li>
 		{/each}
 	</ul>
 </Modal>
 
+<Modal open={addModalOpen} onClose={closeAddModal}>
+	<p class="modal-title">Add entry for {selectedDate}</p>
+	<EntryForm
+		onAdd={(name) => {
+			const added = onAdd(name, selectedDate);
+			if (added) closeAddModal();
+			return added;
+		}}
+	/>
+</Modal>
+
 <style>
+	.modal-title {
+		margin: 0 0 1rem;
+		font-size: 1.25rem;
+		color: #444;
+	}
+
 	.month {
 		margin-bottom: 3rem;
 	}
@@ -196,7 +214,7 @@
 		background-color: transparent;
 	}
 
-	button.day {
+	.day:not(.empty) {
 		cursor: pointer;
 		border: 0;
 		transition:
@@ -204,10 +222,15 @@
 			box-shadow 0.2s ease;
 		box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
 	}
-	button.day:hover {
+
+	.day:not(.empty):hover {
 		transform: scale(1.25);
 		z-index: 1;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	}
+
+	.day.has-entries {
+		font-weight: bold;
 	}
 
 	.day-number {

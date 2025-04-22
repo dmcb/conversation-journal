@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { loadEntries } from '$lib/utils/entries';
 
 	export let onAdd: (name: string) => boolean;
 	let name = '';
@@ -9,13 +9,8 @@
 
 	// Load existing names from storage
 	function loadExistingNames() {
-		if (browser) {
-			const stored = localStorage.getItem('nameEntries');
-			if (stored) {
-				const entries = JSON.parse(stored);
-				existingNames = entries.map((e: { name: string }) => e.name);
-			}
-		}
+		const entries = loadEntries();
+		existingNames = entries.map((e) => e.name);
 	}
 
 	// Update suggestions based on input
@@ -39,10 +34,7 @@
 
 	function handleSubmit() {
 		if (!name.trim()) return;
-		const entryAdded = onAdd(name);
-		if (entryAdded) {
-			window.dispatchEvent(new CustomEvent('shiftColors'));
-		}
+		onAdd(name);
 		name = '';
 		showSuggestions = false;
 		loadExistingNames(); // Reload names after adding
@@ -84,7 +76,6 @@
 	.input-form {
 		display: flex;
 		gap: 10px;
-		margin-bottom: 20px;
 	}
 
 	.input-container {
@@ -136,7 +127,7 @@
 		outline: none;
 	}
 
-	button[type="submit"] {
+	button[type='submit'] {
 		padding: 8px 16px;
 		background-color: var(--color4, #4b2245);
 		color: white;
@@ -146,7 +137,7 @@
 		transition: opacity 0.2s;
 	}
 
-	button[type="submit"]:hover {
+	button[type='submit']:hover {
 		opacity: 0.9;
 	}
 </style>

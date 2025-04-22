@@ -1,21 +1,25 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Calendar from '$lib/components/Calendar.svelte';
-
-	interface Entry {
-		name: string;
-		dates: string[];
-		days?: number;
-	}
+	import { addEntry, loadEntries, saveEntries } from '$lib/utils/entries';
+	import type { Entry } from '$lib/utils/entries';
 
 	let entries: Entry[] = [];
 
-	onMount(() => {
-		const storedEntries = localStorage.getItem('nameEntries');
-		if (storedEntries) {
-			entries = JSON.parse(storedEntries);
+	function handleAddEntry(name: string, date?: string): boolean {
+		const result = addEntry(entries, name, date);
+		if (result.success) {
+			entries = result.entries;
+			if (saveEntries(entries)) {
+				window.dispatchEvent(new CustomEvent('shiftColors'));
+			}
 		}
+		return result.success;
+	}
+
+	onMount(() => {
+		entries = loadEntries();
 	});
 </script>
 
-<Calendar {entries} />
+<Calendar {entries} onAdd={handleAddEntry} />

@@ -70,6 +70,7 @@
 			...entry,
 			days: calculateDays(entry.dates)
 		}))
+		.filter((entry) => entry.dates.length > 0)
 		.sort((a, b) => a.name.localeCompare(b.name))
 		.sort((a, b) => (a.days ?? 0) - (b.days ?? 0));
 </script>

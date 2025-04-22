@@ -35,7 +35,7 @@
 
 	button {
 		padding: 8px 16px;
-		background-color: var(--color4, #a25b9f);
+		background-color: var(--color4, #4b2245);
 		color: white;
 		border: none;
 		border-radius: 4px;
@@ -44,6 +44,6 @@
 	}
 
 	button:hover {
-		background-color: color-mix(in srgb, var(--color4, #a25b9f) 80%, black);
+		background-color: color-mix(in srgb, var(--color4, #4b2245) 80%, black);
 	}
 </style>

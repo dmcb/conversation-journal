@@ -8,7 +8,7 @@
 
 	let { children } = $props();
 
-	const baseColors = ['#e68d5d', '#6bb55d', '#399bc5', '#a25b9f'];
+	const baseColors = ['#f9476c', '#756477', '#f95950', '#4b2245'];
 	const offset = Math.floor(Math.random() * 4);
 	const colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
 	let cycleInterval: number;
@@ -124,30 +124,29 @@
 		display: block;
 		font-size: clamp(1rem, calc(20.5vw - 5px), 5.3rem);
 		line-height: 1;
-		color: #a25b9f;
+		color: #4b2245;
 	}
 
 	h1 .title span {
 		transition: color 0.1s linear;
 	}
-
 	h1 .title span:nth-child(1) {
-		color: var(--color1, #e68d5d);
+		color: var(--color1, #f9476c);
 		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(2) {
-		color: var(--color2, #6bb55d);
+		color: var(--color2, #756477);
 		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(3) {
-		color: var(--color3, #399bc5);
+		color: var(--color3, #f95950);
 		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(4) {
-		color: var(--color4, #a25b9f);
+		color: var(--color4, #4b2245);
 		transition: color 0.3s ease;
 	}
 
@@ -177,7 +176,7 @@
 	}
 
 	nav a.active {
-		background-color: var(--color4, #a25b9f);
+		background-color: var(--color4, #4b2245);
 		color: white;
 	}
 </style>

@@ -30,7 +30,9 @@
 			{#each displayedEntries as entry}
 				<li>
 					<div class="entry-header">
-						<span class="name"><a href={`/person/${encodeURIComponent(entry.name)}`}>{entry.name}</a></span>
+						<span class="name"
+							><a href={`/person/${encodeURIComponent(entry.name)}`}>{entry.name}</a></span
+						>
 						{#if (entry.days ?? 0) > 1}
 							<span class="days">{entry.days} days ago</span>
 						{:else if (entry.days ?? 0) === 1}
@@ -77,15 +79,15 @@
 	}
 
 	.name a {
-	color: #111;
-	text-decoration: none;
-	transition: color 0.2s;
-}
-.name a:hover {
-	color: var(--color4, #a25b9f);
-}
+		color: #111;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	.name a:hover {
+		color: var(--color4, #4b2245);
+	}
 
-.name {
+	.name {
 		font-weight: bold;
 	}
 
@@ -98,7 +100,7 @@
 		background-color: transparent;
 		border: none;
 		font-weight: bold;
-		color: var(--color4, #a25b9f);
+		color: var(--color4, #4b2245);
 		transition: all 0.3s ease;
 		display: block;
 		margin: 0 auto;
@@ -106,6 +108,6 @@
 	}
 
 	.show-more:hover {
-		color: color-mix(in srgb, var(--color4, #a25b9f) 80%, black);
+		color: color-mix(in srgb, var(--color4, #4b2245) 80%, black);
 	}
 </style>

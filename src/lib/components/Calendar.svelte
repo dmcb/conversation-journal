@@ -110,7 +110,7 @@
 						{#if day.count > 0}
 							<button
 								class="day"
-								style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
+								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
 									50}%, white)"
 								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 								onclick={() => openModal(day.date)}
@@ -121,7 +121,7 @@
 						{:else}
 							<div
 								class="day"
-								style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
+								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
 									50}%, white)"
 								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 							>
@@ -226,15 +226,15 @@
 	}
 
 	.modal .name a {
-	color: #111;
-	text-decoration: none;
-	transition: color 0.2s;
-}
-.modal .name a:hover {
-	color: var(--color4, #a25b9f);
-}
+		color: #111;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	.modal .name a:hover {
+		color: var(--color4, #4b2245);
+	}
 
-.modal .name {
+	.modal .name {
 		font-weight: bold;
 	}
 

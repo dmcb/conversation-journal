@@ -73,7 +73,7 @@
 
 <section class="calendar">
 	<h2>Conversation History</h2>
-	{#each Array.from(monthlyData.entries()) as [monthKey, days]}
+	{#each Array.from(monthlyData.entries()) as [monthKey, days], index}
 		<div class="month">
 			<h3>{getMonthName(monthKey)} {monthKey.split('-')[0]}</h3>
 			<div class="monthview">
@@ -84,15 +84,17 @@
 					<div class="day empty"></div>
 				{/each}
 				{#each days as day}
-					<div
-						class="day"
-						style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
-							100}%, white)"
-						title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
-					>
-						<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
-						<span class="count">{day.count || '0'}</span>
-					</div>
+					{#if index !== 0 || (index === 0 && parseInt(day.date.split('-')[2], 10) <= new Date().getDate())}
+						<div
+							class="day"
+							style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
+								100}%, white)"
+							title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
+						>
+							<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+							<span class="count">{day.count || '0'}</span>
+						</div>
+					{/if}
 				{/each}
 			</div>
 		</div>

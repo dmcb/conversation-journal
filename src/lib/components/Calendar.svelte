@@ -184,7 +184,6 @@
 		max-height: 90vh;
 		display: flex;
 		flex-direction: column;
-		height: 100%;
 	}
 
 	.close-btn {

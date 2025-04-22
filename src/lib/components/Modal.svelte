@@ -114,8 +114,4 @@
 	:global(.modal-content a:hover) {
 		color: var(--color4, #4b2245);
 	}
-
-	:global(.modal-content .name) {
-		font-weight: bold;
-	}
 </style>

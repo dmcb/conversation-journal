@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 
 	// Simulate data source (replace with real store or API)
-	export let data;
-	let name = decodeURIComponent($page.params.name || '');
+	let name = decodeURIComponent(page.params.name || '');
 	let chats: string[] = [];
 	let editing = false;
 	let newName = name;

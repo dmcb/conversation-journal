@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount, onDestroy } from 'svelte';
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
@@ -83,8 +83,8 @@
 	</section>
 
 	<nav>
-		<a href="/" class:active={$page.url.pathname === '/'}>Entries</a>
-		<a href="/calendar" class:active={$page.url.pathname === '/calendar'}>Calendar</a>
+		<a href="/" aria-current={page.url.pathname === '/'}>Entries</a>
+		<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
 	</nav>
 
 	{@render children()}
@@ -175,7 +175,7 @@
 		background-color: #eee;
 	}
 
-	nav a.active {
+	nav a[aria-current='true'] {
 		background-color: var(--color4, #4b2245);
 		color: white;
 	}

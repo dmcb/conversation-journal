@@ -1,5 +1,4 @@
 <script lang="ts">
-	/// <reference types="svelte" />
 	interface Entry {
 		name: string;
 		dates: string[];
@@ -7,6 +6,9 @@
 	}
 
 	export let entries: Entry[] = [];
+	const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+	const currentDate = new Date();
+	const formattedCurrentDate = new Date(currentDate.getTime() - timezoneOffset);
 
 	interface ReachOutEntry extends Entry {
 		score: number;
@@ -37,8 +39,7 @@
 				(baseFrequency >= 2.5 ? 1 : Math.sqrt(baseFrequency / 2.5));
 
 			// Generate a daily random factor that's consistent for each name on a given day
-			const today = new Date();
-			const daysSinceEpoch = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+			const daysSinceEpoch = Math.floor(formattedCurrentDate.getTime() / (1000 * 60 * 60 * 24));
 			const nameHash = entry.name.split('').reduce((hash, char) => {
 				return (hash << 5) - hash + char.charCodeAt(0);
 			}, daysSinceEpoch);

@@ -8,7 +8,9 @@
 
 	let { children } = $props();
 
-	const colors = ['#e68d5d', '#6bb55d', '#399bc5', '#a25b9f'];
+	const baseColors = ['#e68d5d', '#6bb55d', '#399bc5', '#a25b9f'];
+	const offset = Math.floor(Math.random() * 4);
+	const colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
 	let cycleInterval: number;
 
 	function shiftColors() {

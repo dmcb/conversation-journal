@@ -3,14 +3,16 @@
 	import { browser } from '$app/environment';
 
 	export let name: string;
-	export let allEntries: { name: string; dates: string[] }[] = [];
+	export let entries: { name: string; dates: string[] }[] = [];
 	let chats: string[] = [];
 	let editing = false;
 	let newName = name;
 
 	$: {
-		const person = allEntries.find(e => e.name === name);
-		chats = person ? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) : [];
+		const person = entries.find((e) => e.name === name);
+		chats = person
+			? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+			: [];
 	}
 
 	function startEdit() {
@@ -28,12 +30,12 @@
 			editing = false;
 			return;
 		}
-		const idx = allEntries.findIndex((e) => e.name === name);
+		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
-			allEntries[idx].name = newName;
+			entries[idx].name = newName;
 			if (browser) {
 				try {
-					localStorage.setItem('nameEntries', JSON.stringify(allEntries));
+					localStorage.setItem('nameEntries', JSON.stringify(entries));
 				} catch (error) {
 					alert('Failed to save your entries');
 				}
@@ -41,26 +43,26 @@
 			name = newName;
 			goto(`/person/${encodeURIComponent(newName)}`);
 			// After navigation, reload chats for the new name
-			const person = allEntries.find((e) => e.name === newName);
-			chats = person ? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) : [];
+			const person = entries.find((e) => e.name === newName);
+			chats = person
+				? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+				: [];
 		}
 		editing = false;
 	}
 
 	function deleteChat(date: string) {
-		const idx = allEntries.findIndex((e) => e.name === name);
+		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
-			allEntries[idx].dates = allEntries[idx].dates.filter((d) => d !== date);
+			entries[idx].dates = entries[idx].dates.filter((d) => d !== date);
 			if (browser) {
 				try {
-					localStorage.setItem('nameEntries', JSON.stringify(allEntries));
+					localStorage.setItem('nameEntries', JSON.stringify(entries));
 				} catch (error) {
 					alert('Failed to save your entries');
 				}
 			}
-			chats = [...allEntries[idx].dates].sort(
-				(a, b) => new Date(b).getTime() - new Date(a).getTime()
-			);
+			chats = [...entries[idx].dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 		}
 	}
 </script>
@@ -69,13 +71,15 @@
 	{#if editing}
 		<div class="edit-name">
 			<input bind:value={newName} on:keydown={(e) => e.key === 'Enter' && saveName()} />
-			<button on:click={saveName}>Save</button>
-			<button
-				on:click={() => {
-					editing = false;
-					newName = name;
-				}}>Cancel</button
-			>
+			<div class="buttons">
+				<button on:click={saveName}>Save</button>
+				<button
+					on:click={() => {
+						editing = false;
+						newName = name;
+					}}>Cancel</button
+				>
+			</div>
 		</div>
 	{:else}
 		<h2>
@@ -106,21 +110,27 @@
 	h2 {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: 0.5em;
 		margin: 0;
 	}
 
 	.edit-name {
 		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		flex-wrap: wrap;
 	}
 
 	input {
+		max-width: 100%;
+		flex-grow: 1;
 		border: 0;
 		font-size: 1.5rem;
 		font-weight: bold;
 		margin: 0;
 		padding: 0;
-		width: 100%;
 	}
 
 	ul {
@@ -136,7 +146,6 @@
 	}
 
 	button {
-		margin-left: 0.5em;
 		padding: 0.5rem 1rem;
 		border-radius: 20px;
 		transition: all 0.2s ease;

@@ -1,20 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import Person from '$lib/components/Person.svelte';
 
-	// This would come from a store or API in a real app
-	let allEntries: { name: string; dates: string[] }[] = [];
-	let name = decodeURIComponent($page.params.name || '');
+	let name = decodeURIComponent(page.params.name || '');
+
+	interface Entry {
+		name: string;
+		dates: string[];
+		days?: number;
+	}
+
+	let entries: Entry[] = [];
 
 	onMount(() => {
-		// Load allEntries from localStorage or API
-		if (browser) {
-			const stored = localStorage.getItem('nameEntries');
-			if (stored) allEntries = JSON.parse(stored);
+		const storedEntries = localStorage.getItem('nameEntries');
+		if (storedEntries) {
+			entries = JSON.parse(storedEntries);
 		}
 	});
 </script>
 
-<Person {name} bind:allEntries />
+<Person {name} {entries} />

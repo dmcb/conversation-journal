@@ -60,7 +60,7 @@
 					<li>
 						<div class="entry-content">
 							<div class="entry-header">
-								<span class="name">{entry.name}</span>
+								<span class="name"><a href={`/person/${encodeURIComponent(entry.name)}`}>{entry.name}</a></span>
 								{#if (entry.days ?? 0) > 1}
 									<span class="days">{entry.days} days ago</span>
 								{:else if (entry.days ?? 0) === 1}
@@ -104,7 +104,16 @@
 		margin-bottom: 4px;
 	}
 
-	.name {
+	.name a {
+	color: #111;
+	text-decoration: none;
+	transition: color 0.2s;
+}
+.name a:hover {
+	color: var(--color4, #a25b9f);
+}
+
+.name {
 		font-weight: bold;
 	}
 

@@ -152,7 +152,7 @@
 		<p>Connected with</p>
 		<ul>
 			{#each getPeopleForDate(modalDate) as { name }}
-				<li class="name">{name}</li>
+				<li class="name"><a href={`/person/${encodeURIComponent(name)}`}>{name}</a></li>
 			{/each}
 		</ul>
 	</div>
@@ -225,7 +225,16 @@
 		margin: 0 0 1rem 0;
 	}
 
-	.modal .name {
+	.modal .name a {
+	color: #111;
+	text-decoration: none;
+	transition: color 0.2s;
+}
+.modal .name a:hover {
+	color: var(--color4, #a25b9f);
+}
+
+.modal .name {
 		font-weight: bold;
 	}
 

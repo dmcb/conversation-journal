@@ -44,8 +44,11 @@
 			};
 			entries = [...entries, newEntry];
 		}
-
-		localStorage.setItem('nameEntries', JSON.stringify(entries));
+		try {
+			localStorage.setItem('nameEntries', JSON.stringify(entries));
+		} catch (error) {
+			alert('Failed to save your entries');
+		}
 		return true;
 	}
 

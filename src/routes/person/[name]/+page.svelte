@@ -43,7 +43,13 @@
 		const idx = allEntries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
 			allEntries[idx].name = newName;
-			if (browser) localStorage.setItem('nameEntries', JSON.stringify(allEntries));
+			if (browser) {
+				try {
+					localStorage.setItem('nameEntries', JSON.stringify(allEntries));
+				} catch (error) {
+					alert('Failed to save your entries');
+				}
+			}
 			name = newName;
 			goto(`/person/${encodeURIComponent(newName)}`);
 			// After navigation, reload chats for the new name
@@ -59,7 +65,13 @@
 		const idx = allEntries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
 			allEntries[idx].dates = allEntries[idx].dates.filter((d) => d !== date);
-			if (browser) localStorage.setItem('nameEntries', JSON.stringify(allEntries));
+			if (browser) {
+				try {
+					localStorage.setItem('nameEntries', JSON.stringify(allEntries));
+				} catch (error) {
+					alert('Failed to save your entries');
+				}
+			}
 			chats = [...allEntries[idx].dates].sort(
 				(a, b) => new Date(b).getTime() - new Date(a).getTime()
 			);

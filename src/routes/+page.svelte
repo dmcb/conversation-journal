@@ -11,12 +11,12 @@
 	}
 
 	let entries: Entry[] = [];
+	const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
 
 	function handleAddEntry(name: string) {
 		const trimmedName = name.trim();
 		const currentDate = new Date();
-		const offset = currentDate.getTimezoneOffset();
-		const formattedCurrentDate = new Date(currentDate.getTime() - offset * 60 * 1000)
+		const formattedCurrentDate = new Date(currentDate.getTime() - timezoneOffset)
 			.toISOString()
 			.split('T')[0];
 		const existingEntryIndex = entries.findIndex(
@@ -48,8 +48,7 @@
 	function calculateDays(dates: string[]): number {
 		const mostRecentDate = dates.sort().reverse()[0];
 		const currentDate = new Date();
-		const offset = currentDate.getTimezoneOffset();
-		const formattedCurrentDate = new Date(currentDate.getTime() - offset * 60 * 1000)
+		const formattedCurrentDate = new Date(currentDate.getTime() - timezoneOffset)
 			.toISOString()
 			.split('T')[0];
 		const entryDate = new Date(mostRecentDate);

@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	interface Entry {
 		name: string;
 		dates: string[];
 		days?: number;
 	}
-
 	export let entries: Entry[] = [];
 
 	interface DayData {
@@ -15,104 +12,75 @@
 		intensity: number;
 	}
 
-	let calendarData: DayData[] = [];
-	let monthlyData: Map<string, DayData[]>;
+	let monthlyData: Map<string, DayData[]> = new Map();
 
-	function getDaysInMonth(year: number, month: number): number {
-		return new Date(year, month + 1, 0).getDate();
-	}
-
-	function generateMonthDays(
-		year: number,
-		month: number,
-		dateCounts: Map<string, number>,
-		maxCount: number
-	): DayData[] {
-		const days: DayData[] = [];
-		const daysInMonth = getDaysInMonth(year, month);
-
-		for (let day = 1; day <= daysInMonth; day++) {
-			const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-			const count = dateCounts.get(date) || 0;
-			days.push({
-				date,
-				count,
-				intensity: maxCount > 0 ? count / maxCount : 0
-			});
-		}
-
-		return days;
+	function getMonthName(monthKey: string): string {
+		const [year, month] = monthKey.split('-');
+		return new Date(Number(year), Number(month) - 1).toLocaleString('default', { month: 'long' });
 	}
 
 	$: {
-		// Get all dates and find min/max
-		let minDate = new Date();
-		let maxDate = new Date('1970-01-01');
 		const dateCounts = new Map<string, number>();
+		let allDates: Date[] = [];
 
-		entries.forEach((entry) => {
-			entry.dates.forEach((date) => {
-				const d = new Date(date);
-				if (d < minDate) minDate = d;
-				if (d > maxDate) maxDate = d;
-
-				const count = (dateCounts.get(date) || 0) + 1;
-				dateCounts.set(date, count);
+		entries.forEach((entry: Entry) => {
+			entry.dates.forEach((date: string) => {
+				const d = new Date(date + 'T00:00:00');
+				if (!isNaN(d.getTime())) {
+					allDates.push(d);
+					const key = d.toISOString().slice(0, 10);
+					dateCounts.set(key, (dateCounts.get(key) || 0) + 1);
+				}
 			});
 		});
 
-		// Find max count for normalization
+		let oldestMonth: Date | null = null;
+		if (allDates.length) {
+			allDates.sort((a, b) => a.getTime() - b.getTime());
+			const oldest = allDates[0];
+			oldestMonth = new Date(oldest.getFullYear(), oldest.getMonth(), 1);
+		}
+
+		const now = new Date();
+		const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 		const maxCount = Math.max(...dateCounts.values(), 0);
 
-		// Generate all months between min and max date
-		calendarData = [];
-		const startDate = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
-		const endDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), 1);
+		monthlyData = new Map();
 
-		for (let d = startDate; d <= endDate; d.setMonth(d.getMonth() + 1)) {
-			const monthDays = generateMonthDays(d.getFullYear(), d.getMonth(), dateCounts, maxCount);
-			calendarData.push(...monthDays);
+		if (oldestMonth) {
+			let month = new Date(currentMonth);
+			while (month >= oldestMonth) {
+				const year = month.getFullYear();
+				const m = month.getMonth();
+				const daysInMonth = new Date(year, m + 1, 0).getDate();
+				const monthKey = `${year}-${String(m + 1).padStart(2, '0')}`;
+				const days: DayData[] = [];
+				for (let day = 1; day <= daysInMonth; day++) {
+					const dateStr = `${year}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+					const count = dateCounts.get(dateStr) || 0;
+					days.push({
+						date: dateStr,
+						count,
+						intensity: maxCount > 0 ? count / maxCount : 0
+					});
+				}
+				monthlyData.set(monthKey, days);
+				month.setMonth(month.getMonth() - 1);
+			}
 		}
 	}
-
-	function getMonthName(date: string): string {
-		return new Date(date).toLocaleString('default', { month: 'long' });
-	}
-
-	function groupByMonth(data: DayData[]): Map<string, DayData[]> {
-		const grouped = new Map<string, DayData[]>();
-
-		// First group by month-year
-		data.forEach((day) => {
-			const date = new Date(day.date);
-			const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-			if (!grouped.has(monthYear)) {
-				grouped.set(monthYear, []);
-			}
-			grouped.get(monthYear)?.push(day);
-		});
-
-		// Sort days within each month
-		grouped.forEach((days, monthYear) => {
-			days.sort((a, b) => new Date(a.date).getDate() - new Date(b.date).getDate());
-		});
-
-		return grouped;
-	}
-
-	$: monthlyData = groupByMonth(calendarData);
 </script>
 
 <section class="calendar">
 	<h2>Conversation History</h2>
-	{#each Array.from(monthlyData.entries()).sort( ([a], [b]) => b.localeCompare(a) ) as [monthYear, days]}
+	{#each Array.from(monthlyData.entries()) as [monthKey, days]}
 		<div class="month">
-			<h3>{getMonthName(monthYear)} {monthYear.split('-')[0]}</h3>
+			<h3>{getMonthName(monthKey)} {monthKey.split('-')[0]}</h3>
 			<div class="monthview">
 				{#each Array.from({ length: 7 }) as _, i}
 					<div class="weekday">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</div>
 				{/each}
-				{#each Array.from({ length: new Date(monthYear + '-01').getDay() }) as _}
+				{#each Array.from({ length: new Date(monthKey + '-01').getUTCDay() }) as _}
 					<div class="day empty"></div>
 				{/each}
 				{#each days as day}
@@ -122,7 +90,7 @@
 							100}%, white)"
 						title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 					>
-						<span class="day-number">{new Date(day.date).getDate()}</span>
+						<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
 						<span class="count">{day.count || '0'}</span>
 					</div>
 				{/each}

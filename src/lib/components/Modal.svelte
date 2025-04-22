@@ -92,12 +92,14 @@
 		transform: scale(1.25);
 	}
 
+	.modal-content {
+		overflow: scroll;
+	}
+
 	:global(.modal-content ul) {
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		max-height: 60vh;
-		overflow-y: auto;
 	}
 
 	:global(.modal-content li) {
@@ -110,7 +112,7 @@
 	}
 
 	:global(.modal-content p) {
-		margin: 0 0 1rem;
+		margin: 0 0 30px 0;
 	}
 	:global(.modal-content p:first-child) {
 		font-weight: bold;

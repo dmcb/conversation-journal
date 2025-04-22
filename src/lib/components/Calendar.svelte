@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Modal from './Modal.svelte';
 	import EntryForm from './EntryForm.svelte';
 
@@ -76,25 +75,16 @@
 		}
 	}
 	// Modal state and helpers
-	let viewModalOpen = false;
-	let addModalOpen = false;
+	let modalOpen = false;
 	let selectedDate = '';
 
 	function openModal(date: string) {
-		const people = getPeopleForDate(date);
 		selectedDate = date;
-		if (people.length > 0) {
-			viewModalOpen = true;
-		} else {
-			addModalOpen = true;
-		}
-	}
-	function closeViewModal() {
-		viewModalOpen = false;
+		modalOpen = true;
 	}
 
-	function closeAddModal() {
-		addModalOpen = false;
+	function closeModal() {
+		modalOpen = false;
 	}
 
 	// Get people and their chat counts for a given date
@@ -144,33 +134,30 @@
 	{/if}
 </section>
 
-<Modal open={viewModalOpen} onClose={closeViewModal}>
-	<p>Connected with</p>
-	<ul>
-		{#each getPeopleForDate(selectedDate) as { name }}
-			<li class="name"><a href={`/person/${encodeURIComponent(name)}`}>{name}</a></li>
-		{/each}
-	</ul>
-</Modal>
-
-<Modal open={addModalOpen} onClose={closeAddModal}>
-	<p class="modal-title">Add entry for {selectedDate}</p>
-	<EntryForm
-		onAdd={(name) => {
-			const added = onAdd(name, selectedDate);
-			if (added) closeAddModal();
-			return added;
-		}}
-	/>
+<Modal open={modalOpen} onClose={closeModal}>
+	<p>{selectedDate}</p>
+	{#if getPeopleForDate(selectedDate).length > 0}
+		<div class="existing-entries">
+			<ul>
+				{#each getPeopleForDate(selectedDate) as { name }}
+					<li class="name"><a href={`/person/${encodeURIComponent(name)}`}>{name}</a></li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
+	<div class="add-entry">
+		<p>Add new entry</p>
+		<EntryForm
+			onAdd={(name) => {
+				const added = onAdd(name, selectedDate);
+				if (added) closeModal();
+				return added;
+			}}
+		/>
+	</div>
 </Modal>
 
 <style>
-	.modal-title {
-		margin: 0 0 1rem;
-		font-size: 1.25rem;
-		color: #444;
-	}
-
 	.month {
 		margin-bottom: 3rem;
 	}
@@ -240,5 +227,9 @@
 	.count {
 		font-size: 0.9em;
 		opacity: 0.8;
+	}
+
+	.existing-entries {
+		margin-bottom: 30px;
 	}
 </style>

@@ -101,6 +101,9 @@
 	:global(.modal-content p) {
 		margin: 0 0 1rem;
 	}
+	:global(.modal-content p:first-child) {
+		font-weight: bold;
+	}
 
 	:global(.modal-content a) {
 		color: #111;

@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import Modal from './Modal.svelte';
 
 	export let name: string;
 	export let entries: { name: string; dates: string[] }[] = [];
 	let chats: string[] = [];
 	let editing = false;
 	let newName = name;
+	let deleteModalOpen = false;
+	let chatToDelete: string | null = null;
 
 	$: {
 		const person = entries.find((e) => e.name === name);
@@ -51,10 +54,17 @@
 		editing = false;
 	}
 
-	function deleteChat(date: string) {
+	function confirmDelete(date: string) {
+		chatToDelete = date;
+		deleteModalOpen = true;
+	}
+
+	function handleDeleteConfirm() {
+		if (!chatToDelete) return;
+
 		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
-			entries[idx].dates = entries[idx].dates.filter((d) => d !== date);
+			entries[idx].dates = entries[idx].dates.filter((d) => d !== chatToDelete);
 			if (browser) {
 				try {
 					localStorage.setItem('nameEntries', JSON.stringify(entries));
@@ -63,7 +73,18 @@
 				}
 			}
 			chats = [...entries[idx].dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+			if (chats.length === 0) {
+				goto(`/`);
+			}
 		}
+
+		deleteModalOpen = false;
+		chatToDelete = null;
+	}
+
+	function handleDeleteCancel() {
+		deleteModalOpen = false;
+		chatToDelete = null;
 	}
 </script>
 
@@ -91,15 +112,45 @@
 	<h3>Conversations</h3>
 	<ul>
 		{#each chats as date (date)}
-			<li>{date} <button on:click={() => deleteChat(date)}>Delete</button></li>
+			<li>{date} <button on:click={() => confirmDelete(date)}>Delete</button></li>
 		{/each}
 	</ul>
 	{#if chats.length === 0}
 		<p>No entries found for this person.</p>
 	{/if}
+
+	<Modal open={deleteModalOpen} onClose={handleDeleteCancel}>
+		<p>Delete Chat</p>
+		<p>Are you sure you want to delete the chat on {chatToDelete}?</p>
+		<p>This action cannot be undone.</p>
+		<div class="modal-buttons">
+			<button class="secondary" on:click={handleDeleteCancel}>Cancel</button>
+			<button class="danger" on:click={handleDeleteConfirm}>Delete</button>
+		</div>
+	</Modal>
 </section>
 
 <style>
+	:global(.modal-buttons) {
+		display: flex;
+		gap: 1rem;
+		justify-content: flex-end;
+		margin-top: 2rem;
+	}
+
+	:global(.modal-buttons .secondary) {
+		background: #f0f0f0;
+		color: #333;
+	}
+
+	:global(.modal-buttons .secondary:hover) {
+		color: white;
+	}
+
+	:global(.modal-buttons .danger) {
+		background: var(--color4, #4b2245);
+		color: white;
+	}
 	section {
 		padding: 2rem;
 		background: #fff;

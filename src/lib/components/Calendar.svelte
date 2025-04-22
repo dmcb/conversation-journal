@@ -69,6 +69,28 @@
 			}
 		}
 	}
+	// Modal state and helpers
+	let modalOpen = false;
+	let modalDate = '';
+
+	function openModal(date: string) {
+		modalDate = date;
+		modalOpen = true;
+	}
+	function closeModal() {
+		modalOpen = false;
+	}
+
+	// Get people and their chat counts for a given date
+	function getPeopleForDate(date: string): { name: string; count: number }[] {
+		const peopleMap = new Map<string, number>();
+		entries.forEach((entry) => {
+			if (entry.dates.includes(date)) {
+				peopleMap.set(entry.name, (peopleMap.get(entry.name) || 0) + 1);
+			}
+		});
+		return Array.from(peopleMap.entries()).map(([name, count]) => ({ name, count }));
+	}
 </script>
 
 <section class="calendar">
@@ -85,15 +107,28 @@
 				{/each}
 				{#each days as day}
 					{#if index !== 0 || (index === 0 && parseInt(day.date.split('-')[2], 10) <= new Date().getDate())}
-						<div
-							class="day"
-							style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
-								100}%, white)"
-							title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
-						>
-							<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
-							<span class="count">{day.count || '0'}</span>
-						</div>
+						{#if day.count > 0}
+							<button
+								class="day"
+								style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
+									50}%, white)"
+								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
+								onclick={() => openModal(day.date)}
+							>
+								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+								<span class="count">{day.count || '0'}</span>
+							</button>
+						{:else}
+							<div
+								class="day"
+								style="background-color: color-mix(in srgb, var(--color4, #a25b9f) {day.intensity *
+									50}%, white)"
+								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
+							>
+								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+								<span class="count">{day.count || '0'}</span>
+							</div>
+						{/if}
 					{/if}
 				{/each}
 			</div>
@@ -101,7 +136,95 @@
 	{/each}
 </section>
 
+{#if modalOpen}
+	<div
+		class="modal-backdrop"
+		tabindex="0"
+		role="button"
+		aria-label="Close modal"
+		onclick={closeModal}
+		onkeydown={(e) => {
+			if (e.key === 'Escape' || e.key === ' ') closeModal();
+		}}
+	></div>
+	<div class="modal">
+		<button class="close-btn" onclick={closeModal}>&times;</button>
+		<p>Connected with</p>
+		<ul>
+			{#each getPeopleForDate(modalDate) as { name }}
+				<li class="name">{name}</li>
+			{/each}
+		</ul>
+	</div>
+{/if}
+
 <style>
+	.modal-backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.3);
+		z-index: 1000;
+	}
+	.modal {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #fff;
+		border-radius: 8px;
+		box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+		padding: 1.5rem;
+		z-index: 1001;
+		max-width: 350px;
+		width: 90vw;
+		box-sizing: border-box;
+	}
+
+	.close-btn {
+		background: none;
+		border: none;
+		font-size: 2rem;
+		cursor: pointer;
+		color: #888;
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		margin: 0;
+		padding: 0;
+		line-height: 0;
+		height: 2rem;
+		width: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.modal ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.modal li {
+		padding: 8px 0;
+		border-bottom: 1px solid #eee;
+	}
+
+	.modal li:last-child {
+		border-bottom: none;
+	}
+
+	.modal p {
+		margin: 0 0 1rem 0;
+	}
+
+	.modal .name {
+		font-weight: bold;
+	}
+
 	.month {
 		margin-bottom: 3rem;
 	}
@@ -139,20 +262,24 @@
 		border-radius: 4px;
 		font-size: 0.8em;
 		color: #444;
+	}
+
+	.day.empty {
+		background-color: transparent;
+	}
+
+	button.day {
+		cursor: pointer;
+		border: 0;
 		transition:
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
 		box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
 	}
-
-	.day:not(.empty):hover {
+	button.day:hover {
 		transform: scale(1.25);
 		z-index: 1;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	}
-
-	.day.empty {
-		background-color: transparent;
 	}
 
 	.day-number {

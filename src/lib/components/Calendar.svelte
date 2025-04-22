@@ -181,6 +181,10 @@
 		max-width: 350px;
 		width: 90vw;
 		box-sizing: border-box;
+		max-height: 90vh;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 	}
 
 	.close-btn {
@@ -206,6 +210,7 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
+		overflow: scroll;
 	}
 
 	.modal li {

@@ -59,39 +59,38 @@
 		.slice(0, 3);
 </script>
 
-{#if reachOutEntries.length > 0}
-	<section class="entries">
-		<h2>Reconnect with</h2>
-		{#if reachOutEntries.length === 0}
-			<p>No one needs attention right now.</p>
-		{:else}
-			<ul>
-				{#each reachOutEntries as entry}
-					<li>
-						<div class="entry-content">
-							<div class="entry-header">
-								<span class="name"
-									><a href={`/person/${encodeURIComponent(entry.name)}`}>{entry.name}</a></span
-								>
-								{#if (entry.days ?? 0) > 1}
-									<span class="days">{entry.days} days ago</span>
-								{:else if (entry.days ?? 0) === 1}
-									<span class="days">Yesterday</span>
-								{:else}
-									<span class="days">Today</span>
-								{/if}
-							</div>
-							<div class="entry-details">
-								{entry.dates.length}
-								{entry.dates.length === 1 ? 'entry' : 'entries'}
-							</div>
+<section class="entries">
+	<h2>Reconnect with</h2>
+	{#if reachOutEntries.length === 0}
+		<p>No one needs attention right now.</p>
+		<p>Once we have enough data, we'll recommend who you should reach out to!</p>
+	{:else}
+		<ul>
+			{#each reachOutEntries as entry}
+				<li>
+					<div class="entry-content">
+						<div class="entry-header">
+							<span class="name"
+								><a href={`/person/${encodeURIComponent(entry.name)}`}>{entry.name}</a></span
+							>
+							{#if (entry.days ?? 0) > 1}
+								<span class="days">{entry.days} days ago</span>
+							{:else if (entry.days ?? 0) === 1}
+								<span class="days">Yesterday</span>
+							{:else}
+								<span class="days">Today</span>
+							{/if}
 						</div>
-					</li>
-				{/each}
-			</ul>
-		{/if}
-	</section>
-{/if}
+						<div class="entry-details">
+							{entry.dates.length}
+							{entry.dates.length === 1 ? 'entry' : 'entries'}
+						</div>
+					</div>
+				</li>
+			{/each}
+		</ul>
+	{/if}
+</section>
 
 <style>
 	ul {

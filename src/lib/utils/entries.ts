@@ -6,9 +6,13 @@ export interface Entry {
 
 const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
 
-export function getCurrentDate(): string {
+export function getTimezoneFreeDate(): Date {
 	const currentDate = new Date();
-	return new Date(currentDate.getTime() - timezoneOffset).toISOString().split('T')[0];
+	return new Date(currentDate.getTime() - timezoneOffset);
+}
+
+export function getCurrentDate(): string {
+	return getTimezoneFreeDate().toISOString().split('T')[0];
 }
 
 export function addEntry(

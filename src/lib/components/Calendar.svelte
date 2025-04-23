@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Modal from './Modal.svelte';
 	import EntryForm from './EntryForm.svelte';
+	import { getTimezoneFreeDate } from '$lib/utils/entries';
 
 	interface Entry {
 		name: string;
@@ -87,34 +88,36 @@
 <section class="calendar">
 	<div class="calendar-header">
 		<h2>Conversation History</h2>
-		<div class="month-navigation">
-			<button
-				class="nav-button"
-				on:click={() => {
-					const newDate = new Date(currentViewMonth);
-					newDate.setMonth(newDate.getMonth() - 1);
-					currentViewMonth = newDate;
-				}}>←</button
-			>
-			<h3>{getMonthName(currentViewMonth)} {currentViewMonth.getFullYear()}</h3>
-			{#if currentViewMonth.getFullYear() < new Date().getFullYear() || (currentViewMonth.getFullYear() === new Date().getFullYear() && currentViewMonth.getMonth() < new Date().getMonth())}
+		{#if entries.length === 0}
+			<p>No entries added yet.</p>
+		{:else}
+			<div class="month-navigation">
 				<button
 					class="nav-button"
 					on:click={() => {
 						const newDate = new Date(currentViewMonth);
-						newDate.setMonth(newDate.getMonth() + 1);
+						newDate.setMonth(newDate.getMonth() - 1);
 						currentViewMonth = newDate;
-					}}>→</button
+					}}>←</button
 				>
-			{:else}
-				<div class="nav-button-placeholder"></div>
-			{/if}
-		</div>
+				<h3>{getMonthName(currentViewMonth)} {currentViewMonth.getFullYear()}</h3>
+				{#if currentViewMonth.getFullYear() < new Date().getFullYear() || (currentViewMonth.getFullYear() === new Date().getFullYear() && currentViewMonth.getMonth() < new Date().getMonth())}
+					<button
+						class="nav-button"
+						on:click={() => {
+							const newDate = new Date(currentViewMonth);
+							newDate.setMonth(newDate.getMonth() + 1);
+							currentViewMonth = newDate;
+						}}>→</button
+					>
+				{:else}
+					<div class="nav-button-placeholder"></div>
+				{/if}
+			</div>
+		{/if}
 	</div>
 
-	{#if entries.length === 0}
-		<p>No entries added yet.</p>
-	{:else}
+	{#if entries.length > 0}
 		{#each Array.from(monthlyData.entries()) as [monthKey, days]}
 			<div class="month">
 				<div class="monthview">
@@ -125,9 +128,8 @@
 						<div class="day empty"></div>
 					{/each}
 					{#each days as day}
-						{@const currentDate = new Date()}
 						{@const dayDate = new Date(day.date)}
-						{#if dayDate <= currentDate}
+						{#if dayDate <= getTimezoneFreeDate()}
 							<button
 								class="day {day.count > 0 ? 'has-entries' : ''}"
 								style="background-color: color-mix(in srgb, var(--color4, #4b2230) {day.intensity *

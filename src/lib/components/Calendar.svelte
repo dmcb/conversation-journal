@@ -163,9 +163,7 @@
 		<p>Add new entry</p>
 		<EntryForm
 			onAdd={(name) => {
-				const added = onAdd(name, selectedDate);
-				if (added) closeModal();
-				return added;
+				return onAdd(name, selectedDate);
 			}}
 		/>
 	</div>

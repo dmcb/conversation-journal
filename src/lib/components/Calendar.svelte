@@ -18,10 +18,11 @@
 	}
 
 	let monthlyData: Map<string, DayData[]> = new Map();
+	let currentViewMonth = new Date();
+	currentViewMonth.setDate(1); // Start at beginning of month
 
-	function getMonthName(monthKey: string): string {
-		const [year, month] = monthKey.split('-');
-		return new Date(Number(year), Number(month) - 1).toLocaleString('default', { month: 'long' });
+	function getMonthName(date: Date): string {
+		return date.toLocaleString('default', { month: 'long' });
 	}
 
 	$: {
@@ -39,40 +40,24 @@
 			});
 		});
 
-		let oldestMonth: Date | null = null;
-		if (allDates.length) {
-			allDates.sort((a, b) => a.getTime() - b.getTime());
-			const oldest = allDates[0];
-			oldestMonth = new Date(oldest.getFullYear(), oldest.getMonth(), 1);
-		}
-
-		const now = new Date();
-		const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 		const maxCount = Math.max(...dateCounts.values(), 0);
+		const year = currentViewMonth.getFullYear();
+		const month = currentViewMonth.getMonth();
+		const daysInMonth = new Date(year, month + 1, 0).getDate();
+		const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+		const days: DayData[] = [];
 
-		monthlyData = new Map();
-
-		if (oldestMonth) {
-			let month = new Date(currentMonth);
-			while (month >= oldestMonth) {
-				const year = month.getFullYear();
-				const m = month.getMonth();
-				const daysInMonth = new Date(year, m + 1, 0).getDate();
-				const monthKey = `${year}-${String(m + 1).padStart(2, '0')}`;
-				const days: DayData[] = [];
-				for (let day = 1; day <= daysInMonth; day++) {
-					const dateStr = `${year}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-					const count = dateCounts.get(dateStr) || 0;
-					days.push({
-						date: dateStr,
-						count,
-						intensity: maxCount > 0 ? count / maxCount : 0
-					});
-				}
-				monthlyData.set(monthKey, days);
-				month.setMonth(month.getMonth() - 1);
-			}
+		for (let day = 1; day <= daysInMonth; day++) {
+			const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+			const count = dateCounts.get(dateStr) || 0;
+			days.push({
+				date: dateStr,
+				count,
+				intensity: maxCount > 0 ? count / maxCount : 0
+			});
 		}
+
+		monthlyData = new Map([[monthKey, days]]);
 	}
 	// Modal state and helpers
 	let modalOpen = false;
@@ -100,13 +85,34 @@
 </script>
 
 <section class="calendar">
-	<h2>Conversation History</h2>
+	<div class="calendar-header">
+		<h2>Conversation History</h2>
+		<div class="month-navigation">
+			<button class="nav-button" on:click={() => {
+				const newDate = new Date(currentViewMonth);
+				newDate.setMonth(newDate.getMonth() - 1);
+				currentViewMonth = newDate;
+			}}>←</button>
+			<h3>{getMonthName(currentViewMonth)} {currentViewMonth.getFullYear()}</h3>
+			{#if currentViewMonth.getFullYear() < new Date().getFullYear() || 
+				(currentViewMonth.getFullYear() === new Date().getFullYear() && 
+				currentViewMonth.getMonth() < new Date().getMonth())}
+				<button class="nav-button" on:click={() => {
+					const newDate = new Date(currentViewMonth);
+					newDate.setMonth(newDate.getMonth() + 1);
+					currentViewMonth = newDate;
+				}}>→</button>
+			{:else}
+				<div class="nav-button-placeholder"></div>
+			{/if}
+		</div>
+	</div>
+
 	{#if entries.length === 0}
 		<p>No entries added yet.</p>
 	{:else}
-		{#each Array.from(monthlyData.entries()) as [monthKey, days], index}
+		{#each Array.from(monthlyData.entries()) as [monthKey, days]}
 			<div class="month">
-				<h3>{getMonthName(monthKey)} {monthKey.split('-')[0]}</h3>
 				<div class="monthview">
 					{#each Array.from({ length: 7 }) as _, i}
 						<div class="weekday">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</div>
@@ -115,7 +121,9 @@
 						<div class="day empty"></div>
 					{/each}
 					{#each days as day}
-						{#if index !== 0 || (index === 0 && parseInt(day.date.split('-')[2], 10) <= new Date().getDate())}
+						{@const currentDate = new Date()}
+						{@const dayDate = new Date(day.date)}
+						{#if dayDate <= currentDate}
 							<button
 								class="day {day.count > 0 ? 'has-entries' : ''}"
 								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
@@ -126,6 +134,8 @@
 								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
 								<span class="count">{day.count || '0'}</span>
 							</button>
+						{:else}
+							<div class="day empty future"></div>
 						{/if}
 					{/each}
 				</div>
@@ -158,17 +168,48 @@
 </Modal>
 
 <style>
-	.month {
-		margin-bottom: 3rem;
+	.calendar-header {
+		margin-bottom: 2rem;
 	}
 
-	.month:last-child {
-		margin-bottom: 0;
+	.month-navigation {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.nav-button {
+		background: none;
+		border: none;
+		font-size: 1.5rem;
+		cursor: pointer;
+		color: var(--color4);
+		padding: 0.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background-color 0.2s;
+	}
+
+	.nav-button:hover {
+		background-color: #eee;
+	}
+
+	.nav-button-placeholder {
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 
 	h3 {
-		margin: 0 0 1rem 0;
+		margin: 0;
 		color: #444;
+		min-width: 200px;
+		text-align: center;
 	}
 
 	.monthview {
@@ -199,6 +240,11 @@
 
 	.day.empty {
 		background-color: transparent;
+	}
+
+	.day.empty.future {
+		background-color: #f5f5f5;
+		border-radius: 4px;
 	}
 
 	.day:not(.empty) {

@@ -125,6 +125,6 @@
 	}
 
 	:global(.modal-content a:hover) {
-		color: var(--color4, #4b2245);
+		color: var(--color4, #4b2230);
 	}
 </style>

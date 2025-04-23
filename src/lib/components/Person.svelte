@@ -28,11 +28,30 @@
 		});
 	}
 
+	let errorMessage = '';
+
 	function saveName() {
+		// Reset error message
+		errorMessage = '';
+
+		// Check for empty or unchanged name
 		if (!newName.trim() || newName === name) {
 			editing = false;
 			return;
 		}
+
+		// Check if name already exists
+		const nameExists = entries.some(
+			(e) =>
+				e.name.toLowerCase() === newName.toLowerCase() &&
+				e.name.toLowerCase() !== name.toLowerCase()
+		);
+		if (nameExists) {
+			errorMessage = 'This name already exists';
+			return;
+		}
+
+		// Update the name if everything is valid
 		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
 			entries[idx].name = newName;
@@ -92,11 +111,16 @@
 <section>
 	{#if editing}
 		<div class="edit-name">
-			<input
-				maxlength="50"
-				bind:value={newName}
-				on:keydown={(e) => e.key === 'Enter' && saveName()}
-			/>
+			<div class="input-wrapper">
+				<input
+					maxlength="50"
+					bind:value={newName}
+					on:keydown={(e) => e.key === 'Enter' && saveName()}
+				/>
+				{#if errorMessage}
+					<div class="error-message">{errorMessage}</div>
+				{/if}
+			</div>
 			<div class="buttons">
 				<button on:click={saveName}>Save</button>
 				<button
@@ -153,7 +177,7 @@
 	}
 
 	:global(.modal-buttons .danger) {
-		background: var(--color4, #4b2245);
+		background: var(--color4, #4b2230);
 		color: white;
 	}
 	section {
@@ -177,10 +201,20 @@
 
 	.edit-name {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
 		gap: 0.5rem;
 		flex-wrap: wrap;
+	}
+
+	.input-wrapper {
+		flex-grow: 1;
+	}
+
+	.error-message {
+		color: #d32f2f;
+		font-size: 0.875rem;
+		margin-top: 0.25rem;
 	}
 
 	input {
@@ -215,13 +249,13 @@
 		padding: 0.5rem 1rem;
 		border-radius: 20px;
 		transition: all 0.2s ease;
-		background-color: var(--color4, #4b2245);
+		background-color: var(--color4, #4b2230);
 		color: white;
 		border: 0;
 		cursor: pointer;
 	}
 
 	button:hover {
-		background-color: color-mix(in srgb, var(--color4, #4b2245) 80%, black);
+		background-color: color-mix(in srgb, var(--color4, #4b2230) 80%, black);
 	}
 </style>

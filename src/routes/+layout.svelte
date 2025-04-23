@@ -8,7 +8,7 @@
 
 	let { children } = $props();
 
-	const baseColors = ['#f9476c', '#756477', '#f95950', '#4b2245'];
+	const baseColors = ['#ea3b5e', '#77646f', '#b2384f', '#4b2230'];
 	const offset = Math.floor(Math.random() * 4);
 	// const offset = 0;
 	const colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
@@ -129,29 +129,29 @@
 		display: block;
 		font-size: clamp(1rem, calc(20.5vw - 5px), 5.3rem);
 		line-height: 1;
-		color: #4b2245;
+		color: #4b2230;
 	}
 
 	h1 .title span {
 		transition: color 0.1s linear;
 	}
 	h1 .title span:nth-child(1) {
-		color: var(--color1, #f9476c);
+		color: var(--color1, #ea3b5e);
 		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(2) {
-		color: var(--color2, #756477);
+		color: var(--color2, #77646f);
 		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(3) {
-		color: var(--color3, #f95950);
+		color: var(--color3, #b2384f);
 		transition: color 0.3s ease;
 	}
 
 	h1 .title span:nth-child(4) {
-		color: var(--color4, #4b2245);
+		color: var(--color4, #4b2230);
 		transition: color 0.3s ease;
 	}
 
@@ -181,7 +181,7 @@
 	}
 
 	nav a[aria-current='true'] {
-		background-color: var(--color4, #4b2245);
+		background-color: var(--color4, #4b2230);
 		color: white;
 	}
 </style>

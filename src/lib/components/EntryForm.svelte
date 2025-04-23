@@ -129,7 +129,7 @@
 
 	button[type='submit'] {
 		padding: 8px 16px;
-		background-color: var(--color4, #4b2245);
+		background-color: var(--color4, #4b2230);
 		color: white;
 		border: none;
 		border-radius: 4px;

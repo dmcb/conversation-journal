@@ -84,7 +84,7 @@
 		transition: color 0.2s;
 	}
 	.name a:hover {
-		color: var(--color4, #4b2245);
+		color: var(--color4, #4b2230);
 	}
 
 	.name {
@@ -100,7 +100,7 @@
 		background-color: transparent;
 		border: none;
 		font-weight: bold;
-		color: var(--color4, #4b2245);
+		color: var(--color4, #4b2230);
 		transition: all 0.3s ease;
 		display: block;
 		margin: 0 auto;
@@ -108,6 +108,6 @@
 	}
 
 	.show-more:hover {
-		color: color-mix(in srgb, var(--color4, #4b2245) 80%, black);
+		color: color-mix(in srgb, var(--color4, #4b2230) 80%, black);
 	}
 </style>

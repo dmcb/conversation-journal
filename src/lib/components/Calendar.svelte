@@ -88,20 +88,24 @@
 	<div class="calendar-header">
 		<h2>Conversation History</h2>
 		<div class="month-navigation">
-			<button class="nav-button" on:click={() => {
-				const newDate = new Date(currentViewMonth);
-				newDate.setMonth(newDate.getMonth() - 1);
-				currentViewMonth = newDate;
-			}}>←</button>
-			<h3>{getMonthName(currentViewMonth)} {currentViewMonth.getFullYear()}</h3>
-			{#if currentViewMonth.getFullYear() < new Date().getFullYear() || 
-				(currentViewMonth.getFullYear() === new Date().getFullYear() && 
-				currentViewMonth.getMonth() < new Date().getMonth())}
-				<button class="nav-button" on:click={() => {
+			<button
+				class="nav-button"
+				on:click={() => {
 					const newDate = new Date(currentViewMonth);
-					newDate.setMonth(newDate.getMonth() + 1);
+					newDate.setMonth(newDate.getMonth() - 1);
 					currentViewMonth = newDate;
-				}}>→</button>
+				}}>←</button
+			>
+			<h3>{getMonthName(currentViewMonth)} {currentViewMonth.getFullYear()}</h3>
+			{#if currentViewMonth.getFullYear() < new Date().getFullYear() || (currentViewMonth.getFullYear() === new Date().getFullYear() && currentViewMonth.getMonth() < new Date().getMonth())}
+				<button
+					class="nav-button"
+					on:click={() => {
+						const newDate = new Date(currentViewMonth);
+						newDate.setMonth(newDate.getMonth() + 1);
+						currentViewMonth = newDate;
+					}}>→</button
+				>
 			{:else}
 				<div class="nav-button-placeholder"></div>
 			{/if}
@@ -126,7 +130,7 @@
 						{#if dayDate <= currentDate}
 							<button
 								class="day {day.count > 0 ? 'has-entries' : ''}"
-								style="background-color: color-mix(in srgb, var(--color4, #4b2245) {day.intensity *
+								style="background-color: color-mix(in srgb, var(--color4, #4b2230) {day.intensity *
 									50}%, white)"
 								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 								on:click={() => openModal(day.date)}

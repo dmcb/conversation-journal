@@ -193,7 +193,7 @@
 		padding: 0.5rem;
 		width: 2.5rem;
 		height: 2.5rem;
-		border-radius: 50%;
+		border-radius: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -225,7 +225,7 @@
 
 	.weekday {
 		color: var(--color-faint-text);
-		font-size: 0.8em;
+		font-size: var(--font-size-very-small);
 		text-align: center;
 		padding: 4px;
 	}
@@ -237,20 +237,15 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		border-radius: 4px;
-		font-size: 0.8em;
+		border-radius: var(--border-radius-small);
+		font-size: var(--font-size-very-small);
 		color: #444;
 	}
 
-	.day.empty {
+	.day.empty,
+	.day.empty.future {
 		background-color: transparent;
 	}
-
-	.day.empty.future {
-		background-color: #f5f5f5;
-		border-radius: 4px;
-	}
-
 	.day:not(.empty) {
 		cursor: pointer;
 		border: 0;
@@ -275,7 +270,7 @@
 	}
 
 	.count {
-		font-size: 0.9em;
+		font-size: var(--font-size-small);
 		opacity: 0.8;
 	}
 

@@ -120,6 +120,7 @@
 		--color3: #b2384f;
 		--color4: #4b2230;
 		--color-text: #444;
+		--color-inverse-text: #fff;
 		--color-faint-text: #666;
 		--color-header: #111;
 		--color-border: #ddd;
@@ -132,6 +133,13 @@
 		--box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 		--box-shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
 		--box-shadow-large: 0 2px 32px rgba(0, 0, 0, 0.2);
+		--border-radius: 8px;
+		--border-radius-small: 4px;
+		--border-radius-large: 16px;
+		--font-size: 1rem;
+		--font-size-very-small: 0.8rem;
+		--font-size-small: 0.875rem;
+		--font-size-large: 1.5rem;
 	}
 
 	main {
@@ -217,18 +225,19 @@
 
 	nav.secondary a {
 		text-decoration: none;
-		color: var(--color-faint-text);
+		color: var(--color-text);
 		padding: 0.4rem 0.8rem;
-		border-radius: 10px;
+		border-radius: var(--border-radius);
 		transition: all 0.2s ease;
 	}
 
 	nav a:hover {
-		background-color: var(--color-border);
+		background-color: var(--color4);
+		color: var(--color-inverse-text);
 	}
 
 	nav a[aria-current='true'] {
-		background-color: var(--color4);
-		color: var(--color-bright-background);
+		background-color: var(--color-border);
+		color: var(--color-text);
 	}
 </style>

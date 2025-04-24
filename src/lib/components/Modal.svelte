@@ -56,7 +56,7 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		background: var(--color-bright-background);
-		border-radius: 8px;
+		border-radius: var(--border-radius);
 		box-shadow: var(--box-shadow);
 		z-index: 1001;
 		max-width: 350px;

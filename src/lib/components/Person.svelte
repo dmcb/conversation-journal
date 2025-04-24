@@ -126,6 +126,7 @@
 				<button
 					on:click={() => {
 						editing = false;
+						errorMessage = '';
 						newName = name;
 					}}>Cancel</button
 				>
@@ -212,8 +213,8 @@
 	}
 
 	.error-message {
-		color: var(--color1);
-		font-size: 0.875rem;
+		color: var(--color-faint-text);
+		font-size: var(--font-size-small);
 		margin-top: 0.25rem;
 	}
 
@@ -221,7 +222,7 @@
 		max-width: 100%;
 		flex-grow: 1;
 		border: 0;
-		font-size: 1.5rem;
+		font-size: var(--font-size-large);
 		font-weight: bold;
 		margin: 0;
 		padding: 0;
@@ -247,15 +248,16 @@
 
 	button {
 		padding: 0.5rem 1rem;
-		border-radius: 20px;
+		border-radius: var(--border-radius);
 		transition: all var(--transition-speed);
-		background-color: var(--color4);
-		color: white;
+		background-color: var(--color-border);
+		color: var(--color-text);
 		border: 0;
 		cursor: pointer;
 	}
 
 	button:hover {
-		background-color: color-mix(in srgb, var(--color4) 80%, black);
+		background-color: var(--color4);
+		color: var(--color-inverse-text);
 	}
 </style>

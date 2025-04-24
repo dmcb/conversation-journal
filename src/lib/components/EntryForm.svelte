@@ -86,9 +86,8 @@
 	input {
 		width: 100%;
 		padding: 8px;
-		font-size: 16px;
+		font-size: var(--font-size);
 		border: 1px solid var(--color-border);
-		border-radius: 4px;
 		box-sizing: border-box;
 	}
 
@@ -99,8 +98,7 @@
 		right: 0;
 		background: white;
 		border: 1px solid var(--color-border);
-		border-radius: 0 0 4px 4px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		box-shadow: var(--box-shadow-small);
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -117,7 +115,7 @@
 		font-weight: bold;
 		border: none;
 		color: var(--color-header);
-		font-size: 1rem;
+		font-size: var(--font-size);
 		text-align: left;
 	}
 
@@ -128,11 +126,11 @@
 	}
 
 	button[type='submit'] {
+		font-size: var(--font-size-small);
 		padding: 8px 16px;
 		background-color: var(--color4);
 		color: white;
 		border: none;
-		border-radius: 4px;
 		cursor: pointer;
 		transition: background-color var(--transition-speed);
 	}

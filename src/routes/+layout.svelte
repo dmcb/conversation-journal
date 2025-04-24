@@ -112,6 +112,7 @@
 		margin: 0;
 		padding: 0;
 		font-family: var(--body-font-family);
+		color: var(--color-text);
 	}
 
 	:root {
@@ -165,6 +166,10 @@
 	.intro {
 		max-width: 400px;
 		margin: 0 auto;
+	}
+
+	:global(h1, h2) {
+		color: var(--color-header);
 	}
 
 	h1 {

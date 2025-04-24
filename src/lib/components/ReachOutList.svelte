@@ -62,8 +62,10 @@
 <section class="entries">
 	<h2>Reconnect with</h2>
 	{#if reachOutEntries.length === 0}
-		<p>No one needs attention right now.</p>
-		<p>Once we have enough data, we'll recommend who you should reach out to!</p>
+		<p>
+			No one needs attention right now.<br />Once we have enough data, we'll recommend who you
+			should reach out to!
+		</p>
 	{:else}
 		<ul>
 			{#each reachOutEntries as entry}
@@ -101,7 +103,7 @@
 
 	li {
 		padding: 8px 0;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	li:last-child {
@@ -116,12 +118,12 @@
 	}
 
 	.name a {
-		color: #111;
+		color: var(--color-header);
 		text-decoration: none;
-		transition: color 0.2s;
+		transition: color var(--transition-speed);
 	}
 	.name a:hover {
-		color: var(--color4, #4b2230);
+		color: var(--color4);
 	}
 
 	.name {
@@ -129,6 +131,6 @@
 	}
 
 	.days {
-		color: #666;
+		color: var(--color-faint-text);
 	}
 </style>

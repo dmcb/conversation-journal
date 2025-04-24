@@ -168,8 +168,8 @@
 	}
 
 	:global(.modal-buttons .secondary) {
-		background: #f0f0f0;
-		color: #333;
+		background: var(--color-border);
+		color: var(--color-text);
 	}
 
 	:global(.modal-buttons .secondary:hover) {
@@ -177,14 +177,14 @@
 	}
 
 	:global(.modal-buttons .danger) {
-		background: var(--color4, #4b2230);
+		background: var(--color4);
 		color: white;
 	}
 	section {
 		padding: 2rem;
-		background: #fff;
+		background: white;
 		border-radius: 1rem;
-		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+		box-shadow: var(--box-shadow);
 	}
 
 	h2 {
@@ -212,7 +212,7 @@
 	}
 
 	.error-message {
-		color: #d32f2f;
+		color: var(--color1);
 		font-size: 0.875rem;
 		margin-top: 0.25rem;
 	}
@@ -238,7 +238,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 8px 0;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	li:last-child {
@@ -248,14 +248,14 @@
 	button {
 		padding: 0.5rem 1rem;
 		border-radius: 20px;
-		transition: all 0.2s ease;
-		background-color: var(--color4, #4b2230);
+		transition: all var(--transition-speed);
+		background-color: var(--color4);
 		color: white;
 		border: 0;
 		cursor: pointer;
 	}
 
 	button:hover {
-		background-color: color-mix(in srgb, var(--color4, #4b2230) 80%, black);
+		background-color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 </style>

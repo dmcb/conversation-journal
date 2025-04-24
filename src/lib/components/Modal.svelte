@@ -46,7 +46,7 @@
 		left: 0;
 		width: 100vw;
 		height: 100vh;
-		background: rgba(0, 0, 0, 0.3);
+		background: var(--color-modal-backdrop);
 		z-index: 1000;
 	}
 
@@ -55,9 +55,9 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background: #fff;
+		background: var(--color-bright-background);
 		border-radius: 8px;
-		box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+		box-shadow: var(--box-shadow);
 		z-index: 1001;
 		max-width: 350px;
 		width: 90vw;
@@ -72,7 +72,7 @@
 		border: none;
 		font-size: 2rem;
 		cursor: pointer;
-		color: #888;
+		color: var(--color-faint-text);
 		position: absolute;
 		top: 1rem;
 		right: 1rem;
@@ -84,7 +84,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: all 0.2s;
+		transition: all var(--transition-speed);
 	}
 
 	.close-btn:hover {
@@ -104,7 +104,7 @@
 
 	:global(.modal-content li) {
 		padding: 0.5rem 0;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	:global(.modal-content li:last-child) {
@@ -119,12 +119,12 @@
 	}
 
 	:global(.modal-content a) {
-		color: #111;
+		color: var(--color-header);
 		text-decoration: none;
-		transition: color 0.2s;
+		transition: color var(--transition-speed);
 	}
 
 	:global(.modal-content a:hover) {
-		color: var(--color4, #4b2230);
+		color: var(--color4);
 	}
 </style>

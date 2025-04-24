@@ -132,7 +132,7 @@
 						{#if dayDate <= getTimezoneFreeDate()}
 							<button
 								class="day {day.count > 0 ? 'has-entries' : ''}"
-								style="background-color: color-mix(in srgb, var(--color4, #4b2230) {day.intensity *
+								style="background-color: color-mix(in srgb, var(--color4) {day.intensity *
 									50}%, white)"
 								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 								on:click={() => openModal(day.date)}
@@ -197,11 +197,11 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: background-color 0.2s;
+		transition: all var(--transition-speed);
 	}
 
 	.nav-button:hover {
-		background-color: #eee;
+		background-color: var(--color-border);
 	}
 
 	.nav-button-placeholder {
@@ -211,7 +211,7 @@
 
 	h3 {
 		margin: 0;
-		color: #444;
+		color: var(--color-text);
 		min-width: 200px;
 		text-align: center;
 	}
@@ -224,9 +224,9 @@
 	}
 
 	.weekday {
-		text-align: center;
+		color: var(--color-faint-text);
 		font-size: 0.8em;
-		color: #666;
+		text-align: center;
 		padding: 4px;
 	}
 
@@ -255,15 +255,15 @@
 		cursor: pointer;
 		border: 0;
 		transition:
-			transform 0.2s ease,
-			box-shadow 0.2s ease;
-		box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
+			transform var(--transition-speed) ease,
+			box-shadow var(--transition-speed) ease;
+		box-shadow: var(--box-shadow-small);
 	}
 
 	.day:not(.empty):hover {
 		transform: scale(1.25);
 		z-index: 1;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+		box-shadow: var(--box-shadow-large);
 	}
 
 	.day.has-entries {

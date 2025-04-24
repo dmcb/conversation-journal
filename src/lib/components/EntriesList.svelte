@@ -81,10 +81,10 @@
 	.name a {
 		color: #111;
 		text-decoration: none;
-		transition: color 0.2s;
+		transition: color var(--transition-speed);
 	}
 	.name a:hover {
-		color: var(--color4, #4b2230);
+		color: var(--color4);
 	}
 
 	.name {
@@ -100,14 +100,14 @@
 		background-color: transparent;
 		border: none;
 		font-weight: bold;
-		color: var(--color4, #4b2230);
-		transition: all 0.3s ease;
+		color: var(--color4);
+		transition: all var(--transition-speed);
 		display: block;
 		margin: 0 auto;
 		padding: 0;
 	}
 
 	.show-more:hover {
-		color: color-mix(in srgb, var(--color4, #4b2230) 80%, black);
+		color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 </style>

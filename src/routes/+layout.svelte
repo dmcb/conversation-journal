@@ -8,10 +8,20 @@
 
 	let { children } = $props();
 
-	const baseColors = ['#ea3b5e', '#77646f', '#b2384f', '#4b2230'];
-	const offset = Math.floor(Math.random() * 4);
-	// const offset = 0;
-	const colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
+	let baseColors: string[] = [];
+	let colors: string[] = [];
+
+	onMount(() => {
+		const computedStyle = getComputedStyle(document.documentElement);
+		baseColors = [
+			computedStyle.getPropertyValue('--color1').trim(),
+			computedStyle.getPropertyValue('--color2').trim(),
+			computedStyle.getPropertyValue('--color3').trim(),
+			computedStyle.getPropertyValue('--color4').trim()
+		];
+		const offset = Math.floor(Math.random() * 4);
+		colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
+	});
 	let cycleInterval: number;
 
 	function shiftColors() {
@@ -73,6 +83,11 @@
 </svelte:head>
 
 <main>
+	<!-- <nav class="primary">
+		<a href="/signin">Sign in</a>
+		<a href="/register">Register</a>
+	</nav> -->
+
 	<section class="intro">
 		<h1>
 			Stay <div class="title"><span>Lo</span><span>op</span><span>ed</span><span>.</span></div>
@@ -83,7 +98,7 @@
 		</p>
 	</section>
 
-	<nav>
+	<nav class="secondary">
 		<a href="/" aria-current={page.url.pathname === '/'}>Entries</a>
 		<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
 	</nav>
@@ -93,10 +108,30 @@
 
 <style>
 	:global(body) {
-		background-color: #f5f5f5;
+		background-color: var(--color-background);
 		margin: 0;
 		padding: 0;
-		font-family: 'DM Sans', sans-serif;
+		font-family: var(--body-font-family);
+	}
+
+	:root {
+		--color1: #ea3b5e;
+		--color2: #77646f;
+		--color3: #b2384f;
+		--color4: #4b2230;
+		--color-text: #444;
+		--color-faint-text: #666;
+		--color-header: #111;
+		--color-border: #ddd;
+		--color-background: #f5f5f5;
+		--color-bright-background: #fff;
+		--color-modal-backdrop: rgba(0, 0, 0, 0.3);
+		--header-font-family: 'Rammetto One', sans-serif;
+		--body-font-family: 'DM Sans', sans-serif;
+		--transition-speed: 0.3s;
+		--box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+		--box-shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
+		--box-shadow-large: 0 2px 32px rgba(0, 0, 0, 0.2);
 	}
 
 	main {
@@ -110,7 +145,7 @@
 	}
 
 	:global(input, button) {
-		font-family: 'DM Sans', sans-serif;
+		font-family: var(--body-font-family);
 	}
 
 	.intro {
@@ -125,63 +160,75 @@
 	}
 
 	h1 .title {
-		font-family: 'Rammetto One', sans-serif;
+		font-family: var(--header-font-family);
 		display: block;
 		font-size: clamp(1rem, calc(20.5vw - 5px), 5.3rem);
 		line-height: 1;
-		color: #4b2230;
+		color: var(--color-header);
 	}
 
 	h1 .title span {
-		transition: color 0.1s linear;
+		transition: color var(--transition-speed) linear;
 	}
 	h1 .title span:nth-child(1) {
-		color: var(--color1, #ea3b5e);
-		transition: color 0.3s ease;
+		color: var(--color1);
 	}
 
 	h1 .title span:nth-child(2) {
-		color: var(--color2, #77646f);
-		transition: color 0.3s ease;
+		color: var(--color2);
 	}
 
 	h1 .title span:nth-child(3) {
-		color: var(--color3, #b2384f);
-		transition: color 0.3s ease;
+		color: var(--color3);
 	}
 
 	h1 .title span:nth-child(4) {
-		color: var(--color4, #4b2230);
-		transition: color 0.3s ease;
+		color: var(--color4);
 	}
 
 	p {
 		line-height: 1.5;
 		margin: 0 0 3rem 0;
-		color: #444;
+		color: var(--color-text);
 	}
 
-	nav {
+	nav.primary {
+		display: flex;
+		justify-content: flex-end;
+		gap: 2px;
+	}
+
+	nav.primary a {
+		text-decoration: none;
+		color: var(--color-faint-text);
+		padding: 0.25rem 0.5rem;
+		border-radius: 8px;
+		transition: all 0.2s ease;
+	}
+
+	nav.secondary {
+		border-top: 1px solid var(--color-border);
+		padding-top: 30px;
 		display: flex;
 		justify-content: center;
-		gap: 1rem;
+		gap: 0.5rem;
 		margin-bottom: 2rem;
 	}
 
-	nav a {
+	nav.secondary a {
 		text-decoration: none;
-		color: #666;
-		padding: 0.5rem 1rem;
-		border-radius: 20px;
+		color: var(--color-faint-text);
+		padding: 0.4rem 0.8rem;
+		border-radius: 10px;
 		transition: all 0.2s ease;
 	}
 
 	nav a:hover {
-		background-color: #eee;
+		background-color: var(--color-border);
 	}
 
 	nav a[aria-current='true'] {
-		background-color: var(--color4, #4b2230);
-		color: white;
+		background-color: var(--color4);
+		color: var(--color-bright-background);
 	}
 </style>

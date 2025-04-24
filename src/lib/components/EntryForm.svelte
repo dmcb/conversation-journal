@@ -87,7 +87,7 @@
 		width: 100%;
 		padding: 8px;
 		font-size: 16px;
-		border: 1px solid #ccc;
+		border: 1px solid var(--color-border);
 		border-radius: 4px;
 		box-sizing: border-box;
 	}
@@ -98,7 +98,7 @@
 		left: 0;
 		right: 0;
 		background: white;
-		border: 1px solid #ddd;
+		border: 1px solid var(--color-border);
 		border-radius: 0 0 4px 4px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		margin: 0;
@@ -112,32 +112,32 @@
 	.suggestions button {
 		padding: 8px;
 		cursor: pointer;
-		transition: background-color 0.2s;
+		transition: background-color var(--transition-speed);
 		background-color: transparent;
 		font-weight: bold;
 		border: none;
-		color: black;
+		color: var(--color-header);
 		font-size: 1rem;
 		text-align: left;
 	}
 
 	.suggestions button:hover,
 	.suggestions button:focus {
-		background-color: #f0f0f0;
+		background-color: var(--color-background);
 		outline: none;
 	}
 
 	button[type='submit'] {
 		padding: 8px 16px;
-		background-color: var(--color4, #4b2230);
+		background-color: var(--color4);
 		color: white;
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
-		transition: opacity 0.2s;
+		transition: background-color var(--transition-speed);
 	}
 
 	button[type='submit']:hover {
-		opacity: 0.9;
+		background-color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 </style>

@@ -19,7 +19,8 @@
 			computedStyle.getPropertyValue('--color3').trim(),
 			computedStyle.getPropertyValue('--color4').trim()
 		];
-		const offset = Math.floor(Math.random() * 4);
+		// const offset = Math.floor(Math.random() * 4);
+		const offset = 1;
 		colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
 	});
 	let cycleInterval: number;
@@ -37,8 +38,8 @@
 
 	function initialColorCycle() {
 		let cycles = 0;
-		const maxCycles = 4;
-		let interval = 200; // Start fast
+		const maxCycles = 8;
+		let interval = 100; // Start fast
 
 		function cycle() {
 			shiftColors();
@@ -46,7 +47,7 @@
 			cycles++;
 			if (cycles < maxCycles) {
 				// Gradually increase the interval to slow down
-				interval *= 1.2;
+				interval *= 1.3;
 				cycleInterval = window.setTimeout(cycle, interval);
 			}
 		}
@@ -54,19 +55,19 @@
 		cycle();
 	}
 
-	const handler = () => shiftColors();
+	// const handler = () => shiftColors();
 
 	onMount(() => {
-		if (typeof window !== 'undefined') {
-			window.addEventListener('shiftColors', handler);
-		}
+		// if (typeof window !== 'undefined') {
+		// 	window.addEventListener('shiftColors', handler);
+		// }
 		initialColorCycle();
 	});
 
 	onDestroy(() => {
-		if (typeof window !== 'undefined') {
-			window.removeEventListener('shiftColors', handler);
-		}
+		// if (typeof window !== 'undefined') {
+		// 	window.removeEventListener('shiftColors', handler);
+		// }
 		if (cycleInterval) {
 			clearTimeout(cycleInterval);
 		}
@@ -141,6 +142,7 @@
 		--spacing-large: 3rem;
 	}
 	:global(body) {
+		box-sizing: border-box;
 		background-color: var(--color-background);
 		margin: 0;
 		padding: 0;
@@ -159,6 +161,30 @@
 	:global(input, button) {
 		font-family: var(--body-font-family);
 		font-weight: 600;
+	}
+
+	:global(button) {
+		padding: 0.5rem 1rem;
+		border-radius: var(--border-radius);
+		transition: all var(--transition-speed);
+		background-color: var(--color-border);
+		color: var(--color-text);
+		border: 0;
+		cursor: pointer;
+	}
+
+	:global(button:hover) {
+		background-color: var(--color4);
+		color: var(--color-inverse-text);
+	}
+
+	:global(button.action) {
+		background: var(--color4);
+		color: white;
+	}
+
+	:global(button.action:hover) {
+		background-color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 
 	main {

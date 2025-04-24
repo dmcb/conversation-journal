@@ -112,7 +112,6 @@
 		border-bottom: none;
 	}
 	:global(.modal-content > :first-child) {
-		font-weight: bold;
 		margin: 0 0 var(--spacing-medium) 0;
 	}
 

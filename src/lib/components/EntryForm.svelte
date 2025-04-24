@@ -69,7 +69,7 @@
 			</ul>
 		{/if}
 	</div>
-	<button type="submit">Add Entry</button>
+	<button class="action" type="submit">Add Entry</button>
 </form>
 
 <style>
@@ -89,6 +89,7 @@
 		font-size: var(--font-size);
 		border: 1px solid var(--color-border);
 		box-sizing: border-box;
+		border-radius: var(--border-radius);
 	}
 
 	.suggestions {
@@ -99,12 +100,13 @@
 		background: white;
 		border: 1px solid var(--color-border);
 		box-shadow: var(--box-shadow-small);
-		margin: 0;
+		margin: var(--spacing-small) 0 0 0;
 		padding: 0;
 		list-style: none;
 		z-index: 10;
 		display: flex;
 		flex-direction: column;
+		border-radius: var(--border-radius);
 	}
 
 	.suggestions button {
@@ -127,15 +129,5 @@
 
 	button[type='submit'] {
 		font-size: var(--font-size-small);
-		padding: 8px 16px;
-		background-color: var(--color4);
-		color: white;
-		border: none;
-		cursor: pointer;
-		transition: background-color var(--transition-speed);
-	}
-
-	button[type='submit']:hover {
-		background-color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 </style>

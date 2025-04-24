@@ -6,13 +6,32 @@ export interface Entry {
 
 const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
 
-export function getTimezoneFreeDate(): Date {
+export function getTimezoneRemovedDateObject(): Date {
 	const currentDate = new Date();
 	return new Date(currentDate.getTime() - timezoneOffset);
 }
 
-export function getCurrentDate(): string {
-	return getTimezoneFreeDate().toISOString().split('T')[0];
+export function getCurrentDateString(): string {
+	return getTimezoneRemovedDateObject().toISOString().split('T')[0];
+}
+
+export function getNiceDateLabelFromDateString(dateString: string): string {
+	const [year, month, day] = dateString.split('-').map(Number);
+	const months = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	];
+	return `${months[month - 1]} ${day}, ${year}`;
 }
 
 export function addEntry(
@@ -23,7 +42,7 @@ export function addEntry(
 	const trimmedName = name.slice(0, 50).trim();
 	if (!trimmedName) return { success: false, entries };
 
-	const targetDate = date || getCurrentDate();
+	const targetDate = date || getCurrentDateString();
 	const existingEntry = entries.find((e) => e.name.toLowerCase() === trimmedName.toLowerCase());
 
 	if (existingEntry) {

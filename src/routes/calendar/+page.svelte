@@ -10,9 +10,9 @@
 		const result = addEntry(entries, name, date);
 		if (result.success) {
 			entries = result.entries;
-			if (saveEntries(entries)) {
-				window.dispatchEvent(new CustomEvent('shiftColors'));
-			}
+			// if (saveEntries(entries)) {
+			// 	window.dispatchEvent(new CustomEvent('shiftColors'));
+			// }
 		}
 		return result.success;
 	}

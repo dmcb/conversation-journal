@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from './Modal.svelte';
 	import EntryForm from './EntryForm.svelte';
-	import { getTimezoneFreeDate } from '$lib/utils/entries';
+	import { getTimezoneRemovedDateObject, getNiceDateLabelFromDateString } from '$lib/utils/entries';
 
 	interface Entry {
 		name: string;
@@ -131,7 +131,7 @@
 					{/each}
 					{#each days as day}
 						{@const dayDate = new Date(day.date)}
-						{#if dayDate <= getTimezoneFreeDate()}
+						{#if dayDate <= getTimezoneRemovedDateObject()}
 							<button
 								class="day {day.count > 0 ? 'has-entries' : ''}"
 								style="background-color: color-mix(in srgb, var(--color4) {day.intensity *
@@ -153,7 +153,7 @@
 </section>
 
 <Modal open={modalOpen} onClose={closeModal}>
-	<p>{selectedDate}</p>
+	<h4>Conversations on {getNiceDateLabelFromDateString(selectedDate)}</h4>
 	{#if getPeopleForDate(selectedDate).length > 0}
 		<div class="existing-entries">
 			<ul>
@@ -162,9 +162,11 @@
 				{/each}
 			</ul>
 		</div>
+	{:else}
+		<p>No conversations on this date.</p>
 	{/if}
 	<div class="add-entry">
-		<p>Add new entry</p>
+		<h4>Add new entry</h4>
 		<EntryForm
 			onAdd={(name) => {
 				return onAdd(name, selectedDate);

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Modal from './Modal.svelte';
-	import { saveEntries } from '$lib/utils/entries';
+	import { saveEntries, getNiceDateLabelFromDateString } from '$lib/utils/entries';
 
 	export let name: string;
 	export let entries: { name: string; dates: string[] }[] = [];
@@ -122,7 +122,6 @@
 				{/if}
 			</div>
 			<div class="buttons">
-				<button on:click={saveName}>Save</button>
 				<button
 					on:click={() => {
 						editing = false;
@@ -130,6 +129,7 @@
 						newName = name;
 					}}>Cancel</button
 				>
+				<button class="action" on:click={saveName}>Save</button>
 			</div>
 		</div>
 	{:else}
@@ -142,7 +142,10 @@
 	<h3>Conversations</h3>
 	<ul>
 		{#each chats as date (date)}
-			<li>{date} <button on:click={() => confirmDelete(date)}>Delete</button></li>
+			<li>
+				{getNiceDateLabelFromDateString(date)}
+				<button on:click={() => confirmDelete(date)}>Delete</button>
+			</li>
 		{/each}
 	</ul>
 	{#if chats.length === 0}
@@ -154,8 +157,8 @@
 		<p>Are you sure you want to delete the chat on {chatToDelete}?</p>
 		<p>This action cannot be undone.</p>
 		<div class="modal-buttons">
-			<button class="secondary" on:click={handleDeleteCancel}>Cancel</button>
-			<button class="danger" on:click={handleDeleteConfirm}>Delete</button>
+			<button on:click={handleDeleteCancel}>Cancel</button>
+			<button class="action" on:click={handleDeleteConfirm}>Delete</button>
 		</div>
 	</Modal>
 </section>
@@ -168,19 +171,6 @@
 		margin-top: var(--spacing-medium);
 	}
 
-	:global(.modal-buttons .secondary) {
-		background: var(--color-border);
-		color: var(--color-text);
-	}
-
-	:global(.modal-buttons .secondary:hover) {
-		color: white;
-	}
-
-	:global(.modal-buttons .danger) {
-		background: var(--color4);
-		color: white;
-	}
 	section {
 		padding: var(--spacing-medium);
 		background: white;
@@ -249,20 +239,5 @@
 
 	li:last-child {
 		border-bottom: none;
-	}
-
-	button {
-		padding: 0.5rem 1rem;
-		border-radius: var(--border-radius);
-		transition: all var(--transition-speed);
-		background-color: var(--color-border);
-		color: var(--color-text);
-		border: 0;
-		cursor: pointer;
-	}
-
-	button:hover {
-		background-color: var(--color4);
-		color: var(--color-inverse-text);
 	}
 </style>

@@ -142,6 +142,7 @@
 		--spacing-large: 3rem;
 	}
 	:global(body) {
+		touch-action: manipulation;
 		box-sizing: border-box;
 		background-color: var(--color-background);
 		margin: 0;

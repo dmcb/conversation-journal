@@ -163,9 +163,9 @@
 <style>
 	:global(.modal-buttons) {
 		display: flex;
-		gap: 1rem;
+		gap: var(--spacing-small);
 		justify-content: flex-end;
-		margin-top: 2rem;
+		margin-top: var(--spacing-medium);
 	}
 
 	:global(.modal-buttons .secondary) {
@@ -182,7 +182,7 @@
 		color: white;
 	}
 	section {
-		padding: 2rem;
+		padding: var(--spacing-medium);
 		background: white;
 		border-radius: 1rem;
 		box-shadow: var(--box-shadow);
@@ -197,7 +197,7 @@
 	}
 
 	h3 {
-		margin-top: 3rem;
+		margin-top: var(--spacing-large);
 	}
 
 	.edit-name {
@@ -210,6 +210,11 @@
 
 	.input-wrapper {
 		flex-grow: 1;
+	}
+
+	.buttons {
+		display: flex;
+		gap: var(--spacing-small);
 	}
 
 	.error-message {

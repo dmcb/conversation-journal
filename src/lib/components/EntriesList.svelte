@@ -64,7 +64,7 @@
 
 	li {
 		padding: 8px 0;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	li:last-child {
@@ -79,7 +79,7 @@
 	}
 
 	.name a {
-		color: #111;
+		color: var(--color-text);
 		text-decoration: none;
 		transition: color var(--transition-speed);
 	}
@@ -92,7 +92,7 @@
 	}
 
 	.days {
-		color: #666;
+		color: var(--color-faint-text);
 	}
 
 	.show-more {
@@ -105,6 +105,7 @@
 		display: block;
 		margin: 0 auto;
 		padding: 0;
+		font-size: var(--font-size-small);
 	}
 
 	.show-more:hover {

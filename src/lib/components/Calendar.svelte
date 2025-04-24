@@ -81,7 +81,9 @@
 				peopleMap.set(entry.name, (peopleMap.get(entry.name) || 0) + 1);
 			}
 		});
-		return Array.from(peopleMap.entries()).map(([name, count]) => ({ name, count }));
+		return Array.from(peopleMap.entries())
+			.map(([name, count]) => ({ name, count }))
+			.sort((a, b) => a.name.localeCompare(b.name));
 	}
 </script>
 
@@ -172,14 +174,10 @@
 </Modal>
 
 <style>
-	.calendar-header {
-		margin-bottom: 2rem;
-	}
-
 	.month-navigation {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
 		gap: 1rem;
 		margin-top: 1rem;
 	}
@@ -217,6 +215,7 @@
 	}
 
 	.monthview {
+		margin-top: var(--spacing);
 		display: grid;
 		width: 100%;
 		grid-template-columns: repeat(7, minmax(10px, 1fr));
@@ -239,7 +238,7 @@
 		justify-content: center;
 		border-radius: var(--border-radius-small);
 		font-size: var(--font-size-very-small);
-		color: #444;
+		color: var(--color-text);
 	}
 
 	.day.empty,
@@ -274,7 +273,7 @@
 		opacity: 0.8;
 	}
 
-	.existing-entries {
-		margin-bottom: 30px;
+	.add-entry {
+		margin-top: var(--spacing-medium);
 	}
 </style>

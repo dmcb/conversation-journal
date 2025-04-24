@@ -140,16 +140,22 @@
 		--font-size-very-small: 0.8rem;
 		--font-size-small: 0.875rem;
 		--font-size-large: 1.5rem;
+		--main-width: 600px;
+		--modal-width: 350px;
+		--spacing-small: 0.5rem;
+		--spacing: 1rem;
+		--spacing-medium: 2rem;
+		--spacing-large: 3rem;
 	}
 
 	main {
-		max-width: 600px;
-		margin: 1rem auto;
-		padding: 0 20px;
+		max-width: var(--main-width);
+		margin: var(--spacing) auto;
+		padding: 0 var(--spacing);
 	}
 
 	:global(section) {
-		margin-top: 3rem;
+		margin-top: var(--spacing-large);
 	}
 
 	:global(input, button) {
@@ -196,7 +202,7 @@
 
 	p {
 		line-height: 1.5;
-		margin: 0 0 3rem 0;
+		margin: 0;
 		color: var(--color-text);
 	}
 
@@ -216,11 +222,11 @@
 
 	nav.secondary {
 		border-top: 1px solid var(--color-border);
-		padding-top: 30px;
+		padding-top: var(--spacing-medium);
 		display: flex;
 		justify-content: center;
 		gap: 0.5rem;
-		margin-bottom: 2rem;
+		margin: var(--spacing-medium) 0 0 0;
 	}
 
 	nav.secondary a {

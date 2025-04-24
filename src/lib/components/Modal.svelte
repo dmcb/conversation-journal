@@ -59,7 +59,7 @@
 		border-radius: var(--border-radius);
 		box-shadow: var(--box-shadow);
 		z-index: 1001;
-		max-width: 350px;
+		max-width: var(--modal-width);
 		width: 90vw;
 		box-sizing: border-box;
 		max-height: 90vh;
@@ -74,8 +74,8 @@
 		cursor: pointer;
 		color: var(--color-faint-text);
 		position: absolute;
-		top: 1rem;
-		right: 1rem;
+		top: 0.5rem;
+		right: 0.5rem;
 		margin: 0;
 		padding: 0;
 		line-height: 0;
@@ -85,15 +85,16 @@
 		align-items: center;
 		justify-content: center;
 		transition: all var(--transition-speed);
+		border-radius: 100%;
 	}
 
 	.close-btn:hover {
-		transform: scale(1.25);
+		background-color: var(--color-border);
 	}
 
 	.modal-content {
 		overflow: scroll;
-		padding: 1.5rem;
+		padding: var(--spacing);
 	}
 
 	:global(.modal-content ul) {
@@ -110,12 +111,9 @@
 	:global(.modal-content li:last-child) {
 		border-bottom: none;
 	}
-
-	:global(.modal-content p) {
-		margin: 0 0 30px 0;
-	}
-	:global(.modal-content p:first-child) {
+	:global(.modal-content > :first-child) {
 		font-weight: bold;
+		margin: 0 0 var(--spacing-medium) 0;
 	}
 
 	:global(.modal-content a) {

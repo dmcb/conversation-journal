@@ -107,14 +107,6 @@
 </main>
 
 <style>
-	:global(body) {
-		background-color: var(--color-background);
-		margin: 0;
-		padding: 0;
-		font-family: var(--body-font-family);
-		color: var(--color-text);
-	}
-
 	:root {
 		--color1: #ea3b5e;
 		--color2: #77646f;
@@ -148,6 +140,26 @@
 		--spacing-medium: 2rem;
 		--spacing-large: 3rem;
 	}
+	:global(body) {
+		background-color: var(--color-background);
+		margin: 0;
+		padding: 0;
+		font-family: var(--body-font-family);
+		color: var(--color-text);
+	}
+
+	:global(h1, h2, h3) {
+		color: var(--color-header);
+		font-weight: 500;
+	}
+	:global(section) {
+		margin-top: var(--spacing-large);
+	}
+
+	:global(input, button) {
+		font-family: var(--body-font-family);
+		font-weight: 600;
+	}
 
 	main {
 		max-width: var(--main-width);
@@ -155,21 +167,9 @@
 		padding: 0 var(--spacing);
 	}
 
-	:global(section) {
-		margin-top: var(--spacing-large);
-	}
-
-	:global(input, button) {
-		font-family: var(--body-font-family);
-	}
-
 	.intro {
 		max-width: 400px;
 		margin: 0 auto;
-	}
-
-	:global(h1, h2) {
-		color: var(--color-header);
 	}
 
 	h1 {
@@ -210,21 +210,6 @@
 		margin: 0;
 		color: var(--color-text);
 	}
-
-	nav.primary {
-		display: flex;
-		justify-content: flex-end;
-		gap: 2px;
-	}
-
-	nav.primary a {
-		text-decoration: none;
-		color: var(--color-faint-text);
-		padding: 0.25rem 0.5rem;
-		border-radius: 8px;
-		transition: all 0.2s ease;
-	}
-
 	nav.secondary {
 		border-top: 1px solid var(--color-border);
 		padding-top: var(--spacing-medium);

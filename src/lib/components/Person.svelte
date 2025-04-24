@@ -218,9 +218,9 @@
 		flex-grow: 1;
 		border: 0;
 		font-size: var(--font-size-large);
-		font-weight: bold;
 		margin: 0;
 		padding: 0;
+		font-weight: 500;
 	}
 
 	ul {

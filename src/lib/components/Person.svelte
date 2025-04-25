@@ -154,7 +154,11 @@
 
 	<Modal open={deleteModalOpen} onClose={handleDeleteCancel}>
 		<p>Delete Chat</p>
-		<p>Are you sure you want to delete the chat on {chatToDelete}?</p>
+		<p>
+			Are you sure you want to delete the chat on {getNiceDateLabelFromDateString(
+				chatToDelete ?? ''
+			)}?
+		</p>
 		<p>This action cannot be undone.</p>
 		<div class="modal-buttons">
 			<button on:click={handleDeleteCancel}>Cancel</button>

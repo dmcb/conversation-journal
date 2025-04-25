@@ -100,7 +100,7 @@
 	</section>
 
 	<nav class="secondary">
-		<a href="/" aria-current={page.url.pathname === '/'}>Entries</a>
+		<a href="/" aria-current={page.url.pathname === '/entries'}>Entries</a>
 		<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
 	</nav>
 

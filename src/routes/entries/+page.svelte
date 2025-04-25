@@ -12,6 +12,7 @@
 		const result = addEntry(entries, name, date);
 		if (result.success) {
 			entries = result.entries;
+			saveEntries(entries);
 			// if (saveEntries(entries)) {
 			// 	window.dispatchEvent(new CustomEvent('shiftColors'));
 			// }

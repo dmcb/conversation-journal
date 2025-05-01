@@ -38,7 +38,7 @@
 
 	function initialColorCycle() {
 		let cycles = 0;
-		const maxCycles = 8;
+		const maxCycles = 4;
 		let interval = 100; // Start fast
 
 		function cycle() {
@@ -208,5 +208,9 @@
 	nav a[aria-current='true'] {
 		background-color: var(--color-border);
 		color: var(--color-text);
+	}
+
+	main {
+		margin: var(--spacing) 0;
 	}
 </style>

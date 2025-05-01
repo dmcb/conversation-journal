@@ -35,19 +35,85 @@
 		Your simple, habit-forming, daily conversation journal to stay connected with the people who
 		matter most.
 	</p>
-	<ul>
-		<li><span>Get reminders</span></li>
-		<li><span>See who matters</span></li>
-		<li><span>Record memories</span></li>
-	</ul>
 </section>
 
 <section class="first-entry">
-	<h2>Make your first journal entry</h2>
+	<h2>
+		Make your first journal entry <svg
+			class="curved-arrow"
+			viewBox="0 0 100 100"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="12"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path d="M20 30 C 20 30, 50 30, 50 70" />
+			<path d="M40 60 L 50 70 L 60 60" />
+		</svg>
+	</h2>
 	<EntryForm {onAdd} />
 </section>
 
+<section class="features">
+	<ul>
+		<li>
+			<svg
+				class="icon"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+				<path d="M13.73 21a2 2 0 0 1-3.46 0" />
+			</svg>
+			<span>Get reminders</span>
+			<p>You'll be recommended who to reconnect with</p>
+		</li>
+		<li>
+			<svg
+				class="icon"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+				<line x1="16" y1="2" x2="16" y2="6" />
+				<line x1="8" y1="2" x2="8" y2="6" />
+				<line x1="3" y1="10" x2="21" y2="10" />
+			</svg>
+			<span>See who matters</span>
+			<p>Get visuals on who you talk to and when</p>
+		</li>
+		<li>
+			<svg
+				class="icon"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M12 20h9" />
+				<path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+			</svg>
+			<span>Record memories</span>
+			<p>Quickly log your conversations</p>
+		</li>
+	</ul>
+</section>
+
 <style>
+	h1 {
+		margin-top: 0;
+	}
 	h1 .title {
 		font-size: clamp(1rem, calc(14vw), 3.5rem);
 		display: block;
@@ -61,22 +127,6 @@
 	p {
 		max-width: 400px;
 	}
-	/* 
-	h1 span:nth-child(1) {
-		color: var(--color1);
-	}
-
-	h1 span:nth-child(2) {
-		color: var(--color2);
-	}
-
-	h1 span:nth-child(3) {
-		color: var(--color3);
-	}
-
-	h1 span:nth-child(4) {
-		color: var(--color4);
-	} */
 
 	ul {
 		margin-top: var(--spacing-large);
@@ -87,13 +137,40 @@
 	}
 
 	li {
+		width: 33%;
 		border-radius: var(--border-radius);
 		box-shadow: var(--box-shadow);
 		padding: var(--spacing);
 		background: var(--color-bright-background);
 		list-style: none;
 	}
+	li {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+
+	.icon {
+		width: 2.5rem;
+		height: 2.5rem;
+		margin-bottom: var(--spacing);
+		color: var(--color4);
+	}
+
 	li span {
 		font-weight: 800;
+	}
+
+	.first-entry h2 {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0;
+	}
+	.curved-arrow {
+		width: 3rem;
+		height: 4rem;
+		color: var(--color4);
+		transform: translateY(var(--spacing-small));
 	}
 </style>

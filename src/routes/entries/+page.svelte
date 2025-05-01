@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import AddEntry from '$lib/components/AddEntry.svelte';
 	import EntriesList from '$lib/components/EntriesList.svelte';
@@ -13,15 +14,15 @@
 		if (result.success) {
 			entries = result.entries;
 			saveEntries(entries);
-			// if (saveEntries(entries)) {
-			// 	window.dispatchEvent(new CustomEvent('shiftColors'));
-			// }
 		}
 		return result.success;
 	}
 
 	onMount(() => {
 		entries = loadEntries();
+		if (entries.length === 0) {
+			goto('/');
+		}
 	});
 
 	$: sortedEntries = entries

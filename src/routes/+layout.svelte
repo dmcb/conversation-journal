@@ -75,7 +75,7 @@
 </script>
 
 <svelte:head>
-	<title>Stay Looped — Daily Conversation Journal</title>
+	<title>Daily Conversation Journal</title>
 	<meta
 		name="description"
 		content="A simple, habit-forming, daily journal to track your conversations and stay connected with the people who matter most."
@@ -89,20 +89,13 @@
 		<a href="/register">Register</a>
 	</nav> -->
 
-	<section class="intro">
-		<h1>
-			Stay <div class="title"><span>Lo</span><span>op</span><span>ed</span><span>.</span></div>
-		</h1>
-		<p>
-			A simple, habit-forming, daily journal to track your conversations and stay connected with the
-			people who matter most.
-		</p>
-	</section>
-
-	<nav class="secondary">
-		<a href="/" aria-current={page.url.pathname === '/entries'}>Entries</a>
-		<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
-	</nav>
+	<!-- If route is /  show secondary nav -->
+	{#if page.url.pathname !== '/'}
+		<nav class="secondary">
+			<a href="/entries" aria-current={page.url.pathname === '/entries'}>Entries</a>
+			<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
+		</nav>
+	{/if}
 
 	{@render children()}
 </main>
@@ -156,7 +149,9 @@
 		font-weight: 500;
 	}
 	:global(section) {
-		margin-top: var(--spacing-large);
+		max-width: var(--main-width);
+		margin: var(--spacing-large) auto;
+		padding: 0 var(--spacing);
 	}
 
 	:global(input, button) {
@@ -188,62 +183,13 @@
 		background-color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 
-	main {
-		max-width: var(--main-width);
-		margin: var(--spacing) auto;
-		padding: 0 var(--spacing);
-	}
-
-	.intro {
-		max-width: 400px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		text-transform: lowercase;
-		margin: 0 0 0.25em 0;
-		font-weight: normal;
-	}
-
-	h1 .title {
-		font-family: var(--header-font-family);
-		display: block;
-		font-size: clamp(1rem, calc(20.5vw - 5px), 5.3rem);
-		line-height: 1;
-		color: var(--color-header);
-	}
-
-	h1 .title span {
-		transition: color var(--transition-speed) linear;
-	}
-	h1 .title span:nth-child(1) {
-		color: var(--color1);
-	}
-
-	h1 .title span:nth-child(2) {
-		color: var(--color2);
-	}
-
-	h1 .title span:nth-child(3) {
-		color: var(--color3);
-	}
-
-	h1 .title span:nth-child(4) {
-		color: var(--color4);
-	}
-
-	p {
-		line-height: 1.5;
-		margin: 0;
-		color: var(--color-text);
-	}
 	nav.secondary {
-		border-top: 1px solid var(--color-border);
-		padding-top: var(--spacing-medium);
+		border-bottom: 1px solid var(--color-border);
+		padding-bottom: var(--spacing-medium);
 		display: flex;
 		justify-content: center;
 		gap: 0.5rem;
-		margin: var(--spacing-medium) 0 0 0;
+		margin: var(--spacing-medium) 0;
 	}
 
 	nav.secondary a {

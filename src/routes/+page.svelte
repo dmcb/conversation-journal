@@ -10,9 +10,6 @@
 		const storedEntries = localStorage.getItem('nameEntries');
 		if (storedEntries) {
 			entries = JSON.parse(storedEntries);
-			if (entries.length > 0) {
-				goto('/entries');
-			}
 		}
 	});
 
@@ -39,7 +36,7 @@
 
 <section class="first-entry">
 	<h2>
-		Make your first journal entry <svg
+		Make your first entry <svg
 			class="curved-arrow"
 			viewBox="0 0 100 100"
 			fill="none"
@@ -70,8 +67,10 @@
 				<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
 				<path d="M13.73 21a2 2 0 0 1-3.46 0" />
 			</svg>
-			<span>Get reminders</span>
-			<p>You'll be recommended who to reconnect with</p>
+			<div class="text">
+				<span>Get reminders</span>
+				<p>You'll be recommended who to reconnect with</p>
+			</div>
 		</li>
 		<li>
 			<svg
@@ -88,8 +87,10 @@
 				<line x1="8" y1="2" x2="8" y2="6" />
 				<line x1="3" y1="10" x2="21" y2="10" />
 			</svg>
-			<span>See who matters</span>
-			<p>Get visuals on who you talk to and when</p>
+			<div class="text">
+				<span>See who matters</span>
+				<p>Get visuals on who you talk to and when</p>
+			</div>
 		</li>
 		<li>
 			<svg
@@ -104,8 +105,10 @@
 				<path d="M12 20h9" />
 				<path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
 			</svg>
-			<span>Record memories</span>
-			<p>Quickly log your conversations</p>
+			<div class="text">
+				<span>Record memories</span>
+				<p>Quickly log your conversations</p>
+			</div>
 		</li>
 	</ul>
 </section>
@@ -132,30 +135,35 @@
 		margin-top: var(--spacing-large);
 		padding: 0;
 		display: flex;
+		flex-wrap: wrap;
 		gap: var(--spacing);
 		justify-content: center;
 	}
 
 	li {
-		width: 33%;
+		width: 100%;
 		border-radius: var(--border-radius);
 		box-shadow: var(--box-shadow);
 		padding: var(--spacing);
 		background: var(--color-bright-background);
 		list-style: none;
-	}
-	li {
 		display: flex;
-		flex-direction: column;
+		gap: var(--spacing);
 		align-items: center;
 		text-align: center;
 	}
 
-	.icon {
+	li .icon {
 		width: 2.5rem;
 		height: 2.5rem;
 		margin-bottom: var(--spacing);
 		color: var(--color4);
+	}
+
+	li .text {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
 	}
 
 	li span {
@@ -172,5 +180,21 @@
 		height: 4rem;
 		color: var(--color4);
 		transform: translateY(var(--spacing-small));
+	}
+
+	@media (min-width: 632px) {
+		ul {
+			flex-wrap: nowrap;
+		}
+
+		li {
+			gap: 0;
+			width: 33%;
+			flex-direction: column;
+		}
+
+		li .text {
+			text-align: center;
+		}
 	}
 </style>

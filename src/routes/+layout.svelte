@@ -148,7 +148,6 @@
 	:global(section) {
 		max-width: var(--main-width);
 		margin: var(--spacing-large) auto;
-		padding: 0 var(--spacing);
 	}
 
 	:global(input, button) {
@@ -185,8 +184,8 @@
 		padding-bottom: var(--spacing);
 		display: flex;
 		justify-content: space-between;
-		gap: 0.5rem;
-		margin: var(--spacing);
+		gap: 1rem;
+		margin: var(--spacing) 0;
 		align-items: center;
 	}
 
@@ -197,6 +196,10 @@
 		line-height: 1em;
 		color: var(--color4);
 		transition: color var(--transition-speed) linear;
+	}
+
+	nav .links {
+		display: flex;
 	}
 
 	nav a {
@@ -218,6 +221,6 @@
 	}
 
 	main {
-		margin: var(--spacing) 0;
+		margin: var(--spacing);
 	}
 </style>

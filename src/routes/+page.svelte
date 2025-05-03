@@ -5,12 +5,17 @@
 	import { addEntry, saveEntries } from '$lib/utils/entries';
 
 	let entries: { name: string; dates: string[] }[] = [];
+	let loading = true;
 
 	onMount(() => {
 		const storedEntries = localStorage.getItem('nameEntries');
 		if (storedEntries) {
 			entries = JSON.parse(storedEntries);
+			if (entries.length > 0) {
+				goto('/entries');
+			}
 		}
+		loading = false;
 	});
 
 	function onAdd(name: string) {
@@ -24,36 +29,37 @@
 	}
 </script>
 
-<section class="intro">
-	<h1>
-		Stay <div class="title"><span>Con</span><span>nec</span><span>ted</span><span>.</span></div>
-	</h1>
-	<p>
-		Your simple, habit-forming, daily conversation journal to stay connected with the people who
-		matter most.
-	</p>
-</section>
+{#if !loading && !entries.length}
+	<section class="intro">
+		<h1>
+			Stay <div class="title"><span>Con</span><span>nec</span><span>ted</span><span>.</span></div>
+		</h1>
+		<p>
+			Your simple, habit-forming, daily conversation journal to stay connected with the people who
+			matter most.
+		</p>
+	</section>
 
-<section class="first-entry">
-	<h2>
-		Make your first entry <svg
-			class="curved-arrow"
-			viewBox="0 0 100 100"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="12"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		>
-			<path d="M20 30 C 20 30, 50 30, 50 70" />
-			<path d="M40 60 L 50 70 L 60 60" />
-		</svg>
-	</h2>
-	<EntryForm {onAdd} />
-</section>
+	<section class="first-entry">
+		<h2>
+			Make your first entry <svg
+				class="curved-arrow"
+				viewBox="0 0 100 100"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="12"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M20 30 C 20 30, 50 30, 50 70" />
+				<path d="M40 60 L 50 70 L 60 60" />
+			</svg>
+		</h2>
+		<EntryForm {onAdd} />
+	</section>
 
-<section class="features">
-	<ul>
+	<section class="features">
+		<ul>
 		<li>
 			<svg
 				class="icon"
@@ -110,8 +116,9 @@
 				<p>Quickly log your conversations</p>
 			</div>
 		</li>
-	</ul>
-</section>
+		</ul>
+	</section>
+{/if}
 
 <style>
 	h1 {

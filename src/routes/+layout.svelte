@@ -84,16 +84,13 @@
 </svelte:head>
 
 <main>
-	<!-- <nav class="primary">
-		<a href="/signin">Sign in</a>
-		<a href="/register">Register</a>
-	</nav> -->
-
-	<!-- If route is /  show secondary nav -->
 	{#if page.url.pathname !== '/'}
-		<nav class="secondary">
-			<a href="/entries" aria-current={page.url.pathname === '/entries'}>Entries</a>
-			<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
+		<nav>
+			<span class="title">Connection Journal</span>
+			<div class="links">
+				<a href="/entries" aria-current={page.url.pathname === '/entries'}>Entries</a>
+				<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
+			</div>
 		</nav>
 	{/if}
 
@@ -183,16 +180,26 @@
 		background-color: color-mix(in srgb, var(--color4) 80%, black);
 	}
 
-	nav.secondary {
+	nav {
 		border-bottom: 1px solid var(--color-border);
-		padding-bottom: var(--spacing-medium);
+		padding-bottom: var(--spacing);
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		gap: 0.5rem;
-		margin: var(--spacing-medium) 0;
+		margin: var(--spacing);
+		align-items: center;
 	}
 
-	nav.secondary a {
+	nav .title {
+		font-family: var(--header-font-family);
+		font-weight: normal;
+		font-size: 1.2rem;
+		line-height: 1em;
+		color: var(--color4);
+		transition: color var(--transition-speed) linear;
+	}
+
+	nav a {
 		text-decoration: none;
 		color: var(--color-text);
 		padding: 0.4rem 0.8rem;

@@ -143,7 +143,9 @@
 								<span class="count">{day.count || '0'}</span>
 							</button>
 						{:else}
-							<div class="day empty future"></div>
+							<div class="day empty future">
+								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
+							</div>
 						{/if}
 					{/each}
 				</div>
@@ -245,7 +247,7 @@
 
 	.day.empty,
 	.day.empty.future {
-		background-color: transparent;
+		opacity: 0.3;
 	}
 	.day:not(.empty) {
 		cursor: pointer;

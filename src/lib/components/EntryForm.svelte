@@ -6,6 +6,8 @@
 	let suggestions: string[] = [];
 	let showSuggestions = false;
 	let existingNames: string[] = [];
+	let inputElement: HTMLInputElement;
+	let inputWidth = 0;
 
 	// Load existing names from storage
 	function loadExistingNames() {
@@ -42,6 +44,18 @@
 
 	// Initial load of existing names
 	loadExistingNames();
+
+	$: if (inputElement) {
+		inputWidth = inputElement.offsetWidth;
+		const resizeObserver = new ResizeObserver(() => {
+			inputWidth = inputElement.offsetWidth;
+		});
+		resizeObserver.observe(inputElement);
+	}
+
+	$: if (inputWidth) {
+		document.documentElement.style.setProperty('--suggestions-width', `${inputWidth}px`);
+	}
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="input-form">
@@ -49,11 +63,13 @@
 		<input
 			type="text"
 			bind:value={name}
+			bind:this={inputElement}
 			placeholder="Enter a name"
 			required
 			maxlength="50"
 			on:input={updateSuggestions}
 			on:focus={() => (showSuggestions = true)}
+			on:resize={() => inputWidth = inputElement?.offsetWidth || 0}
 		/>
 		{#if showSuggestions && suggestions.length > 0}
 			<ul class="suggestions">
@@ -93,10 +109,8 @@
 	}
 
 	.suggestions {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		right: 0;
+		position: fixed;
+		width: var(--suggestions-width);
 		background: white;
 		border: 1px solid var(--color-border);
 		box-shadow: var(--box-shadow-small);

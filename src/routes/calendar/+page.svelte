@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Calendar from '$lib/components/Calendar.svelte';
+	import Streaks from '$lib/components/Streaks.svelte';
 	import { addEntry, loadEntries, saveEntries } from '$lib/utils/entries';
 	import type { Entry } from '$lib/utils/entries';
 
@@ -24,3 +25,4 @@
 </script>
 
 <Calendar {entries} onAdd={handleAddEntry} />
+<Streaks {entries} />

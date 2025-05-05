@@ -196,6 +196,7 @@
 		line-height: 1em;
 		color: var(--color4);
 		transition: color var(--transition-speed) linear;
+		letter-spacing: -0.5px;
 	}
 
 	nav .links {

@@ -48,7 +48,9 @@
 	$: if (inputElement) {
 		inputWidth = inputElement.offsetWidth;
 		const resizeObserver = new ResizeObserver(() => {
-			inputWidth = inputElement.offsetWidth;
+			if (inputElement?.offsetWidth) {
+				inputWidth = inputElement.offsetWidth;
+			}
 		});
 		resizeObserver.observe(inputElement);
 	}
@@ -69,7 +71,7 @@
 			maxlength="50"
 			on:input={updateSuggestions}
 			on:focus={() => (showSuggestions = true)}
-			on:resize={() => inputWidth = inputElement?.offsetWidth || 0}
+			on:resize={() => (inputWidth = inputElement?.offsetWidth || 0)}
 		/>
 		{#if showSuggestions && suggestions.length > 0}
 			<ul class="suggestions">

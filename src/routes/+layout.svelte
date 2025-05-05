@@ -3,6 +3,7 @@
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { page } from '$app/state';
 	import { onMount, onDestroy } from 'svelte';
+	import { onNavigate } from '$app/navigation';
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
@@ -71,6 +72,17 @@
 		if (cycleInterval) {
 			clearTimeout(cycleInterval);
 		}
+	});
+
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
 	});
 </script>
 

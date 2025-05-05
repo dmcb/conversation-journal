@@ -163,7 +163,6 @@
 	li .icon {
 		width: 2.5rem;
 		height: 2.5rem;
-		margin-bottom: var(--spacing);
 		color: var(--color4);
 	}
 
@@ -202,6 +201,10 @@
 			gap: 0;
 			width: 33%;
 			flex-direction: column;
+		}
+
+		li .icon {
+			margin-bottom: var(--spacing);
 		}
 
 		li .text {

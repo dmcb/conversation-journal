@@ -3,10 +3,14 @@
 
 	export let onAdd: (name: string) => boolean;
 	let name = '';
+	let note = '';
+	let mood: 'sad' | 'neutral' | 'good' | 'great' | null = null;
+	let step = 1;
 	let suggestions: string[] = [];
 	let showSuggestions = false;
 	let existingNames: string[] = [];
-	let inputElement: HTMLInputElement;
+	let nameInputElement: HTMLInputElement;
+	let noteInputElement: HTMLInputElement;
 	let inputWidth = 0;
 
 	// Load existing names from storage
@@ -31,28 +35,40 @@
 	function selectSuggestion(suggestion: string) {
 		name = suggestion;
 		showSuggestions = false;
-		handleSubmit(); // Trigger form submission
+		handleNameSubmit(); // Trigger form submission
 	}
 
-	function handleSubmit() {
+	function handleNameSubmit() {
 		if (!name.trim()) return;
-		onAdd(name);
-		name = '';
+		step = 2;
 		showSuggestions = false;
+	}
+
+	function handleMetaSubmit() {
+		onAdd(name);
+		// Reset form
+		name = '';
+		note = '';
+		mood = null;
+		step = 1;
 		loadExistingNames(); // Reload names after adding
 	}
 
 	// Initial load of existing names
 	loadExistingNames();
 
-	$: if (inputElement) {
-		inputWidth = inputElement.offsetWidth;
+	$: if (nameInputElement) {
+		inputWidth = nameInputElement.offsetWidth;
 		const resizeObserver = new ResizeObserver(() => {
-			if (inputElement?.offsetWidth) {
-				inputWidth = inputElement.offsetWidth;
+			if (nameInputElement?.offsetWidth) {
+				inputWidth = nameInputElement.offsetWidth;
 			}
 		});
-		resizeObserver.observe(inputElement);
+		resizeObserver.observe(nameInputElement);
+	}
+
+	$: if (step === 2 && noteInputElement) {
+		noteInputElement.focus();
 	}
 
 	$: if (inputWidth) {
@@ -60,37 +76,85 @@
 	}
 </script>
 
-<form on:submit|preventDefault={handleSubmit} class="input-form">
-	<div class="input-container">
-		<input
-			type="text"
-			bind:value={name}
-			bind:this={inputElement}
-			placeholder="Enter a name"
-			required
-			maxlength="50"
-			on:input={updateSuggestions}
-			on:focus={() => (showSuggestions = true)}
-			on:resize={() => (inputWidth = inputElement?.offsetWidth || 0)}
-		/>
-		{#if showSuggestions && suggestions.length > 0}
-			<ul class="suggestions">
-				{#each suggestions as suggestion}
-					<button
-						type="button"
-						on:click={() => selectSuggestion(suggestion)}
-						on:keydown={(e: KeyboardEvent) => e.key === 'Enter' && selectSuggestion(suggestion)}
-					>
-						{suggestion}
-					</button>
-				{/each}
-			</ul>
-		{/if}
-	</div>
-	<button class="action" type="submit">Add Entry</button>
-</form>
+{#if step === 1}
+	<form on:submit|preventDefault={handleNameSubmit} class="input-form">
+		<div class="input-container">
+			<input
+				type="text"
+				bind:value={name}
+				bind:this={nameInputElement}
+				placeholder="Enter a name"
+				required
+				maxlength="50"
+				on:input={updateSuggestions}
+				on:focus={() => (showSuggestions = true)}
+				on:resize={() => (inputWidth = nameInputElement?.offsetWidth || 0)}
+			/>
+			{#if showSuggestions && suggestions.length > 0}
+				<ul class="suggestions">
+					{#each suggestions as suggestion}
+						<button
+							type="button"
+							on:click={() => selectSuggestion(suggestion)}
+							on:keydown={(e: KeyboardEvent) => e.key === 'Enter' && selectSuggestion(suggestion)}
+						>
+							{suggestion}
+						</button>
+					{/each}
+				</ul>
+			{/if}
+		</div>
+		<button class="action" type="submit">Add Entry</button>
+	</form>
+{:else}
+	<form on:submit|preventDefault={handleMetaSubmit} class="input-form">
+		<div class="input-container">
+			<input
+				type="text"
+				bind:value={note}
+				bind:this={noteInputElement}
+				placeholder="Add an optional note"
+			/>
+			<div class="mood-buttons">
+				<button
+					type="button"
+					class:selected={mood === 'sad'}
+					on:click={() => (mood = mood === 'sad' ? null : 'sad')}
+				>
+					☹️
+				</button>
+				<button
+					type="button"
+					class:selected={mood === 'neutral'}
+					on:click={() => (mood = mood === 'neutral' ? null : 'neutral')}
+				>
+					😐
+				</button>
+				<button
+					type="button"
+					class:selected={mood === 'good'}
+					on:click={() => (mood = mood === 'good' ? null : 'good')}
+				>
+					🙂
+				</button>
+				<button
+					type="button"
+					class:selected={mood === 'great'}
+					on:click={() => (mood = mood === 'great' ? null : 'great')}
+				>
+					😊
+				</button>
+			</div>
+			<button class="action" type="submit">Done</button>
+		</div>
+	</form>
+{/if}
 
 <style>
+	input {
+		min-width: 11.5rem;
+	}
+
 	.input-form {
 		display: flex;
 		gap: 10px;
@@ -99,6 +163,32 @@
 	.input-container {
 		flex: 1;
 		position: relative;
+		display: flex;
+		gap: var(--spacing-small);
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.mood-buttons {
+		display: flex;
+	}
+
+	.mood-buttons button {
+		font-size: 1.5rem;
+		padding: 0 var(--spacing-tiny);
+		border: 3px solid transparent;
+		border-radius: var(--border-radius);
+		background: transparent;
+		cursor: pointer;
+		transition: all var(--transition-speed);
+	}
+
+	.mood-buttons button:hover {
+		background: var(--color-border);
+	}
+
+	.mood-buttons button.selected {
+		border-color: var(--color4);
 	}
 
 	input {
@@ -116,7 +206,7 @@
 		background: white;
 		border: 1px solid var(--color-border);
 		box-shadow: var(--box-shadow-small);
-		margin: var(--spacing-small) 0 0 0;
+		margin: 3rem 0 0 0;
 		padding: 0;
 		list-style: none;
 		z-index: 10;

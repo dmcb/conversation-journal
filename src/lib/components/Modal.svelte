@@ -93,7 +93,8 @@
 	}
 
 	.modal-content {
-		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
 		padding: var(--spacing);
 	}
 

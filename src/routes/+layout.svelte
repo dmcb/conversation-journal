@@ -138,6 +138,7 @@
 		--font-size-large: 1.5rem;
 		--main-width: 600px;
 		--modal-width: 350px;
+		--spacing-tiny: 0.2rem;
 		--spacing-small: 0.5rem;
 		--spacing: 1rem;
 		--spacing-medium: 2rem;

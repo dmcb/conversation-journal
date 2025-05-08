@@ -49,7 +49,7 @@
 
 	function handleMetaSubmit() {
 		let entries = loadEntries();
-		const result = addEntry(entries, name, date);
+		const result = addEntry(entries, name, date, mood, note.trim() || undefined);
 		if (result.success) {
 			saveEntries(result.entries);
 			alert.show(`Entry saved for ${name}`);

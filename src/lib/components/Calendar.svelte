@@ -3,9 +3,13 @@
 	import EntryForm from './EntryForm.svelte';
 	import { getTimezoneRemovedDateObject, getNiceDateLabelFromDateString } from '$lib/utils/entries';
 
+	interface DateEntry {
+		[key: string]: Record<string, never>;
+	}
+
 	interface Entry {
 		name: string;
-		dates: string[];
+		dates: DateEntry[];
 		days?: number;
 	}
 
@@ -31,7 +35,8 @@
 		let allDates: Date[] = [];
 
 		entries.forEach((entry: Entry) => {
-			entry.dates.forEach((date: string) => {
+			entry.dates.forEach((dateObj: DateEntry) => {
+				const date = Object.keys(dateObj)[0];
 				const d = new Date(date + 'T00:00:00');
 				if (!isNaN(d.getTime())) {
 					allDates.push(d);
@@ -77,7 +82,7 @@
 	function getPeopleForDate(date: string): { name: string; count: number }[] {
 		const peopleMap = new Map<string, number>();
 		entries.forEach((entry) => {
-			if (entry.dates.includes(date)) {
+			if (entry.dates.some(d => Object.keys(d)[0] === date)) {
 				peopleMap.set(entry.name, (peopleMap.get(entry.name) || 0) + 1);
 			}
 		});

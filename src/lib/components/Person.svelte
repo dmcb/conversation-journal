@@ -4,8 +4,13 @@
 	import { saveEntries, getNiceDateLabelFromDateString } from '$lib/utils/entries';
 
 	export let name: string;
-	export let entries: { name: string; dates: string[] }[] = [];
-	let chats: string[] = [];
+	interface DateEntry {
+		[key: string]: Record<string, never>;
+	}
+
+	export let entries: { name: string; dates: DateEntry[] }[] = [];
+	let chats: DateEntry[] = [];
+	let displayChats: string[] = [];
 	let editing = false;
 	let newName = name;
 	let deleteModalOpen = false;
@@ -13,9 +18,8 @@
 
 	$: {
 		const person = entries.find((e) => e.name === name);
-		chats = person
-			? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-			: [];
+		chats = person ? [...person.dates] : [];
+		displayChats = chats.map(d => Object.keys(d)[0]).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 	}
 
 	function startEdit() {
@@ -79,7 +83,7 @@
 
 		const idx = entries.findIndex((e) => e.name === name);
 		if (idx !== -1) {
-			entries[idx].dates = entries[idx].dates.filter((d) => d !== chatToDelete);
+			entries[idx].dates = entries[idx].dates.filter((d) => Object.keys(d)[0] !== chatToDelete);
 
 			// If no more chats, remove the person entirely
 			if (entries[idx].dates.length === 0) {
@@ -91,7 +95,8 @@
 				if (userDeleted) {
 					goto(`/`);
 				} else {
-					chats = [...entries[idx].dates].sort(
+					chats = [...entries[idx].dates];
+					displayChats = chats.map(d => Object.keys(d)[0]).sort(
 						(a, b) => new Date(b).getTime() - new Date(a).getTime()
 					);
 				}
@@ -141,7 +146,7 @@
 
 	<h3>Conversations</h3>
 	<ul>
-		{#each chats as date (date)}
+		{#each displayChats as date (date)}
 			<li>
 				{getNiceDateLabelFromDateString(date)}
 				<button on:click={() => confirmDelete(date)}>Delete</button>

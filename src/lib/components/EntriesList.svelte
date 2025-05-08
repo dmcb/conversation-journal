@@ -1,7 +1,11 @@
 <script lang="ts">
+	interface DateEntry {
+		[key: string]: Record<string, never>;
+	}
+
 	interface Entry {
 		name: string;
-		dates: string[];
+		dates: DateEntry[];
 		days?: number;
 	}
 

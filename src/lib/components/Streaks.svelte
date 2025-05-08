@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { getNiceDateLabelFromDateString, getCurrentDateString } from '$lib/utils/entries';
 
+	interface DateEntry {
+		[key: string]: Record<string, never>;
+	}
+
 	interface Entry {
 		name: string;
-		dates: string[];
+		dates: DateEntry[];
 		days?: number;
 	}
 
@@ -14,7 +18,7 @@
 
 	$: {
 		// Get all dates from entries
-		const allDates = entries.flatMap((entry) => entry.dates);
+		const allDates = entries.flatMap((entry) => entry.dates.map(d => Object.keys(d)[0]));
 		// Get the unique dates
 		const uniqueDates = [...new Set(allDates)];
 		// Sort the dates

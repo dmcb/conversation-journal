@@ -1,6 +1,10 @@
+export interface DateEntry {
+	[key: string]: Record<string, never>;
+}
+
 export interface Entry {
 	name: string;
-	dates: string[];
+	dates: DateEntry[];
 	days?: number;
 }
 
@@ -46,9 +50,9 @@ export function addEntry(
 	const existingEntry = entries.find((e) => e.name.toLowerCase() === trimmedName.toLowerCase());
 
 	if (existingEntry) {
-		if (existingEntry.dates.includes(targetDate)) return { success: false, entries };
-		existingEntry.dates.push(targetDate);
-		existingEntry.dates.sort();
+		if (existingEntry.dates.some(dateObj => targetDate in dateObj)) return { success: false, entries };
+		existingEntry.dates.push({ [targetDate]: {} });
+		existingEntry.dates.sort((a, b) => Object.keys(a)[0].localeCompare(Object.keys(b)[0]));
 		// Create new array to ensure reactivity
 		const updatedEntries = [...entries];
 		return { success: true, entries: updatedEntries };
@@ -56,7 +60,7 @@ export function addEntry(
 
 	return {
 		success: true,
-		entries: [...entries, { name: trimmedName, dates: [targetDate] }]
+		entries: [...entries, { name: trimmedName, dates: [{ [targetDate]: {} }] }]
 	};
 }
 
@@ -70,9 +74,12 @@ export function saveEntries(entries: Entry[]): boolean {
 	}
 }
 
-export function calculateDays(dates: string[]): number {
+export function calculateDays(dates: DateEntry[]): number {
 	if (!dates.length) return 0;
-	const mostRecentDate = dates.sort().reverse()[0];
+	const mostRecentDate = dates
+		.map(dateObj => Object.keys(dateObj)[0])
+		.sort()
+		.reverse()[0];
 	const diffTime = Math.abs(
 		new Date().getTime() - new Date(mostRecentDate).getTime() - timezoneOffset
 	);

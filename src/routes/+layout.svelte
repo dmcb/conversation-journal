@@ -3,6 +3,8 @@
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { page } from '$app/state';
 	import { onMount, onDestroy } from 'svelte';
+	import Alert from '$lib/components/Alert.svelte';
+	import { alert } from '$lib/stores/alert';
 	import { onNavigate } from '$app/navigation';
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
@@ -104,6 +106,10 @@
 				<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
 			</div>
 		</nav>
+	{/if}
+
+	{#if $alert}
+		<Alert message={$alert.message} type={$alert.type} />
 	{/if}
 
 	{@render children()}

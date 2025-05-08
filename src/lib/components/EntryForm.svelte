@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { loadEntries } from '$lib/utils/entries';
+	import { alert } from '$lib/stores/alert';
 
 	export let onAdd: (name: string) => boolean;
 	let name = '';
@@ -45,13 +46,18 @@
 	}
 
 	function handleMetaSubmit() {
-		onAdd(name);
-		// Reset form
-		name = '';
-		note = '';
-		mood = null;
-		step = 1;
-		loadExistingNames(); // Reload names after adding
+		const success = onAdd(name);
+		if (success) {
+			alert.show(`Entry saved for ${name}`);
+			// Reset form
+			name = '';
+			note = '';
+			mood = null;
+			step = 1;
+			loadExistingNames(); // Reload names after adding
+		} else {
+			alert.show('Failed to save entry', 'error');
+		}
 	}
 
 	// Initial load of existing names

@@ -6,15 +6,21 @@
 	export let type: 'success' | 'error' = 'success';
 	export let duration = 3000;
 
-	let visible = true;
+	let visible = false;
 
+	// Set visible to true on next tick to trigger fade in
+	setTimeout(() => {
+		visible = true;
+	}, 0);
+
+	// Hide after duration
 	setTimeout(() => {
 		visible = false;
 	}, duration);
 </script>
 
 {#if visible}
-	<div class="alert {type}" transition:fade={{ duration: 200 }} role="alert">
+	<div class="alert {type}" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }} role="alert">
 		{message}
 	</div>
 {/if}

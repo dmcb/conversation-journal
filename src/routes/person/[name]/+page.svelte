@@ -5,11 +5,7 @@
 
 	let name = decodeURIComponent(page.params.name || '');
 
-	interface Entry {
-		name: string;
-		dates: string[];
-		days?: number;
-	}
+	import type { Entry } from '$lib/utils/entries';
 
 	let entries: Entry[] = [];
 

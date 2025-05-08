@@ -2,27 +2,19 @@
 	import { onMount } from 'svelte';
 	import Calendar from '$lib/components/Calendar.svelte';
 	import Streaks from '$lib/components/Streaks.svelte';
-	import { addEntry, loadEntries, saveEntries } from '$lib/utils/entries';
+	import { loadEntries } from '$lib/utils/entries';
 	import type { Entry } from '$lib/utils/entries';
+	import { goto } from '$app/navigation';
 
 	let entries: Entry[] = [];
 
-	function handleAddEntry(name: string, date?: string): boolean {
-		const result = addEntry(entries, name, date);
-		if (result.success) {
-			entries = result.entries;
-			saveEntries(entries);
-			// if (saveEntries(entries)) {
-			// 	window.dispatchEvent(new CustomEvent('shiftColors'));
-			// }
-		}
-		return result.success;
-	}
-
 	onMount(() => {
 		entries = loadEntries();
+		if (entries.length === 0) {
+			goto('/');
+		}
 	});
 </script>
 
-<Calendar {entries} onAdd={handleAddEntry} />
+<Calendar {entries} onSuccess={() => (entries = loadEntries())} />
 <Streaks {entries} />

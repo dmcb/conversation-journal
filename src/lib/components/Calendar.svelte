@@ -2,19 +2,10 @@
 	import Modal from './Modal.svelte';
 	import EntryForm from './EntryForm.svelte';
 	import { getTimezoneRemovedDateObject, getNiceDateLabelFromDateString } from '$lib/utils/entries';
+	import type { Entry, DateEntry } from '$lib/utils/entries';
 
-	interface DateEntry {
-		[key: string]: Record<string, never>;
-	}
-
-	interface Entry {
-		name: string;
-		dates: DateEntry[];
-		days?: number;
-	}
-
-	export let onAdd: (name: string, date?: string) => boolean;
 	export let entries: Entry[] = [];
+	export let onSuccess: (() => void) | undefined = undefined;
 
 	interface DayData {
 		date: string;
@@ -28,6 +19,13 @@
 
 	function getMonthName(date: Date): string {
 		return date.toLocaleString('default', { month: 'long' });
+	}
+
+	function handleSuccess() {
+		if (onSuccess) {
+			onSuccess();
+			closeModal();
+		}
 	}
 
 	$: {
@@ -82,7 +80,7 @@
 	function getPeopleForDate(date: string): { name: string; count: number }[] {
 		const peopleMap = new Map<string, number>();
 		entries.forEach((entry) => {
-			if (entry.dates.some(d => Object.keys(d)[0] === date)) {
+			if (entry.dates.some((d) => Object.keys(d)[0] === date)) {
 				peopleMap.set(entry.name, (peopleMap.get(entry.name) || 0) + 1);
 			}
 		});
@@ -174,11 +172,7 @@
 	{/if}
 	<div class="add-entry">
 		<h4>Add new entry</h4>
-		<EntryForm
-			onAdd={(name) => {
-				return onAdd(name, selectedDate);
-			}}
-		/>
+		<EntryForm date={selectedDate} onSuccess={handleSuccess} />
 	</div>
 </Modal>
 

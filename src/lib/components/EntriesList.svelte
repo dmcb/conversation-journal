@@ -1,13 +1,5 @@
 <script lang="ts">
-	interface DateEntry {
-		[key: string]: Record<string, never>;
-	}
-
-	interface Entry {
-		name: string;
-		dates: DateEntry[];
-		days?: number;
-	}
+	import type { Entry } from '$lib/utils/entries';
 
 	export let entries: Entry[] = [];
 	let displayState = 'default'; // 'default' | 'more' | 'all'

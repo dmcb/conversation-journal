@@ -1,22 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import AddEntry from '$lib/components/AddEntry.svelte';
+	import EntryForm from '$lib/components/EntryForm.svelte';
 	import EntriesList from '$lib/components/EntriesList.svelte';
 	import ReachOutList from '$lib/components/ReachOutList.svelte';
-	import { addEntry, loadEntries, saveEntries, calculateDays } from '$lib/utils/entries';
+	import { loadEntries, calculateDays } from '$lib/utils/entries';
 	import type { Entry } from '$lib/utils/entries';
 
 	let entries: Entry[] = [];
-
-	function handleAddEntry(name: string, date?: string): boolean {
-		const result = addEntry(entries, name, date);
-		if (result.success) {
-			entries = result.entries;
-			saveEntries(entries);
-		}
-		return result.success;
-	}
 
 	onMount(() => {
 		entries = loadEntries();
@@ -26,14 +17,21 @@
 	});
 
 	$: sortedEntries = entries
-		.map((entry) => ({
-			...entry,
-			days: calculateDays(entry.dates)
-		}))
+		.map(
+			(entry: Entry): Entry => ({
+				name: entry.name,
+				dates: entry.dates,
+				days: calculateDays(entry.dates)
+			})
+		)
 		.filter((entry) => entry.dates.length > 0)
 		.sort((a, b) => (a.days ?? 0) - (b.days ?? 0));
 </script>
 
-<AddEntry onAdd={handleAddEntry} />
+<section class="add-entry">
+	<h2>Who have you talked to today?</h2>
+	<EntryForm onSuccess={() => (entries = loadEntries())} />
+</section>
+
 <EntriesList entries={sortedEntries} />
 <ReachOutList entries={sortedEntries} />

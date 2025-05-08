@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import EntryForm from '$lib/components/EntryForm.svelte';
-	import { addEntry, saveEntries } from '$lib/utils/entries';
 
 	let entries: { name: string; dates: string[] }[] = [];
 	let loading = true;
@@ -18,15 +17,7 @@
 		loading = false;
 	});
 
-	function onAdd(name: string) {
-		const result = addEntry(entries, name);
-		if (result.success) {
-			entries = result.entries;
-			saveEntries(entries);
-			goto('/entries');
-		}
-		return result.success;
-	}
+
 </script>
 
 {#if !loading && !entries.length}
@@ -55,7 +46,7 @@
 				<path d="M40 60 L 50 70 L 60 60" />
 			</svg>
 		</h2>
-		<EntryForm {onAdd} />
+		<EntryForm onSuccess={() => goto('/entries')} />
 	</section>
 
 	<section class="features">

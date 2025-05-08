@@ -1,15 +1,7 @@
 <script lang="ts">
 	import { getNiceDateLabelFromDateString, getCurrentDateString } from '$lib/utils/entries';
 
-	interface DateEntry {
-		[key: string]: Record<string, never>;
-	}
-
-	interface Entry {
-		name: string;
-		dates: DateEntry[];
-		days?: number;
-	}
+	import type { Entry } from '$lib/utils/entries';
 
 	export let entries: Entry[] = [];
 

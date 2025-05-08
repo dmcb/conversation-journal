@@ -1,9 +1,5 @@
 <script lang="ts">
-	interface Entry {
-		name: string;
-		dates: string[];
-		days?: number;
-	}
+	import type { Entry } from '$lib/utils/entries';
 
 	export let entries: Entry[] = [];
 	const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;

@@ -18,7 +18,7 @@
 
 	$: {
 		// Get all dates from entries
-		const allDates = entries.flatMap((entry) => entry.dates.map(d => Object.keys(d)[0]));
+		const allDates = entries.flatMap((entry) => entry.dates.map((d) => Object.keys(d)[0]));
 		// Get the unique dates
 		const uniqueDates = [...new Set(allDates)];
 		// Sort the dates
@@ -142,5 +142,18 @@
 
 	.streak-description {
 		margin-top: var(--spacing-small);
+	}
+
+	@media (min-width: 632px) {
+		.streaks {
+			display: flex;
+		}
+
+		.container + .container {
+			border: 0;
+			border-left: 1px solid var(--color-border);
+			margin: 0 0 0 var(--spacing-medium);
+			padding: 0 0 0 var(--spacing-medium);
+		}
 	}
 </style>

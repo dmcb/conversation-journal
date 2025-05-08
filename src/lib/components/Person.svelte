@@ -5,7 +5,10 @@
 
 	export let name: string;
 	interface DateEntry {
-		[key: string]: Record<string, never>;
+		[key: string]: {
+			mood?: 'sad' | 'neutral' | 'good' | 'great' | null;
+			note?: string;
+		};
 	}
 
 	export let entries: { name: string; dates: DateEntry[] }[] = [];
@@ -19,7 +22,9 @@
 	$: {
 		const person = entries.find((e) => e.name === name);
 		chats = person ? [...person.dates] : [];
-		displayChats = chats.map(d => Object.keys(d)[0]).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+		displayChats = chats
+			.map((d) => Object.keys(d)[0])
+			.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 	}
 
 	function startEdit() {
@@ -64,9 +69,10 @@
 				goto(`/person/${encodeURIComponent(newName)}`);
 				// After navigation, reload chats for the new name
 				const person = entries.find((e) => e.name === newName);
-				chats = person
-					? [...person.dates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-					: [];
+				chats = person ? [...person.dates] : [];
+				displayChats = chats
+					.map((d) => Object.keys(d)[0])
+					.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 			}
 		}
 		editing = false;
@@ -96,9 +102,9 @@
 					goto(`/`);
 				} else {
 					chats = [...entries[idx].dates];
-					displayChats = chats.map(d => Object.keys(d)[0]).sort(
-						(a, b) => new Date(b).getTime() - new Date(a).getTime()
-					);
+					displayChats = chats
+						.map((d) => Object.keys(d)[0])
+						.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 				}
 			}
 		}
@@ -147,8 +153,29 @@
 	<h3>Conversations</h3>
 	<ul>
 		{#each displayChats as date (date)}
+			{@const chatData = chats.find((d) => Object.keys(d)[0] === date)?.[date]}
 			<li>
-				{getNiceDateLabelFromDateString(date)}
+				<div class="chat-info">
+					<div class="date">
+						{getNiceDateLabelFromDateString(date)}
+						{#if chatData?.mood}
+							<div class="mood">
+								{#if chatData.mood === 'sad'}
+									☹️
+								{:else if chatData.mood === 'neutral'}
+									😐
+								{:else if chatData.mood === 'good'}
+									🙂
+								{:else if chatData.mood === 'great'}
+									😊
+								{/if}
+							</div>
+						{/if}
+					</div>
+					{#if chatData?.note}
+						<div class="note">{chatData.note}</div>
+					{/if}
+				</div>
 				<button on:click={() => confirmDelete(date)}>Delete</button>
 			</li>
 		{/each}
@@ -242,8 +269,30 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 8px 0;
+		padding: var(--spacing-small) 0;
 		border-bottom: 1px solid var(--color-border);
+		gap: var(--spacing);
+	}
+
+	.chat-info {
+		flex: 1;
+	}
+
+	.date {
+		font-weight: 500;
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-tiny);
+	}
+
+	.mood {
+		line-height: 0;
+	}
+
+	.note {
+		margin-top: var(--spacing-tiny);
+		color: var(--color-faint-text);
+		font-size: var(--font-size-small);
 	}
 
 	li:last-child {

@@ -150,7 +150,7 @@
 		</h2>
 	{/if}
 
-	<h3>Conversations</h3>
+	<h3>{chats.length} {chats.length === 1 ? 'conversation' : 'conversations'}</h3>
 	<ul>
 		{#each displayChats as date (date)}
 			{@const chatData = chats.find((d) => Object.keys(d)[0] === date)?.[date]}

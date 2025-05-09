@@ -51,7 +51,7 @@
 
 <style>
 	:root {
-		--brandcolor1: #ea3b5e;
+		--brandcolor1: #e81741;
 		--brandcolor2: #77646f;
 		--color-text: #444;
 		--color-inverse-text: #fff;

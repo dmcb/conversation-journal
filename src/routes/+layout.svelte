@@ -83,6 +83,7 @@
 		--border-radius-large: 16px;
 		--main-width: 600px;
 		--modal-width: 350px;
+		--nav-width: 920px;
 		--spacing-tiny: 0.2rem;
 		--spacing-small: 0.5rem;
 		--spacing: 1rem;
@@ -163,8 +164,9 @@
 		display: flex;
 		justify-content: space-between;
 		gap: 1rem;
-		margin: var(--spacing) 0;
+		margin: var(--spacing) auto;
 		align-items: center;
+		max-width: var(--nav-width);
 	}
 
 	nav .title {

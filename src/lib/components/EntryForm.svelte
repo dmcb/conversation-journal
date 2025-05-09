@@ -202,7 +202,7 @@
 	}
 
 	.mood-buttons button.selected {
-		border-color: var(--color4);
+		border-color: var(--brandcolor1);
 	}
 
 	input {

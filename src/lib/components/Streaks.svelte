@@ -124,7 +124,7 @@
 	.streak-count {
 		font-size: 1.5rem;
 		font-weight: bold;
-		color: var(--color4);
+		color: var(--brandcolor1);
 	}
 
 	.streak-label {

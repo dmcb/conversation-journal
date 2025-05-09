@@ -80,7 +80,7 @@
 		transition: color var(--transition-speed);
 	}
 	.name a:hover {
-		color: var(--color4);
+		color: var(--brandcolor1);
 	}
 
 	.name {
@@ -96,7 +96,7 @@
 		background-color: transparent;
 		border: none;
 		font-weight: bold;
-		color: var(--color4);
+		color: var(--brandcolor1);
 		transition: all var(--transition-speed);
 		display: block;
 		margin: 0 auto;
@@ -105,6 +105,6 @@
 	}
 
 	.show-more:hover {
-		color: color-mix(in srgb, var(--color4) 80%, black);
+		color: color-mix(in srgb, var(--brandcolor1) 80%, black);
 	}
 </style>

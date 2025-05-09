@@ -137,7 +137,7 @@
 						{#if dayDate <= getTimezoneRemovedDateObject()}
 							<button
 								class="day {day.count > 0 ? 'has-entries' : ''}"
-								style="background-color: color-mix(in srgb, var(--color4) {day.intensity *
+								style="background-color: color-mix(in srgb, var(--brandcolor1) {day.intensity *
 									50}%, white)"
 								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 								on:click={() => openModal(day.date)}
@@ -190,7 +190,7 @@
 		border: none;
 		font-size: 1.5rem;
 		cursor: pointer;
-		color: var(--color4);
+		color: var(--brandcolor1);
 		padding: 0.5rem;
 		width: 2.5rem;
 		height: 2.5rem;

@@ -16,8 +16,6 @@
 		}
 		loading = false;
 	});
-
-
 </script>
 
 {#if !loading && !entries.length}
@@ -122,7 +120,7 @@
 		font-family: var(--header-font-family);
 		line-height: 1em;
 		letter-spacing: -3px;
-		color: var(--color4);
+		color: var(--brandcolor1);
 	}
 
 	p {
@@ -154,7 +152,7 @@
 	li .icon {
 		width: 2.5rem;
 		height: 2.5rem;
-		color: var(--color4);
+		color: var(--brandcolor1);
 	}
 
 	li .text {
@@ -179,7 +177,7 @@
 	.curved-arrow {
 		width: 3rem;
 		height: 4rem;
-		color: var(--color4);
+		color: var(--brandcolor1);
 		transform: translateY(var(--spacing-small));
 	}
 

@@ -123,6 +123,6 @@
 	}
 
 	:global(.modal-content a:hover) {
-		color: var(--color4);
+		color: var(--brandcolor1);
 	}
 </style>

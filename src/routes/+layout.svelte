@@ -2,7 +2,6 @@
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { page } from '$app/state';
-	import { onMount, onDestroy } from 'svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { alert } from '$lib/stores/alert';
 	import { onNavigate } from '$app/navigation';
@@ -10,71 +9,6 @@
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
 	let { children } = $props();
-
-	let baseColors: string[] = [];
-	let colors: string[] = [];
-
-	onMount(() => {
-		const computedStyle = getComputedStyle(document.documentElement);
-		baseColors = [
-			computedStyle.getPropertyValue('--color1').trim(),
-			computedStyle.getPropertyValue('--color2').trim(),
-			computedStyle.getPropertyValue('--color3').trim(),
-			computedStyle.getPropertyValue('--color4').trim()
-		];
-		// const offset = Math.floor(Math.random() * 4);
-		const offset = 1;
-		colors = baseColors.slice(offset).concat(baseColors.slice(0, offset));
-	});
-	let cycleInterval: number;
-
-	function shiftColors() {
-		const lastColor = colors.pop();
-		if (lastColor) {
-			colors.unshift(lastColor);
-			document.documentElement.style.setProperty('--color1', colors[0]);
-			document.documentElement.style.setProperty('--color2', colors[1]);
-			document.documentElement.style.setProperty('--color3', colors[2]);
-			document.documentElement.style.setProperty('--color4', colors[3]);
-		}
-	}
-
-	function initialColorCycle() {
-		let cycles = 0;
-		const maxCycles = 4;
-		let interval = 100; // Start fast
-
-		function cycle() {
-			shiftColors();
-
-			cycles++;
-			if (cycles < maxCycles) {
-				// Gradually increase the interval to slow down
-				interval *= 1.3;
-				cycleInterval = window.setTimeout(cycle, interval);
-			}
-		}
-
-		cycle();
-	}
-
-	// const handler = () => shiftColors();
-
-	onMount(() => {
-		// if (typeof window !== 'undefined') {
-		// 	window.addEventListener('shiftColors', handler);
-		// }
-		initialColorCycle();
-	});
-
-	onDestroy(() => {
-		// if (typeof window !== 'undefined') {
-		// 	window.removeEventListener('shiftColors', handler);
-		// }
-		if (cycleInterval) {
-			clearTimeout(cycleInterval);
-		}
-	});
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -100,7 +34,7 @@
 <main>
 	{#if page.url.pathname !== '/'}
 		<nav>
-			<span class="title">Connection Journal</span>
+			<span class="title">Conversation Journal</span>
 			<div class="links">
 				<a href="/entries" aria-current={page.url.pathname === '/entries'}>Entries</a>
 				<a href="/calendar" aria-current={page.url.pathname === '/calendar'}>Calendar</a>
@@ -117,10 +51,8 @@
 
 <style>
 	:root {
-		--color1: #ea3b5e;
-		--color2: #77646f;
-		--color3: #b2384f;
-		--color4: #4b2230;
+		--brandcolor1: #ea3b5e;
+		--brandcolor2: #77646f;
 		--color-text: #444;
 		--color-inverse-text: #fff;
 		--color-faint-text: #666;
@@ -185,17 +117,17 @@
 	}
 
 	:global(button:hover) {
-		background-color: var(--color4);
+		background-color: var(--brandcolor1);
 		color: var(--color-inverse-text);
 	}
 
 	:global(button.action) {
-		background: var(--color4);
+		background: var(--brandcolor1);
 		color: white;
 	}
 
 	:global(button.action:hover) {
-		background-color: color-mix(in srgb, var(--color4) 80%, black);
+		background-color: color-mix(in srgb, var(--brandcolor1) 80%, black);
 	}
 
 	nav {
@@ -213,7 +145,7 @@
 		font-weight: normal;
 		font-size: 1.2rem;
 		line-height: 1em;
-		color: var(--color4);
+		color: var(--brandcolor1);
 		transition: color var(--transition-speed) linear;
 		letter-spacing: -0.5px;
 	}
@@ -231,7 +163,7 @@
 	}
 
 	nav a:hover {
-		background-color: var(--color4);
+		background-color: var(--brandcolor1);
 		color: var(--color-inverse-text);
 	}
 

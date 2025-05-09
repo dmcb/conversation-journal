@@ -119,7 +119,7 @@
 		transition: color var(--transition-speed);
 	}
 	.name a:hover {
-		color: var(--color4);
+		color: var(--brandcolor1);
 	}
 
 	.name {

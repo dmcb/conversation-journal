@@ -39,12 +39,12 @@
 	}
 
 	.success {
-		background-color: var(--color4);
+		background-color: var(--brandcolor1);
 		color: var(--color-inverse-text);
 	}
 
 	.error {
-		background-color: var(--color1);
+		background-color: var(--brandcolor2);
 		color: var(--color-inverse-text);
 	}
 </style>

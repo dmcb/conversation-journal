@@ -5,6 +5,7 @@
 	import Alert from '$lib/components/Alert.svelte';
 	import { alert } from '$lib/stores/alert';
 	import { onNavigate } from '$app/navigation';
+	import Footer from '$lib/components/Footer.svelte';
 
 	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
@@ -47,6 +48,8 @@
 	{/if}
 
 	{@render children()}
+
+	<Footer />
 </main>
 
 <style>
@@ -107,9 +110,13 @@
 		}
 	}
 
+	:global(*) {
+		box-sizing: border-box;
+	}
+
 	:global(body) {
 		touch-action: manipulation;
-		box-sizing: border-box;
+
 		background-color: var(--color-background);
 		margin: 0;
 		padding: 0;
@@ -134,6 +141,29 @@
 		font-weight: 600;
 	}
 
+	:global(input, textarea) {
+		width: 100%;
+		padding: 0.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius);
+		font-family: inherit;
+		font-size: inherit;
+		background-color: var(--color-input-background);
+		color: var(--color-text);
+	}
+
+	:global(textarea) {
+		resize: vertical;
+	}
+
+	:global(label) {
+		color: var(--color-header);
+		font-weight: 500;
+		font-size: var(--font-size);
+		margin: var(--spacing) 0;
+		display: block;
+	}
+
 	:global(button) {
 		padding: 0.5rem 1rem;
 		border-radius: var(--border-radius);
@@ -144,7 +174,7 @@
 		cursor: pointer;
 	}
 
-	:global(button:hover) {
+	:global(button:hover:not(:disabled)) {
 		background-color: var(--brandcolor1);
 		color: var(--color-inverse-text);
 	}
@@ -154,19 +184,44 @@
 		color: white;
 	}
 
+	:global(button:disabled) {
+		opacity: 0.7;
+		cursor: not-allowed;
+	}
+
 	:global(button.action:hover) {
 		background-color: color-mix(in srgb, var(--brandcolor1) 80%, black);
 	}
 
+	:global(button.secondary) {
+		cursor: pointer;
+		background-color: transparent;
+		border: none;
+		font-weight: bold;
+		color: var(--brandcolor1);
+		transition: all var(--transition-speed);
+		display: block;
+		padding: 0;
+		font-size: var(--font-size-small);
+	}
+
+	:global(button.secondary:hover) {
+		color: color-mix(in srgb, var(--brandcolor1) 80%, black);
+	}
+
+	main {
+		max-width: var(--nav-width);
+		margin: var(--spacing) auto;
+		padding: 0 var(--spacing);
+	}
 	nav {
 		border-bottom: 1px solid var(--color-border);
 		padding-bottom: var(--spacing);
 		display: flex;
 		justify-content: space-between;
 		gap: 1rem;
-		margin: var(--spacing) auto;
+		margin: var(--spacing) 0;
 		align-items: center;
-		max-width: var(--nav-width);
 	}
 
 	nav .title {
@@ -199,9 +254,5 @@
 	nav a[aria-current='true'] {
 		background-color: var(--color-border);
 		color: var(--color-text);
-	}
-
-	main {
-		margin: var(--spacing);
 	}
 </style>

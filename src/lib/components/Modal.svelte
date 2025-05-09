@@ -61,11 +61,12 @@
 		z-index: 1001;
 		max-width: var(--modal-width);
 		width: 90vw;
-		box-sizing: border-box;
 		max-height: 90vh;
 		display: flex;
 		flex-direction: column;
-		transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+		transition:
+			background-color var(--transition-speed),
+			box-shadow var(--transition-speed);
 	}
 
 	.close-btn {

@@ -41,9 +41,9 @@
 			{/each}
 		</ul>
 		{#if hasMoreEntries && displayState === 'default'}
-			<button class="show-more" on:click={() => (displayState = 'more')}>Show More</button>
+			<button class="secondary" on:click={() => (displayState = 'more')}>Show More</button>
 		{:else if hasExcessEntries && displayState === 'more'}
-			<button class="show-more" on:click={() => (displayState = 'all')}>
+			<button class="secondary" on:click={() => (displayState = 'all')}>
 				Show remaining {remainingEntries}
 				{remainingEntries === 1 ? 'contact' : 'contacts'}
 			</button>
@@ -89,22 +89,5 @@
 
 	.days {
 		color: var(--color-faint-text);
-	}
-
-	.show-more {
-		cursor: pointer;
-		background-color: transparent;
-		border: none;
-		font-weight: bold;
-		color: var(--brandcolor1);
-		transition: all var(--transition-speed);
-		display: block;
-		margin: 0 auto;
-		padding: 0;
-		font-size: var(--font-size-small);
-	}
-
-	.show-more:hover {
-		color: color-mix(in srgb, var(--brandcolor1) 80%, black);
 	}
 </style>

@@ -155,14 +155,11 @@
 		justify-content: space-between;
 	}
 
-
-
 	input {
 		width: 100%;
 		padding: 8px;
 		font-size: var(--font-size);
 		border: 1px solid var(--color-border);
-		box-sizing: border-box;
 		border-radius: var(--border-radius);
 		background: var(--color-bright-background);
 		color: var(--color-text);

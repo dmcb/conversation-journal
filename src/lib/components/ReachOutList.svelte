@@ -59,7 +59,7 @@
 	<h2>Reconnect with</h2>
 	{#if reachOutEntries.length === 0}
 		<p>
-			We have no recommendations currently.<br />Once we have enough data, we'll recommend who you
+			You have no recommendations currently.<br />Once there is more history, you will see who you
 			should reach out to!
 		</p>
 	{:else}

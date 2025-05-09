@@ -205,8 +205,9 @@
 		font-size: var(--font-size-small);
 	}
 
-	:global(button.secondary:hover) {
+	:global(button.secondary:hover:not(:disabled)) {
 		color: color-mix(in srgb, var(--brandcolor1) 80%, black);
+		background-color: transparent;
 	}
 
 	main {

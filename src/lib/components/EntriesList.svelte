@@ -90,4 +90,8 @@
 	.days {
 		color: var(--color-faint-text);
 	}
+
+	button.secondary {
+		margin: 0 auto;
+	}
 </style>

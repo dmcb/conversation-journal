@@ -65,6 +65,7 @@
 		max-height: 90vh;
 		display: flex;
 		flex-direction: column;
+		transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
 	}
 
 	.close-btn {

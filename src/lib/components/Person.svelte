@@ -209,9 +209,10 @@
 
 	section {
 		padding: var(--spacing-medium);
-		background: white;
+		background: var(--color-bright-background);
 		border-radius: 1rem;
 		box-shadow: var(--box-shadow);
+		transition: background-color var(--transition-speed);
 	}
 
 	h2 {
@@ -232,6 +233,11 @@
 		justify-content: space-between;
 		gap: 0.5rem;
 		flex-wrap: wrap;
+	}
+
+	input {
+		background: transparent;
+		color: var(--color-text);
 	}
 
 	.input-wrapper {

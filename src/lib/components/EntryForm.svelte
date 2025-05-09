@@ -212,12 +212,14 @@
 		border: 1px solid var(--color-border);
 		box-sizing: border-box;
 		border-radius: var(--border-radius);
+		background: var(--color-bright-background);
+		color: var(--color-text);
 	}
 
 	.suggestions {
 		position: fixed;
 		width: var(--suggestions-width);
-		background: white;
+		background: var(--color-bright-background);
 		border: 1px solid var(--color-border);
 		box-shadow: var(--box-shadow-small);
 		margin: 3rem 0 0 0;

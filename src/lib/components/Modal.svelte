@@ -60,7 +60,7 @@
 		box-shadow: var(--box-shadow);
 		z-index: 1001;
 		max-width: var(--modal-width);
-		width: 90vw;
+		width: calc(100% - var(--spacing-medium));
 		max-height: 90vh;
 		display: flex;
 		flex-direction: column;

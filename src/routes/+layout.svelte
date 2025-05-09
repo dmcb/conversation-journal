@@ -85,7 +85,7 @@
 		--border-radius-small: 4px;
 		--border-radius-large: 16px;
 		--main-width: 600px;
-		--modal-width: 350px;
+		--modal-width: 360px;
 		--nav-width: 920px;
 		--spacing-tiny: 0.2rem;
 		--spacing-small: 0.5rem;

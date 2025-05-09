@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { loadEntries, addEntry, saveEntries } from '$lib/utils/entries';
 	import { alert } from '$lib/stores/alert';
+	import MoodPicker from './MoodPicker.svelte';
 
 	export let date: string | undefined = undefined;
 	export let onSuccess: (() => void) | undefined = undefined;
@@ -129,36 +130,7 @@
 				bind:this={noteInputElement}
 				placeholder="Add an optional note"
 			/>
-			<div class="mood-buttons">
-				<button
-					type="button"
-					class:selected={mood === 'sad'}
-					on:click={() => (mood = mood === 'sad' ? null : 'sad')}
-				>
-					☹️
-				</button>
-				<button
-					type="button"
-					class:selected={mood === 'neutral'}
-					on:click={() => (mood = mood === 'neutral' ? null : 'neutral')}
-				>
-					😐
-				</button>
-				<button
-					type="button"
-					class:selected={mood === 'good'}
-					on:click={() => (mood = mood === 'good' ? null : 'good')}
-				>
-					🙂
-				</button>
-				<button
-					type="button"
-					class:selected={mood === 'great'}
-					on:click={() => (mood = mood === 'great' ? null : 'great')}
-				>
-					😊
-				</button>
-			</div>
+			<MoodPicker bind:mood />
 			<button class="action" type="submit">Done</button>
 		</div>
 	</form>
@@ -183,27 +155,7 @@
 		justify-content: space-between;
 	}
 
-	.mood-buttons {
-		display: flex;
-	}
 
-	.mood-buttons button {
-		font-size: 1.5rem;
-		padding: 0 var(--spacing-tiny);
-		border: 3px solid transparent;
-		border-radius: var(--border-radius);
-		background: transparent;
-		cursor: pointer;
-		transition: all var(--transition-speed);
-	}
-
-	.mood-buttons button:hover {
-		background: var(--color-border);
-	}
-
-	.mood-buttons button.selected {
-		border-color: var(--brandcolor1);
-	}
 
 	input {
 		width: 100%;

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Modal from './Modal.svelte';
+	import MoodPicker from './MoodPicker.svelte';
 	import { saveEntries, getNiceDateLabelFromDateString } from '$lib/utils/entries';
 
 	export let name: string;
@@ -18,6 +19,9 @@
 	let newName = name;
 	let deleteModalOpen = false;
 	let chatToDelete: string | null = null;
+	let editingChat: string | null = null;
+	let editMood: 'sad' | 'neutral' | 'good' | 'great' | null = null;
+	let editNote: string = '';
 
 	$: {
 		const person = entries.find((e) => e.name === name);
@@ -117,6 +121,50 @@
 		deleteModalOpen = false;
 		chatToDelete = null;
 	}
+
+	function startEditChat(date: string) {
+		const chatData = chats.find((d) => Object.keys(d)[0] === date)?.[date];
+		editingChat = date;
+		editMood = chatData?.mood || null;
+		editNote = chatData?.note || '';
+	}
+
+	function cancelEditChat() {
+		editingChat = null;
+		editMood = null;
+		editNote = '';
+	}
+
+	function saveEditChat() {
+		if (!editingChat) return;
+
+		const idx = entries.findIndex((e) => e.name === name);
+		if (idx !== -1) {
+			const chatIdx = entries[idx].dates.findIndex((d) => Object.keys(d)[0] === editingChat);
+			if (chatIdx !== -1) {
+				// Create updated chat entry
+				const updatedChat: DateEntry = {
+					[editingChat]: {
+						mood: editMood || undefined,
+						note: editNote.trim() || undefined
+					}
+				};
+
+				// Update the entry
+				entries[idx].dates[chatIdx] = updatedChat;
+
+				if (saveEntries(entries)) {
+					// Refresh chats after saving
+					chats = [...entries[idx].dates];
+				}
+			}
+		}
+
+		// Reset editing state
+		editingChat = null;
+		editMood = null;
+		editNote = '';
+	}
 </script>
 
 <section>
@@ -124,6 +172,7 @@
 		<div class="edit-name">
 			<div class="input-wrapper">
 				<input
+					class="name"
 					maxlength="50"
 					bind:value={newName}
 					on:keydown={(e) => e.key === 'Enter' && saveName()}
@@ -155,28 +204,52 @@
 		{#each displayChats as date (date)}
 			{@const chatData = chats.find((d) => Object.keys(d)[0] === date)?.[date]}
 			<li>
-				<div class="chat-info">
-					<div class="date">
-						{getNiceDateLabelFromDateString(date)}
-						{#if chatData?.mood}
-							<div class="mood">
-								{#if chatData.mood === 'sad'}
-									☹️
-								{:else if chatData.mood === 'neutral'}
-									😐
-								{:else if chatData.mood === 'good'}
-									🙂
-								{:else if chatData.mood === 'great'}
-									😊
-								{/if}
-							</div>
+				{#if editingChat === date}
+					<div class="chat-edit">
+						<div class="date-display">
+							{getNiceDateLabelFromDateString(date)}
+						</div>
+
+						<input
+							class="note"
+							type="text"
+							bind:value={editNote}
+							placeholder="Add an optional note"
+						/>
+						<MoodPicker bind:mood={editMood} />
+
+						<div class="edit-buttons">
+							<button on:click={cancelEditChat}>Cancel</button>
+							<button on:click={() => confirmDelete(date)}>Delete</button>
+							<button class="action" on:click={saveEditChat}>Save</button>
+						</div>
+					</div>
+				{:else}
+					<div class="chat-info">
+						<div class="date">
+							{getNiceDateLabelFromDateString(date)}
+							{#if chatData?.mood}
+								<div class="mood">
+									{#if chatData.mood === 'sad'}
+										☹️
+									{:else if chatData.mood === 'neutral'}
+										😐
+									{:else if chatData.mood === 'good'}
+										🙂
+									{:else if chatData.mood === 'great'}
+										😊
+									{/if}
+								</div>
+							{/if}
+						</div>
+						{#if chatData?.note}
+							<div class="note">{chatData.note}</div>
 						{/if}
 					</div>
-					{#if chatData?.note}
-						<div class="note">{chatData.note}</div>
-					{/if}
-				</div>
-				<button on:click={() => confirmDelete(date)}>Delete</button>
+					<div class="chat-buttons">
+						<button on:click={() => startEditChat(date)}>Edit</button>
+					</div>
+				{/if}
 			</li>
 		{/each}
 	</ul>
@@ -255,7 +328,7 @@
 		margin-top: 0.25rem;
 	}
 
-	input {
+	input.name {
 		max-width: 100%;
 		flex-grow: 1;
 		border: 0;
@@ -263,6 +336,17 @@
 		margin: 0;
 		padding: 0;
 		font-weight: 500;
+	}
+
+	input.note {
+		width: 100%;
+		padding: 8px;
+		font-size: var(--font-size);
+		border: 1px solid var(--color-border);
+		box-sizing: border-box;
+		border-radius: var(--border-radius);
+		background: var(--color-bright-background);
+		color: var(--color-text);
 	}
 
 	ul {
@@ -303,5 +387,50 @@
 
 	li:last-child {
 		border-bottom: none;
+	}
+
+	.chat-buttons {
+		display: flex;
+		gap: var(--spacing-small);
+	}
+
+	.chat-edit {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-small);
+	}
+
+	.date-display {
+		font-weight: 500;
+	}
+
+	.mood-selector {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-tiny);
+	}
+
+	.note-editor {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-tiny);
+	}
+
+	textarea {
+		padding: 0.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius-small);
+		resize: vertical;
+		font-family: var(--body-font-family);
+		background: var(--color-bright-background);
+		color: var(--color-text);
+	}
+
+	.edit-buttons {
+		display: flex;
+		justify-content: flex-end;
+		gap: var(--spacing-small);
+		margin-top: var(--spacing-tiny);
 	}
 </style>

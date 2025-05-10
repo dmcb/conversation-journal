@@ -28,14 +28,17 @@
 		}
 		for (let i = 0; i < uniqueDates.length; i++) {
 			const entryDate = uniqueDates[i];
-			const nextEntryDateToCheck = uniqueDates[i + 1];
+			let nextEntryDateToCheck = '';
+			if (uniqueDates[i + 1]) {
+				nextEntryDateToCheck = uniqueDates[i + 1];
+			}
 			let dateOfEntry = new Date(entryDate);
+			if (activeStreak == 1) {
+				activeStreakEndDate = dateOfEntry.toISOString().split('T')[0];
+			}
 			let whatDateOfNextEntryShouldBe = new Date(entryDate);
 			whatDateOfNextEntryShouldBe.setDate(whatDateOfNextEntryShouldBe.getDate() - 1);
 			if (nextEntryDateToCheck === whatDateOfNextEntryShouldBe.toISOString().split('T')[0]) {
-				if (activeStreak == 1) {
-					activeStreakEndDate = dateOfEntry.toISOString().split('T')[0];
-				}
 				activeStreak++;
 			} else {
 				if (currentStreakStarted) {
@@ -87,10 +90,12 @@
 				</div>
 			</div>
 			<p class="streak-description">
-				{#if longestStreak.count > 0}
+				{#if longestStreak.count > 1}
 					{getNiceDateLabelFromDateString(longestStreak.startDate)} — {getNiceDateLabelFromDateString(
 						longestStreak.endDate
 					)}
+				{:else if longestStreak.count === 1}
+					{getNiceDateLabelFromDateString(longestStreak.startDate)}
 				{:else}
 					No streaks recorded yet.
 				{/if}

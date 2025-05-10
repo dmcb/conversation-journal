@@ -2,6 +2,7 @@
 	import { alert } from '$lib/stores/alert';
 	import { PUBLIC_FORMSPREE_ENDPOINT } from '$env/static/public';
 
+	export let onSuccess: () => void;
 	let email = '';
 	let message = '';
 	let submitting = false;
@@ -22,6 +23,7 @@
 
 			if (response.ok) {
 				alert.show('Thank you for your feedback!');
+				onSuccess();
 			} else {
 				const data = await response.json();
 				if (data.errors && Array.isArray(data.errors)) {

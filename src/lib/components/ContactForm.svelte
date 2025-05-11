@@ -70,6 +70,15 @@
 	}
 
 	.form-group {
+		margin-top: var(--spacing);
 		width: 100%;
+	}
+
+	.form-group:first-child {
+		margin-top: 0;
+	}
+
+	button {
+		margin-top: var(--spacing-small);
 	}
 </style>

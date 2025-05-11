@@ -155,7 +155,7 @@
 		color: var(--color-header);
 		font-weight: 500;
 		font-size: var(--font-size);
-		margin: var(--spacing) 0;
+		margin: 0 0 var(--spacing) 0;
 		display: block;
 	}
 

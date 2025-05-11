@@ -55,7 +55,7 @@
 <style>
 	:root {
 		/* Brand colors */
-		--brandcolor1: #e81741;
+		--brandcolor1: #dd1741;
 		--brandcolor2: #77646f;
 
 		/* Light theme colors */

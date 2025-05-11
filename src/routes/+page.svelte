@@ -31,18 +31,7 @@
 
 	<section class="first-entry">
 		<h2>
-			Make your first entry <svg
-				class="curved-arrow"
-				viewBox="0 0 100 100"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="12"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			>
-				<path d="M20 30 C 20 30, 50 30, 50 70" />
-				<path d="M40 60 L 50 70 L 60 60" />
-			</svg>
+			Who have you talked to today?<br />Make your first entry
 		</h2>
 		<EntryForm onSuccess={() => goto('/entries')} />
 	</section>
@@ -110,6 +99,10 @@
 {/if}
 
 <style>
+	section.intro {
+		margin-top: var(--spacing-medium);
+	}
+
 	h1 {
 		margin-top: 0;
 	}
@@ -170,10 +163,19 @@
 	}
 
 	.first-entry h2 {
-		display: flex;
-		align-items: center;
+		display: inline;
 		margin-bottom: 0;
 	}
+
+	.first-entry h2::after {
+		content: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' stroke='%23dd1741' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='M20 30 C 20 30, 50 30, 50 70' /%3E%3Cpath d='M40 60 L 50 70 L 60 60' /%3E%3C/svg%3E");
+		color: var(--brandcolor1);
+		width: 3rem;
+		height: 4rem;
+		display: inline-block;
+		vertical-align: top;
+	}
+
 	.curved-arrow {
 		width: 3rem;
 		height: 4rem;

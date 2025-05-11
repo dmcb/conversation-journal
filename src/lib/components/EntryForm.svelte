@@ -128,7 +128,7 @@
 				type="text"
 				bind:value={note}
 				bind:this={noteInputElement}
-				placeholder="Add an optional note"
+				placeholder="Add an optional note about your talk"
 			/>
 			<MoodPicker bind:mood />
 			<button class="action" type="submit">Done</button>

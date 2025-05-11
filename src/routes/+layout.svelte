@@ -131,7 +131,7 @@
 		margin: var(--spacing-large) auto;
 	}
 
-	:global(input, button) {
+	:global(input, textarea, button) {
 		font-family: var(--body-font-family);
 		font-weight: 600;
 	}

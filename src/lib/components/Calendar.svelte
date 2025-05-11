@@ -139,7 +139,7 @@
 								class="day {day.count > 0 ? 'has-entries' : ''}"
 								style="background-color: color-mix(in srgb, var(--brandcolor1) {day.intensity *
 									50}%, var(--color-bright-background))"
-								title="{`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}"
+								title={`${day.date}: ${day.count} conversation${day.count === 1 ? '' : 's'}`}
 								on:click={() => openModal(day.date)}
 							>
 								<span class="day-number">{day.date.split('-')[2].replace(/^0/, '')}</span>
@@ -261,6 +261,7 @@
 		transform: scale(1.25);
 		z-index: 1;
 		box-shadow: var(--box-shadow-large);
+		color: var(--color-text);
 	}
 
 	.day.has-entries {

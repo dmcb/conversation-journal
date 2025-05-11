@@ -146,11 +146,20 @@
 			display: flex;
 		}
 
-		.container + .container {
+		.container {
+			flex: 1;
+		}
+
+		.container:first-child {
+			padding-right: var(--spacing-medium);
+		}
+
+		.container:last-child {
 			border: 0;
 			border-left: 1px solid var(--color-border);
-			margin: 0 0 0 var(--spacing-medium);
-			padding: 0 0 0 var(--spacing-medium);
+			margin: 0;
+			padding: 0;
+			padding-left: var(--spacing-medium);
 		}
 	}
 </style>

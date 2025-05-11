@@ -98,7 +98,7 @@
 		{:else}
 			<div class="month-navigation">
 				<button
-					class="nav-button"
+					class="util"
 					on:click={() => {
 						const newDate = new Date(currentViewMonth);
 						newDate.setMonth(newDate.getMonth() - 1);
@@ -108,7 +108,7 @@
 				<h3>{getMonthName(currentViewMonth)} {currentViewMonth.getFullYear()}</h3>
 				{#if currentViewMonth.getFullYear() < new Date().getFullYear() || (currentViewMonth.getFullYear() === new Date().getFullYear() && currentViewMonth.getMonth() < new Date().getMonth())}
 					<button
-						class="nav-button"
+						class="util"
 						on:click={() => {
 							const newDate = new Date(currentViewMonth);
 							newDate.setMonth(newDate.getMonth() + 1);
@@ -116,7 +116,7 @@
 						}}>→</button
 					>
 				{:else}
-					<div class="nav-button-placeholder"></div>
+					<button class="util" disabled aria-label="Disabled"></button>
 				{/if}
 			</div>
 		{/if}
@@ -184,32 +184,6 @@
 		gap: 1rem;
 		margin-top: 1rem;
 	}
-
-	.nav-button {
-		background: none;
-		border: none;
-		font-size: 1.5rem;
-		cursor: pointer;
-		color: var(--brandcolor1);
-		padding: 0.5rem;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: all var(--transition-speed);
-	}
-
-	.nav-button:hover {
-		background-color: var(--color-border);
-	}
-
-	.nav-button-placeholder {
-		width: 2.5rem;
-		height: 2.5rem;
-	}
-
 	h3 {
 		margin: 0;
 		color: var(--color-text);

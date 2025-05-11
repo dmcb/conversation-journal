@@ -187,6 +187,7 @@
 	:global(button:disabled) {
 		opacity: 0.7;
 		cursor: not-allowed;
+		pointer-events: none;
 	}
 
 	:global(button.action:hover) {
@@ -208,6 +209,26 @@
 	:global(button.secondary:hover:not(:disabled)) {
 		color: color-mix(in srgb, var(--brandcolor1) 80%, black);
 		background-color: transparent;
+	}
+
+	:global(button.util) {
+		background: none;
+		border: none;
+		font-size: 1.5rem;
+		cursor: pointer;
+		color: var(--brandcolor1);
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all var(--transition-speed);
+	}
+
+	:global(button.util:hover:not(:disabled)) {
+		background-color: var(--color-border);
+		color: var(--brandcolor1);
 	}
 
 	main {

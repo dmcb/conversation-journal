@@ -33,7 +33,7 @@
 		on:keydown={handleKeydown}
 	></div>
 	<div class="modal">
-		<button class="close-btn" on:click={onClose}>&times;</button>
+		<button class="util" on:click={onClose}>&times;</button>
 		<div class="modal-content" role="dialog" aria-modal="true">
 			<slot />
 		</div>
@@ -70,35 +70,16 @@
 			box-shadow var(--transition-speed);
 	}
 
-	.close-btn {
-		background: none;
-		border: none;
-		font-size: 2rem;
-		cursor: pointer;
-		color: var(--color-faint-text);
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
-		margin: 0;
-		padding: 0;
-		line-height: 0;
-		height: 2rem;
-		width: 2rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: all var(--transition-speed);
-		border-radius: 100%;
-	}
-
-	.close-btn:hover {
-		background-color: var(--color-border);
-	}
-
 	.modal-content {
 		overflow-y: scroll;
 		overflow-x: hidden;
 		padding: var(--spacing);
+	}
+
+	button.util {
+		position: absolute;
+		right: 0.25rem;
+		top: 0.25rem;
 	}
 
 	:global(.modal-content ul) {

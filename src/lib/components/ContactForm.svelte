@@ -61,3 +61,15 @@
 		{/if}
 	</button>
 </form>
+
+<style>
+	form {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+
+	.form-group {
+		width: 100%;
+	}
+</style>

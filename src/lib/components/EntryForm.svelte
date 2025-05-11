@@ -197,8 +197,4 @@
 		background-color: var(--color-background);
 		outline: none;
 	}
-
-	button[type='submit'] {
-		font-size: var(--font-size-small);
-	}
 </style>

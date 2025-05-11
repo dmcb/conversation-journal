@@ -176,13 +176,6 @@
 		vertical-align: top;
 	}
 
-	.curved-arrow {
-		width: 3rem;
-		height: 4rem;
-		color: var(--brandcolor1);
-		transform: translateY(var(--spacing-small));
-	}
-
 	@media (min-width: 632px) {
 		ul {
 			flex-wrap: nowrap;

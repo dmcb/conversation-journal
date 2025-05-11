@@ -277,4 +277,13 @@
 		background-color: var(--color-border);
 		color: var(--color-text);
 	}
+
+	:global(a) {
+		color: var(--brandcolor1);
+		text-decoration: none;
+		transition: color var(--transition-speed);
+	}
+	:global(a:hover) {
+		color: var(--color-text);
+	}
 </style>

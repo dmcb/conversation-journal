@@ -73,16 +73,6 @@
 		align-items: center;
 		margin-bottom: 4px;
 	}
-
-	.name a {
-		color: var(--color-text);
-		text-decoration: none;
-		transition: color var(--transition-speed);
-	}
-	.name a:hover {
-		color: var(--brandcolor1);
-	}
-
 	.name {
 		font-weight: bold;
 	}

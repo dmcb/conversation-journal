@@ -99,14 +99,4 @@
 	:global(.modal-content > :first-child) {
 		margin: 0 0 var(--spacing-medium) 0;
 	}
-
-	:global(.modal-content a) {
-		color: var(--color-header);
-		text-decoration: none;
-		transition: color var(--transition-speed);
-	}
-
-	:global(.modal-content a:hover) {
-		color: var(--brandcolor1);
-	}
 </style>

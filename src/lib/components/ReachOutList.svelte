@@ -113,15 +113,6 @@
 		margin-bottom: 4px;
 	}
 
-	.name a {
-		color: var(--color-header);
-		text-decoration: none;
-		transition: color var(--transition-speed);
-	}
-	.name a:hover {
-		color: var(--brandcolor1);
-	}
-
 	.name {
 		font-weight: bold;
 	}

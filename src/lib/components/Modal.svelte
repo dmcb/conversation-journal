@@ -5,6 +5,7 @@
 	let modalBackdrop: HTMLDivElement;
 
 	function handleBackdropClick(event: MouseEvent) {
+		event.stopPropagation();
 		if (event.target === event.currentTarget) {
 			onClose();
 		}

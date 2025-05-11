@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from './Modal.svelte';
 	import EntryForm from './EntryForm.svelte';
-	import { getTimezoneRemovedDateObject, getNiceDateLabelFromDateString } from '$lib/utils/entries';
+	import { getTimezoneRemovedDateObject, getNiceDateLabelFromDateString } from '$lib/utils/dates';
 	import type { Entry, DateEntry } from '$lib/utils/entries';
 
 	export let entries: Entry[] = [];

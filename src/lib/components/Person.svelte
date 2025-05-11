@@ -2,7 +2,8 @@
 	import { goto } from '$app/navigation';
 	import Modal from './Modal.svelte';
 	import MoodPicker from './MoodPicker.svelte';
-	import { saveEntries, getNiceDateLabelFromDateString } from '$lib/utils/entries';
+	import { saveEntries } from '$lib/utils/entries';
+	import { getNiceDateLabelFromDateString } from '$lib/utils/dates';
 
 	export let name: string;
 	interface DateEntry {

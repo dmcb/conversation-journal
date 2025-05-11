@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getNiceDateLabelFromDateString, getCurrentDateString } from '$lib/utils/entries';
+	import { getNiceDateLabelFromDateString, getCurrentDateString } from '$lib/utils/dates';
 
 	import type { Entry } from '$lib/utils/entries';
 

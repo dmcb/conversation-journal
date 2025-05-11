@@ -4,7 +4,8 @@
 	import EntryForm from '$lib/components/EntryForm.svelte';
 	import EntriesList from '$lib/components/EntriesList.svelte';
 	import ReachOutList from '$lib/components/ReachOutList.svelte';
-	import { loadEntries, calculateDays } from '$lib/utils/entries';
+	import { loadEntries } from '$lib/utils/entries';
+	import { calculateDaysSinceToday } from '$lib/utils/dates';
 	import type { Entry } from '$lib/utils/entries';
 
 	let entries: Entry[] = [];
@@ -21,7 +22,7 @@
 			(entry: Entry): Entry => ({
 				name: entry.name,
 				dates: entry.dates,
-				days: calculateDays(entry.dates)
+				days: calculateDaysSinceToday(entry.dates)
 			})
 		)
 		.filter((entry) => entry.dates.length > 0)

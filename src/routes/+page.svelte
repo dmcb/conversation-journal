@@ -4,7 +4,6 @@
 	import EntryForm from '$lib/components/EntryForm.svelte';
 
 	let entries: { name: string; dates: string[] }[] = [];
-	let loading = true;
 
 	onMount(() => {
 		const storedEntries = localStorage.getItem('nameEntries');
@@ -14,11 +13,10 @@
 				goto('/entries');
 			}
 		}
-		loading = false;
 	});
 </script>
 
-{#if !loading && !entries.length}
+{#if !entries.length}
 	<section class="intro">
 		<h1>
 			Stay <div class="title"><span>Con</span><span>nec</span><span>ted</span><span>.</span></div>
